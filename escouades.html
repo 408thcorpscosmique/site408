@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>408th Corps Cosmique - Escouades</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">
+    <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
+    <span class="nav-brand">408TH CORPS COSMIQUE</span>
+  </div>
+  <a href="index.html">Accueil</a>
+  <a href="discipline.html">Règlement</a>
+  <a href="promotions.html">Promotions</a>
+  <a href="formations.html">Formations</a>
+  <a href="specs.html">Spécialisations</a>
+  <a href="escouades.html" class="active">Escouades</a>
+  <a href="effectif.html">Effectifs</a>
+</nav>
+
+<div class="content">
+  <section id="escouades">
+    <div class="section-header reveal">
+      <div class="section-number">07</div>
+      <h2 class="section-title">Escouades de Combat</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Grille des escouades -->
+    <div class="escouades-grid reveal">
+      
+      <!-- Carte Escouade 1 -->
+      <div class="escouade-card" 
+           data-title="Escouade Aurek" 
+           data-role="Assaut Frontal & Percée" 
+           data-desc="L'escouade Aurek est la force de frappe principale du 408th. Toujours en première ligne, ces hommes sont spécialisés dans les assauts lourds et la prise de positions fortifiées." 
+           data-img="img_aurek.png">
+        <div class="card-img-container">
+          <!-- Mets ici une image provisoire ou le logo de l'escouade -->
+          <div class="img-placeholder">AUREK</div> 
+        </div>
+        <div class="card-info">
+          <h3>Escouade Aurek</h3>
+          <p>Assaut Frontal</p>
+        </div>
+      </div>
+
+      <!-- Carte Escouade 2 -->
+      <div class="escouade-card" 
+           data-title="Escouade Besh" 
+           data-role="Reconnaissance & Infiltration" 
+           data-desc="Spécialistes de l'ombre, les membres de Besh opèrent derrière les lignes ennemies. Leurs missions : sabotage, collecte de renseignements et élimination de cibles clés." 
+           data-img="img_besh.png">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(0,255,100,0.1); color: #00ff64; border-color: #00ff64;">BESH</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #00ff64;">Escouade Besh</h3>
+          <p>Reconnaissance</p>
+        </div>
+      </div>
+
+      <!-- Carte Escouade 3 -->
+      <div class="escouade-card" 
+           data-title="Escouade Osk" 
+           data-role="Soutien Lourd & Défense" 
+           data-desc="L'escouade Osk forme le bouclier du régiment. Équipés d'armements lourds, ils sécurisent les zones, fournissent un tir de suppression et protègent les VIP." 
+           data-img="img_osk.png">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(255,140,0,0.1); color: #ff8c00; border-color: #ff8c00;">OSK</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #ff8c00;">Escouade Osk</h3>
+          <p>Soutien Lourd</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ==========================================
+     LA MODALE (Fenêtre Pop-up cachée)
+     ========================================== -->
+<div id="escouade-modal" class="modal-overlay">
+  <div class="modal-content holo-card">
+    <span class="close-modal">&times;</span>
+    <h2 id="modal-title" style="margin-top: 0; color: #fff; text-transform: uppercase; letter-spacing: 2px;">Titre</h2>
+    <h4 id="modal-role" style="color: #00ffff; margin-bottom: 1.5rem; text-transform: uppercase;">Rôle</h4>
+    <div id="modal-img-container" style="height: 150px; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,255,0.3); border-radius: 4px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; color: #666;">
+      [IMAGE DE L'ESCOUADE]
+    </div>
+    <p id="modal-desc" style="color: #d1d5db; line-height: 1.6;"></p>
+  </div>
+</div>
+
+<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+<script src="script.js"></script>
+</body>
+</html>

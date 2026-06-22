@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>408th Corps Cosmique - Règlement</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">
+    <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
+    <span class="nav-brand">408TH CORPS COSMIQUE</span>
+  </div>
+  <a href="index.html">Accueil</a>
+  <a href="discipline.html" class="active">Règlement</a>
+  <a href="promotions.html">Promotions</a>
+  <a href="formations.html">Formations</a>
+  <a href="specs.html">Spécialisations</a>
+  <a href="escouades.html">Escouades</a>
+  <a href="effectif.html">Effectifs</a>
+</nav>
+<div class="content">
+  <section id="discipline">
+    
+    <!-- SECTION 1 : DISCIPLINE ET COMPORTEMENT -->
+    <div class="section-header reveal"><div class="section-number">01</div><h2 class="section-title">Discipline & Comportement</h2><div class="section-line"></div></div>
+    
+    <div class="holo-card reveal">
+      <ul class="rule-list">
+        <li class="rule-item"><div class="rule-num">1</div><div><strong>Matricule In-Game (IG) :</strong> Respect strict du format : <code>408th GRADE MATRICULE SURNOM</code> (exemple : <em>408th CT 1111 Fire</em>).</div></li>
+        <li class="rule-item"><div class="rule-num">2</div><div><strong>Sanctions :</strong> En cas de manque de sérieux ou de non-respect des règles, l'unité s’expose à des sanctions de la part du Corps Officier.</div></li>
+        <li class="rule-item"><div class="rule-num">3</div><div><strong>Obéissance :</strong> Tout ordre d'un supérieur hiérarchique doit être exécuté sur le champ, sauf s'il contredit les règles d’or.</div></li>
+        <li class="rule-item"><div class="rule-num">4</div><div><strong>Discord (Général) :</strong> Il est demandé d'avoir son matricule et/ou son surnom (adaptation possible en cas de nombreux jobs).</div></li>
+        <li class="rule-item"><div class="rule-num">5</div><div><strong>Discord (Canaux RP) :</strong> Tout comportement déviant est interdit. En cas d'abus, un blâme sera immédiatement appliqué.</div></li>
+      </ul>
+    </div>
+    
+    <!-- SECTION 2 : SYSTÈME DE BLÂMES -->
+    <div class="section-header reveal" style="margin-top:4rem;"><div class="section-number">02</div><h2 class="section-title">Système de Blâmes</h2><div class="section-line"></div></div>
+    
+    <div class="holo-card reveal">
+      <h3>Échelle des Sanctions</h3>
+      <table class="blame-table">
+        <thead>
+          <tr>
+            <th>Sanction</th>
+            <th>Conséquences</th>
+            <th>Durée / Expiration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1er Blâme</strong></td>
+            <td>Avertissement (Aucune sanction directe)</td>
+            <td>2 mois</td>
+          </tr>
+          <tr>
+            <td><strong>2ème Blâme</strong></td>
+            <td>Rétrogradation + Remise à zéro des quotas de mission</td>
+            <td>2 mois</td>
+          </tr>
+          <tr>
+            <td><strong>3ème Blâme</strong></td>
+            <td>Rétrogradation + Gel Promote CT (1 semaine)</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note"><em>Note : Au-delà, application du système des "Ultra-Blâmes" (Voir le règlement général CW).</em></p>
+
+      <h4 style="color: #00ffff; margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">Application et Révocation :</h4>
+      <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem; margin-top: 0.5rem;">
+        <li>Chaque protocole ou comportement non correct peut entraîner <strong>1 Blâme</strong>.</li>
+        <li>Les blâmes ne sont révocables (retrait avant les 2 mois) <strong>qu’avec l’accord du Corps Officier</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 3 : LES PROMOTIONS -->
+    <div class="section-header reveal" style="margin-top:4rem;"><div class="section-number">03</div><h2 class="section-title">Les Promotions</h2><div class="section-line"></div></div>
+    
+    <div class="holo-card reveal">
+      <ul class="rule-list">
+        <li class="rule-item"><div class="rule-num">1</div><div><strong>Depuis 2nd LTN :</strong> Autorisé à promouvoir les unités qui ont effectué les quotas de jour, jusqu'au grade de <strong>ADJ</strong>.</div></li>
+        <li class="rule-item"><div class="rule-num">2</div><div><strong>Depuis CPT :</strong> Autorisé à promouvoir les unités qui ont effectué les quotas de jour, jusqu'au grade de <strong>2nd LTN</strong>.</div></li>
+        <li class="rule-item"><div class="rule-num">3</div><div><strong>Promotions LTN et + :</strong> Tout se fera via vote et choix exclusif du Corps Officier.</div></li>
+      </ul>
+    </div>
+
+    <!-- SECTION 4 : ÉQUIPEMENTS -->
+    <div class="section-header reveal" style="margin-top:4rem;"><div class="section-number">04</div><h2 class="section-title">Équipements</h2><div class="section-line"></div></div>
+    
+    <div class="holo-card reveal">
+      <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem;">
+        <li><strong>Utilisation des SWEPs :</strong> Tous les SWEPs sont utilisables en event et en entraînement.</li>
+        <li><strong>Scènes passives :</strong> Pour utiliser les équipements hors event/entraînement, <strong>la formation est obligatoire</strong>.</li>
+        <li><strong>Priorités :</strong> Rappel, les autres régiments sont prioritaires sur l'ensemble des équipements.</li>
+        <li><strong>Formations :</strong> Les équipements qui nécessitent des formations sont inscrits dans la section dédiée.</li>
+      </ul>
+    </div>
+
+  </section>
+</div>
+
+<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
