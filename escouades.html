@@ -5,7 +5,6 @@
   <title>408th Corps Cosmique - Escouades</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="Logo_408th.png">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <canvas id="stars-canvas"></canvas>
@@ -32,52 +31,480 @@
       <div class="section-line"></div>
     </div>
 
-    <!-- Grille des escouades -->
     <div class="escouades-grid reveal">
       
-      <!-- Carte Escouade 1 -->
+      <!-- ESCOUADE ÉCARLATE (Mise à jour avec les réf) -->
       <div class="escouade-card" 
-           data-title="Escouade Aurek" 
-           data-role="Assaut Frontal & Percée" 
-           data-desc="L'escouade Aurek est la force de frappe principale du 408th. Toujours en première ligne, ces hommes sont spécialisés dans les assauts lourds et la prise de positions fortifiées." 
-           data-img="img_aurek.png">
+           data-title="Escouade Écarlate" 
+           data-role="Force de Rupture Lourde" 
+           data-desc="Issue d'un programme secret inspiré des traditions de l'Ancienne République, l'Escouade Écarlate a été formée dès l'enfance selon une discipline martiale impitoyable. Véritable bélier tactique du 408th, elle excelle dans les percées de lignes ennemies et les assauts contre les positions les plus fortifiées." 
+           data-img="logoecarlate.png"
+           data-color="#b30000"
+           data-spec-label="Site officiel de l'Escouade Écarlate"
+           data-spec-url="https://aissa59330.github.io/compagnie_ecarlate/"
+           data-ref="7739 Björn / 7522 Vortex">
         <div class="card-img-container">
-          <!-- Mets ici une image provisoire ou le logo de l'escouade -->
-          <div class="img-placeholder">AUREK</div> 
+          <div class="img-placeholder" style="background: rgba(179,0,0,0.1); color: #b30000; border-color: #b30000;">ÉCARLATE</div>
         </div>
         <div class="card-info">
-          <h3>Escouade Aurek</h3>
-          <p>Assaut Frontal</p>
+          <h3 style="color: #b30000;">Escouade Écarlate</h3>
+          <p>Force de Rupture Lourde</p>
         </div>
       </div>
 
-      <!-- Carte Escouade 2 -->
+      <!-- ESCOUADE RYVER -->
       <div class="escouade-card" 
-           data-title="Escouade Besh" 
-           data-role="Reconnaissance & Infiltration" 
-           data-desc="Spécialistes de l'ombre, les membres de Besh opèrent derrière les lignes ennemies. Leurs missions : sabotage, collecte de renseignements et élimination de cibles clés." 
-           data-img="img_besh.png">
+           data-title="Escouade Ryver" 
+           data-role="Escouade d'Assaut" 
+           data-desc="L'escouade Ryver est une force opérationnelle redoutable du 408th." 
+           data-img="img_placeholder.png"
+           data-color="#3498db"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0606 Ryver / 9359 Daikou / 1709 Jeysus / 0068 Pablo">
         <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(0,255,100,0.1); color: #00ff64; border-color: #00ff64;">BESH</div>
+          <div class="img-placeholder" style="background: rgba(52,152,219,0.1); color: #3498db; border-color: #3498db;">RYVER</div>
         </div>
         <div class="card-info">
-          <h3 style="color: #00ff64;">Escouade Besh</h3>
-          <p>Reconnaissance</p>
+          <h3 style="color: #3498db;">Escouade Ryver</h3>
+          <p>Escouade d'Assaut</p>
         </div>
       </div>
 
-      <!-- Carte Escouade 3 -->
+      <!-- COMPAGNIE COSMOS -->
       <div class="escouade-card" 
-           data-title="Escouade Osk" 
-           data-role="Soutien Lourd & Défense" 
-           data-desc="L'escouade Osk forme le bouclier du régiment. Équipés d'armements lourds, ils sécurisent les zones, fournissent un tir de suppression et protègent les VIP." 
-           data-img="img_osk.png">
+           data-title="Compagnie Cosmos" 
+           data-role="Force d'Intervention" 
+           data-desc="Composée de vétérans et de recrues prometteuses, la Compagnie Cosmos est le pilier central des déploiements massifs." 
+           data-img="img_placeholder.png"
+           data-color="#9b59b6"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0092 Yhie / 4062 Flunch">
         <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(255,140,0,0.1); color: #ff8c00; border-color: #ff8c00;">OSK</div>
+          <div class="img-placeholder" style="background: rgba(155,89,182,0.1); color: #9b59b6; border-color: #9b59b6;">COSMOS</div>
         </div>
         <div class="card-info">
-          <h3 style="color: #ff8c00;">Escouade Osk</h3>
-          <p>Soutien Lourd</p>
+          <h3 style="color: #9b59b6;">Compagnie Cosmos</h3>
+          <p>Force d'Intervention</p>
+        </div>
+      </div>
+
+      <!-- N7 LEGION : SKULL DIVISION -->
+      <div class="escouade-card" 
+           data-title="N7 Legion : Skull Division" 
+           data-role="Division d'Élite" 
+           data-desc="Spécialistes des opérations à haut risque, la Skull Division ne recule devant aucun obstacle." 
+           data-img="img_placeholder.png"
+           data-color="#e74c3c"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2773 Phantom / 7891 Reid">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(231,76,60,0.1); color: #e74c3c; border-color: #e74c3c;">SKULL</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #e74c3c;">N7 Skull Division</h3>
+          <p>Division d'Élite</p>
+        </div>
+      </div>
+
+      <!-- BRIGADE VICE -->
+      <div class="escouade-card" 
+           data-title="Brigade Vice" 
+           data-role="Brigade Spéciale" 
+           data-desc="La Brigade Vice excelle dans les environnements hostiles et les missions non conventionnelles." 
+           data-img="img_placeholder.png"
+           data-color="#f1c40f"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="6900 Kurso / 6905 Flamenco">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(241,196,15,0.1); color: #f1c40f; border-color: #f1c40f;">VICE</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #f1c40f;">Brigade Vice</h3>
+          <p>Brigade Spéciale</p>
+        </div>
+      </div>
+
+      <!-- BATAILLON 241ST -->
+      <div class="escouade-card" 
+           data-title="Bataillon 241st" 
+           data-role="Bataillon d'Infanterie" 
+           data-desc="L'épine dorsale du front. Le 241st est spécialisé dans l'occupation et la tenue de positions." 
+           data-img="img_placeholder.png"
+           data-color="#2ecc71"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="3698 Achref / 6903 Vope / 8912 Tukk">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(46,204,113,0.1); color: #2ecc71; border-color: #2ecc71;">241ST</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #2ecc71;">Bataillon 241st</h3>
+          <p>Bataillon d'Infanterie</p>
+        </div>
+      </div>
+
+      <!-- COMPAGNIE SURVIVAL -->
+      <div class="escouade-card" 
+           data-title="Compagnie Survival" 
+           data-role="Survie & Opérations Extrêmes" 
+           data-desc="Forces entraînées pour opérer dans les pires conditions environnementales de la galaxie." 
+           data-img="img_placeholder.png"
+           data-color="#e67e22"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1987 Vort">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(230,126,34,0.1); color: #e67e22; border-color: #e67e22;">SURVIVAL</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #e67e22;">Compagnie Survival</h3>
+          <p>Survie & Opérations Extrêmes</p>
+        </div>
+      </div>
+
+      <!-- ESCOUADE MONDE -->
+      <div class="escouade-card" 
+           data-title="Escouade Monde" 
+           data-role="Reconnaissance Globale" 
+           data-desc="Spécialistes de l'exploration planétaire et du repérage." 
+           data-img="img_placeholder.png"
+           data-color="#1abc9c"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1992 Yurôpe">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(26,188,156,0.1); color: #1abc9c; border-color: #1abc9c;">MONDE</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #1abc9c;">Escouade Monde</h3>
+          <p>Reconnaissance Globale</p>
+        </div>
+      </div>
+
+      <!-- ESCOUADE ASTARTES -->
+      <div class="escouade-card" 
+           data-title="Escouade Astartes" 
+           data-role="Choc & Assaut" 
+           data-desc="Une escouade redoutée pour son approche brutale et décisive en combat rapproché." 
+           data-img="img_placeholder.png"
+           data-color="#34495e"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0603 Rylanor">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(52,73,94,0.1); color: #34495e; border-color: #34495e;">ASTARTES</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #34495e;">Escouade Astartes</h3>
+          <p>Choc & Assaut</p>
+        </div>
+      </div>
+
+      <!-- ONYX SQUAD -->
+      <div class="escouade-card" 
+           data-title="Onyx Squad" 
+           data-role="Infiltration Black Ops" 
+           data-desc="Opérateurs fantômes n'existant officiellement sur aucun registre de la République." 
+           data-img="img_placeholder.png"
+           data-color="#000000"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1378 Trèfle">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(255,255,255,0.05); color: #fff; border-color: #555;">ONYX</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #fff;">Onyx Squad</h3>
+          <p>Infiltration Black Ops</p>
+        </div>
+      </div>
+
+      <!-- NOBLE SQUAD -->
+      <div class="escouade-card" 
+           data-title="Noble Squad" 
+           data-role="Garde d'Honneur & Assaut" 
+           data-desc="Les nobles guerriers du 408th, alliant tactique raffinée et force de frappe." 
+           data-img="img_placeholder.png"
+           data-color="#8e44ad"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1259 Aura / 1239 Prim / 3214 Ares / 2320 Angel">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(142,68,173,0.1); color: #8e44ad; border-color: #8e44ad;">NOBLE</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #8e44ad;">Noble Squad</h3>
+          <p>Garde d'Honneur & Assaut</p>
+        </div>
+      </div>
+
+      <!-- SILENT SQUAD -->
+      <div class="escouade-card" 
+           data-title="Silent Squad" 
+           data-role="Opérations Furtives" 
+           data-desc="L'ennemi est souvent neutralisé avant même de savoir qu'ils sont là." 
+           data-img="img_placeholder.png"
+           data-color="#7f8c8d"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1448 Firecharge">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(127,140,141,0.1); color: #7f8c8d; border-color: #7f8c8d;">SILENT</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #7f8c8d;">Silent Squad</h3>
+          <p>Opérations Furtives</p>
+        </div>
+      </div>
+
+      <!-- DIVISION YGGDRASIL -->
+      <div class="escouade-card" 
+           data-title="Division Yggdrasil" 
+           data-role="Division Spéciale" 
+           data-desc="Une division mythique dont la ténacité au combat est légendaire." 
+           data-img="img_placeholder.png"
+           data-color="#16a085"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1968 Brokk">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(22,160,133,0.1); color: #16a085; border-color: #16a085;">YGGDRASIL</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #16a085;">Division Yggdrasil</h3>
+          <p>Division Spéciale</p>
+        </div>
+      </div>
+
+      <!-- COMPAGNIE ESTA'S -->
+      <div class="escouade-card" 
+           data-title="Compagnie Esta's" 
+           data-role="Unité d'Intervention" 
+           data-desc="Unité polyvalente capable de s'adapter à toutes les situations de crise." 
+           data-img="img_placeholder.png"
+           data-color="#d35400"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2505 Esta's">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(211,84,0,0.1); color: #d35400; border-color: #d35400;">ESTA'S</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #d35400;">Compagnie Esta's</h3>
+          <p>Unité d'Intervention</p>
+        </div>
+      </div>
+
+      <!-- COMPAGNIE CENDRES -->
+      <div class="escouade-card" 
+           data-title="Compagnie Cendres" 
+           data-role="Nettoyage Tactique" 
+           data-desc="Ils transforment les lignes ennemies en champs de ruines fumants." 
+           data-img="img_placeholder.png"
+           data-color="#c0392b"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2217 Icarus">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(192,57,43,0.1); color: #c0392b; border-color: #c0392b;">CENDRES</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #c0392b;">Compagnie Cendres</h3>
+          <p>Nettoyage Tactique</p>
+        </div>
+      </div>
+
+      <!-- BARC CORP -->
+      <div class="escouade-card" 
+           data-title="Barc Corp" 
+           data-role="Motorisé & Blindés" 
+           data-desc="Spécialistes de la reconnaissance rapide et du soutien motorisé." 
+           data-img="img_placeholder.png"
+           data-color="#2980b9"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="1185 Zenith">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(41,128,185,0.1); color: #2980b9; border-color: #2980b9;">BARC</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #2980b9;">Barc Corp</h3>
+          <p>Motorisé & Blindés</p>
+        </div>
+      </div>
+
+      <!-- ESCOUADE KASHYYYK -->
+      <div class="escouade-card" 
+           data-title="Escouade Kashyyyk" 
+           data-role="Opérations Forestières" 
+           data-desc="Conçue pour la guerre en milieu naturel dense avec le soutien des Wookies." 
+           data-img="img_placeholder.png"
+           data-color="#27ae60"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0606 Ryver">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(39,174,96,0.1); color: #27ae60; border-color: #27ae60;">KASHYYYK</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #27ae60;">Escouade Kashyyyk</h3>
+          <p>Opérations Forestières</p>
+        </div>
+      </div>
+
+      <!-- ESCOUADE KEELI -->
+      <div class="escouade-card" 
+           data-title="Escouade Keeli" 
+           data-role="Escouade d'Appui" 
+           data-desc="Hommage au capitaine légendaire, l'escouade Keeli se bat jusqu'au dernier homme." 
+           data-img="img_placeholder.png"
+           data-color="#8e44ad"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2935 Keeli">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(142,68,173,0.1); color: #8e44ad; border-color: #8e44ad;">KEELI</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #8e44ad;">Escouade Keeli</h3>
+          <p>Escouade d'Appui</p>
+        </div>
+      </div>
+
+      <!-- ELITE SQUAD -->
+      <div class="escouade-card" 
+           data-title="Elite Squad" 
+           data-role="Opérations d'Élite" 
+           data-desc="L'élite de l'élite. Réservée aux clones les plus performants du bataillon." 
+           data-img="img_placeholder.png"
+           data-color="#f39c12"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="3618 Looper">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(243,156,18,0.1); color: #f39c12; border-color: #f39c12;">ELITE</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #f39c12;">Elite Squad</h3>
+          <p>Opérations d'Élite</p>
+        </div>
+      </div>
+
+      <!-- ESCOUADE 0106 -->
+      <div class="escouade-card" 
+           data-title="Escouade 0106" 
+           data-role="Unité de Réserve Tactique" 
+           data-desc="Une force de réserve capable d'être déployée instantanément là où le front vacille." 
+           data-img="img_placeholder.png"
+           data-color="#bdc3c7"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0106 Krahm">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(189,195,199,0.1); color: #bdc3c7; border-color: #bdc3c7;">0106</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #bdc3c7;">Escouade 0106</h3>
+          <p>Unité Tactique</p>
+        </div>
+      </div>
+
+      <!-- 187TH LEGION ASTRALE -->
+      <div class="escouade-card" 
+           data-title="187th Legion Astrale" 
+           data-role="Infanterie d'Assaut Violette" 
+           data-desc="Gardiens des cieux et maîtres des affrontements à mi-distance." 
+           data-img="img_placeholder.png"
+           data-color="#9b59b6"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="8050 Wyvern">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(155,89,182,0.1); color: #9b59b6; border-color: #9b59b6;">187TH</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #9b59b6;">187th Legion Astrale</h3>
+          <p>Infanterie d'Assaut</p>
+        </div>
+      </div>
+
+      <!-- ASH SQUAD -->
+      <div class="escouade-card" 
+           data-title="Ash Squad" 
+           data-role="Infanterie Pyrotechnique" 
+           data-desc="Le feu purifie. L'escouade Ash se charge de brûler les défenses ennemies." 
+           data-img="img_placeholder.png"
+           data-color="#e74c3c"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="3487 Kindle / 4216 Steel">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(231,76,60,0.1); color: #e74c3c; border-color: #e74c3c;">ASH</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #e74c3c;">Ash Squad</h3>
+          <p>Infanterie Pyrotechnique</p>
+        </div>
+      </div>
+
+      <!-- COMPANY CEO -->
+      <div class="escouade-card" 
+           data-title="Company CEO" 
+           data-role="Supervision & Commandement" 
+           data-desc="L'entité administrative et décisionnelle sur le terrain." 
+           data-img="img_placeholder.png"
+           data-color="#f1c40f"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2585 AL-Qatrazz">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(241,196,15,0.1); color: #f1c40f; border-color: #f1c40f;">CEO</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #f1c40f;">Company CEO</h3>
+          <p>Supervision & Commandement</p>
+        </div>
+      </div>
+
+      <!-- NOVA -->
+      <div class="escouade-card" 
+           data-title="NOVA" 
+           data-role="Force Frappe Stellaire" 
+           data-desc="Rapides comme l'éclair, la force Nova s'abat sur l'ennemi en un instant." 
+           data-img="img_placeholder.png"
+           data-color="#00ffff"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="0004 Akio">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(0,255,255,0.1); color: #00ffff; border-color: #00ffff;">NOVA</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #00ffff;">NOVA</h3>
+          <p>Force Frappe Stellaire</p>
+        </div>
+      </div>
+
+      <!-- 21ST CORPS NOVA -->
+      <div class="escouade-card" 
+           data-title="21st Corps Nova" 
+           data-role="Galactic Marines" 
+           data-desc="Infanterie lourde habilitée aux opérations zéro gravité." 
+           data-img="img_placeholder.png"
+           data-color="#8e44ad"
+           data-spec-label="Voir la spécialisation"
+           data-spec-url="#"
+           data-ref="2591 Snow">
+        <div class="card-img-container">
+          <div class="img-placeholder" style="background: rgba(142,68,173,0.1); color: #8e44ad; border-color: #8e44ad;">21ST</div>
+        </div>
+        <div class="card-info">
+          <h3 style="color: #8e44ad;">21st Corps Nova</h3>
+          <p>Galactic Marines</p>
         </div>
       </div>
 
@@ -85,22 +512,261 @@
   </section>
 </div>
 
-<!-- ==========================================
-     LA MODALE (Fenêtre Pop-up cachée)
-     ========================================== -->
 <div id="escouade-modal" class="modal-overlay">
   <div class="modal-content holo-card">
-    <span class="close-modal">&times;</span>
-    <h2 id="modal-title" style="margin-top: 0; color: #fff; text-transform: uppercase; letter-spacing: 2px;">Titre</h2>
-    <h4 id="modal-role" style="color: #00ffff; margin-bottom: 1.5rem; text-transform: uppercase;">Rôle</h4>
-    <div id="modal-img-container" style="height: 150px; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,255,0.3); border-radius: 4px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; color: #666;">
-      [IMAGE DE L'ESCOUADE]
+
+    <button class="close-modal" aria-label="Fermer">&times;</button>
+
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h2 id="modal-title"></h2>
+        <h4 id="modal-role"></h4>
+      </div>
     </div>
-    <p id="modal-desc" style="color: #d1d5db; line-height: 1.6;"></p>
+
+    <div id="modal-img-container" class="modal-img-container">
+      <img id="modal-img" src="" alt="" onerror="this.style.display='none'; document.getElementById('modal-img-fallback').style.display='flex';">
+      <div id="modal-img-fallback" class="modal-img-fallback">
+        <span id="modal-img-label"></span>
+      </div>
+    </div>
+
+    <p id="modal-desc"></p>
+
+    <div class="recrutement-ref">
+      Référence recrutement : <span id="modal-ref"></span>
+    </div>
+
+    <a id="modal-spec-link" href="#" class="modal-spec-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <span id="modal-spec-label">Voir la spécialisation</span>
+    </a>
+
   </div>
 </div>
 
+<style>
+/* ── MODALE AMÉLIORÉE ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.active {
+  display: flex;
+  animation: modalFadeIn 0.2s ease;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.modal-content {
+  position: relative;
+  background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+  border: 1px solid var(--modal-color, #00ffff);
+  box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
+  border-radius: 6px;
+  padding: 2rem;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Barre de couleur en haut */
+.modal-content::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--modal-color, #00ffff);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 0 12px var(--modal-color, #00ffff);
+}
+
+.close-modal {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #aaa;
+  font-size: 1.3rem;
+  line-height: 1;
+  width: 2rem; height: 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.close-modal:hover {
+  color: #fff;
+  border-color: var(--modal-color, #00ffff);
+  background: rgba(255,255,255,0.05);
+}
+
+.modal-header { margin-bottom: 1.25rem; padding-right: 2rem; }
+#modal-title {
+  margin: 0 0 0.3rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 1.3rem;
+}
+#modal-role {
+  margin: 0;
+  color: var(--modal-color, #00ffff);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* ── Image ── */
+.modal-img-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border: 1px solid color-mix(in srgb, var(--modal-color, #00ffff) 35%, transparent);
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+#modal-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-img-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--modal-color, #00ffff);
+  opacity: 0.25;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255,255,255,0.01) 10px,
+    rgba(255,255,255,0.01) 20px
+  );
+}
+
+/* ── Description ── */
+#modal-desc {
+  color: #c8cdd6;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+/* ── Référence Recrutement ── */
+.recrutement-ref {
+  font-size: 0.85rem;
+  color: #c8cdd6;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+}
+#modal-ref {
+  color: var(--modal-color, #00ffff);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Bouton spécialité ── */
+.modal-spec-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--modal-color, #00ffff);
+  border-radius: 4px;
+  color: var(--modal-color, #00ffff);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--modal-color, #00ffff) 8%, transparent);
+  transition: all 0.2s;
+}
+.modal-spec-btn:hover {
+  background: color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--modal-color, #00ffff) 30%, transparent);
+  color: #fff;
+}
+.modal-spec-btn svg { flex-shrink: 0; }
+</style>
+
 <footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
 <script src="script.js"></script>
+<script>
+(function () {
+  const overlay   = document.getElementById('escouade-modal');
+  const titleEl   = document.getElementById('modal-title');
+  const roleEl    = document.getElementById('modal-role');
+  const imgEl     = document.getElementById('modal-img');
+  const fallback  = document.getElementById('modal-img-fallback');
+  const imgLabel  = document.getElementById('modal-img-label');
+  const descEl    = document.getElementById('modal-desc');
+  const refEl     = document.getElementById('modal-ref'); // Ajout de la référence
+  const specLink  = document.getElementById('modal-spec-link');
+  const specLabel = document.getElementById('modal-spec-label');
+
+  // Ouvre la modale au clic sur une carte
+  document.querySelectorAll('.escouade-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      const color    = card.dataset.color    || '#00ffff';
+      const imgSrc   = card.dataset.img      || '';
+      const title    = card.dataset.title    || '';
+
+      // Couleur dynamique via CSS custom property
+      overlay.querySelector('.modal-content').style.setProperty('--modal-color', color);
+
+      titleEl.textContent   = title;
+      roleEl.textContent    = card.dataset.role    || '';
+      descEl.textContent    = card.dataset.desc    || '';
+      refEl.textContent     = card.dataset.ref     || 'Non définie'; // Récupération de la référence
+      specLabel.textContent = card.dataset.specLabel || 'Voir la spécialisation';
+      specLink.href         = card.dataset.specUrl  || '#';
+
+      // Image : montre l'img si dispo, sinon fallback texte
+      fallback.style.display = 'none';
+      imgEl.style.display    = 'block';
+      imgEl.alt              = title;
+      imgEl.src              = imgSrc;
+      imgLabel.textContent   = title.replace('Escouade ', '');
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Ferme la modale
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  overlay.querySelector('.close-modal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
 </body>
 </html>
