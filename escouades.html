@@ -425,6 +425,7 @@
           data-title="Compagnie Cendres"
           data-role="Vétérans affiliés à l'Ordre Jedi"
           data-desc="Ils nous croyaient morts.<br>
+
 Des vétérans arrachés à des régiments détruits.<br>
 Des clones portés disparus.<br>
 Des soldats blessés que la guerre n'a pas su achever.<br>
@@ -437,23 +438,18 @@ Les grades d'autrefois ont brûlé avec leurs anciennes unités. Aujourd'hui, to
 <br>
 Affiliée à l'Ordre Jedi, la Compagnie Cendres a gagné la confiance des Gardiens de la Paix au fil des campagnes. Sans jamais quitter la chaîne de commandement de la République, elle est régulièrement appelée à épauler les Jedi lors de missions sensibles : escorte d'holocrons, protection de reliques, traque d'utilisateurs du Côté Obscur ou interventions au sein du Temple Jedi sous autorisation.
 <br>
-<br>   
 La Compagnie Cendres porte également sa propre trame narrative. Secrets enfouis, événements passés et vérités oubliées se dévoileront progressivement au fil des missions et des interactions de ses membres. Entre enquêtes, espionnage, recherche d'informations, entraînements spécifiques et situations inhabituelles, chacun pourra prendre part à une histoire évolutive destinée à enrichir le RolePlay et à offrir des expériences sortant des opérations militaires classiques.<br>
 <br>
 À terre n'est pas vaincu.<br>
 <br>
 Mantra de la Compagnie Cendres :<br>
 Brûlés par la guerre. Forgés par les cendres."
-          data-img="cendres.png"
+          data-img=""
           data-color="#A67C52"
           data-spec-label="Doctrine de la compagnie"
           data-spec-url="#"
           data-ref="2217 Icarus (Propriétaire) • 8957 Hephaestos • 3214 Ares"
-          data-modality="Joueurs souhaitant réellement incarner un personnage RP<br>
-        Recrutement par simulation et missions <br>
-        Bonne intégration au groupe requise <br>
-        Gratuit pour les recrues <br>
-        23 places disponibles financées par le propriétaire">
+          data-modality="Joueurs souhaitant incarner un personnage RP <br> Recrutement par simulation et missions <br> Bonne intégration au groupe requise <br> Gratuit pour les recrues <br> 23 places disponibles financées par le propriétaire">
 
           <div class="card-img-container">
               <div class="img-placeholder"
@@ -883,7 +879,7 @@ Brûlés par la guerre. Forgés par les cendres."
       titleEl.textContent   = title;
       roleEl.textContent    = card.dataset.role    || '';
       descEl.innerHTML      = card.dataset.desc    || '';
-      modalityEl.textContent= card.dataset.modality|| 'Non définie'; // Récupération de la modalité
+      modalityEl.innerHTML = card.dataset.modality || 'Non définie';// Récupération de la modalité
       refEl.textContent     = card.dataset.ref     || 'Non définie';
       specLabel.textContent = card.dataset.specLabel || 'Voir la spécialisation';
       specLink.href         = card.dataset.specUrl  || '#';
