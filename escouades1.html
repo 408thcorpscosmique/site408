@@ -343,6 +343,8 @@
     <label>Lien Imgur / URL</label>
     <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
     <input type="text" id="a-img" placeholder="cendres.png">
+    <label>Position de l’image</label>
+    <input type="text" id="a-img-pos" placeholder="center 35%">
     <label>Couleur principale</label>
     <input type="color" id="a-color" value="#00ffff">
     <label>Lien spécialisation</label>
@@ -578,14 +580,27 @@ const gridPay = document.getElementById("grid-payantes");
 function buildCard(docId, data) {
   const color = data.color || "#00ffff";
   const hasImg = data.img && data.img.trim() !== "";
+
   const bgStyle = hasImg
-    ? `background-image:url('${data.img}');background-size:cover;background-position:center 35%;`
+    ? `background-image:url('${data.img}'); background-size:cover; background-position:${data.imgPos || "center 35%"};`
     : `background:${color}10;`;
 
-  const placeholder = hasImg ? "" : `<span style="font-size:1.1rem;font-weight:700;letter-spacing:4px;opacity:.3;color:${color};">${(data.title || "").replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi,"").substring(0,8)}</span>`;
+  const placeholder = hasImg
+    ? ""
+    : `<span style="
+        font-size:1.1rem;
+        font-weight:700;
+        letter-spacing:4px;
+        opacity:.3;
+        color:${color};
+      ">
+        ${(data.title || "")
+          .replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "")
+          .substring(0, 8)}
+      </span>`;
 
   return `
-    <div class="escouade-card" data-id="${docId}" data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}" data-img="${data.img || ""}" data-color="${color}" data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}" data-ref="${data.ref || ""}" data-modality="${data.modality || ""}" style="cursor:pointer;">
+    <div class="escouade-card" data-id="${docId}" data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}" data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}" data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}" data-ref="${data.ref || ""}" data-modality="${data.modality || ""}" style="cursor:pointer;">
       <div class="card-img-container">
         <div class="img-placeholder" style="${bgStyle}border:2px solid ${color};min-height:150px;display:flex;align-items:center;justify-content:center;">${placeholder}</div>
       </div>
@@ -595,6 +610,7 @@ function buildCard(docId, data) {
       </div>
     </div>`;
 }
+
 
 const q = query(collection(db, "escouades"), orderBy("ordre"));
 onSnapshot(q, snapshot => {
@@ -684,6 +700,7 @@ function getFormData() {
     title: document.getElementById("a-title").value.trim(),
     role: document.getElementById("a-role").value.trim(),
     desc: document.getElementById("a-desc").value.trim(),
+    imgPos: document.getElementById("a-img-pos").value.trim() || "center 35%",
     img: imgMode === "url" ? urlImg : localImg,
     color: document.getElementById("a-color").value,
     specUrl: document.getElementById("a-spec-url").value.trim(),
@@ -700,6 +717,7 @@ function fillForm(data, docId) {
   document.getElementById("a-title").value = data.title || "";
   document.getElementById("a-role").value = data.role || "";
   document.getElementById("a-desc").value = data.desc || "";
+  document.getElementById("a-img-pos").value = data.imgPos || "center 35%";
 
   const isUrl = (data.img || "").startsWith("http://") || (data.img || "").startsWith("https://");
   document.getElementById("a-img-mode").value = isUrl ? "url" : "local";
@@ -722,6 +740,7 @@ function fillForm(data, docId) {
 function resetForm() {
   adminForm.reset();
   document.getElementById("a-color").value = "#00ffff";
+  document.getElementById("a-img-pos").value = "center 35%";
   document.getElementById("a-img-mode").value = "local";
   document.getElementById("a-img-local").value = "";
   document.getElementById("a-img-url").value = "";
