@@ -670,19 +670,27 @@ onAuthStateChanged(auth, (user) => {
         currentUserEmail = user.email;
         const emailKey = user.email.replace(/\./g, ',');
         
-        // On lit l'objet complet sous l'email
+        // On récupère l'objet complet associé à l'email
         get(child(ref(db), `admins/${emailKey}`)).then((snapshot) => {
             if (snapshot.exists()) {
-                const userData = snapshot.val();
-                currentUserRole = userData.role; // Stocke 'admin' ou 'superadmin'
+                const data = snapshot.val();
+                currentUserRole = data.role; // Récupère 'admin' ou 'superadmin'
+                
+                // On affiche le bouton d'édition pour tout admin (quel que soit le rôle)
                 editBtn.style.display = "inline-flex";
-                console.log("Rôle détecté :", currentUserRole);
+                loginBtn.style.display = "none";
+                logoutBtn.style.display = "inline-flex";
+                
+                console.log("Accès autorisé, rôle détecté :", currentUserRole);
             } else {
+                // Utilisateur connecté mais pas dans la liste des admins
                 editBtn.style.display = "none";
                 currentUserRole = null;
+                showToast("Accès restreint : non administrateur", "error");
             }
         });
     } else {
+        // Utilisateur déconnecté
         loginBtn.style.display = "inline-flex";
         logoutBtn.style.display = "none";
         editBtn.style.display = "none";
