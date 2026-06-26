@@ -111,6 +111,43 @@
             align-items: center;
             gap: var(--space-3);
         }
+        /* ─── User Avatar ────────────────────────── */
+        .user-avatar-wrap {
+            display: none;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .user-avatar-wrap.visible { display: flex; }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--color-primary);
+            object-fit: cover;
+            display: block;
+        }
+        .user-avatar-fallback {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--color-primary);
+            background: var(--color-primary-highlight);
+            color: var(--color-primary);
+            font-size: var(--text-xs);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+        .user-display-name {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         /* ─── Buttons ────────────────────────────── */
         .btn {
             display: inline-flex;
@@ -266,30 +303,12 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        .badge-eligible {
-            background: var(--color-success-bg);
-            color: var(--color-success);
-        }
-        .badge-not-eligible {
-            background: var(--color-error-bg);
-            color: var(--color-error);
-        }
-        .badge-grade {
-            background: var(--color-primary-highlight);
-            color: var(--color-primary);
-        }
-        .badge-statut-present {
-            background: var(--color-success-bg);
-            color: var(--color-success);
-        }
-        .badge-statut-absent {
-            background: var(--color-error-bg);
-            color: var(--color-error);
-        }
-        .badge-statut-conge {
-            background: var(--color-warning-bg);
-            color: var(--color-warning);
-        }
+        .badge-eligible { background: var(--color-success-bg); color: var(--color-success); }
+        .badge-not-eligible { background: var(--color-error-bg); color: var(--color-error); }
+        .badge-grade { background: var(--color-primary-highlight); color: var(--color-primary); }
+        .badge-statut-present { background: var(--color-success-bg); color: var(--color-success); }
+        .badge-statut-absent { background: var(--color-error-bg); color: var(--color-error); }
+        .badge-statut-conge { background: var(--color-warning-bg); color: var(--color-warning); }
         /* ─── Qualif chips ───────────────────────── */
         .qualif-list { display: flex; gap: var(--space-1); flex-wrap: wrap; }
         .qualif-chip {
@@ -299,13 +318,14 @@
             font-weight: 700;
             letter-spacing: 0.3px;
         }
-        .qualif-laat { background: #ff6b35; color: #fff; }
-        .qualif-arc { background: #f59e0b; color: #000; }
+        .qualif-laatic { background: #ff6b35; color: #fff; }
+        .qualif-arc170 { background: #f59e0b; color: #000; }
         .qualif-pa { background: #10b981; color: #fff; }
         .qualif-mdc { background: #6366f1; color: #fff; }
         .qualif-t51 { background: #ec4899; color: #fff; }
         .qualif-barc { background: #0ea5e9; color: #fff; }
-        .qualif-at_pt { background: #8b5cf6; color: #fff; }
+        .qualif-atpt { background: #8b5cf6; color: #fff; }
+        .qualif-ywing { background: #eab308; color: #000; }
         /* ─── Number inputs ──────────────────────── */
         .num-input {
             width: 70px;
@@ -415,8 +435,9 @@
             .controls-bar { flex-direction: column; align-items: stretch; }
             table { font-size: var(--text-xs); }
             thead th, tbody td { padding: var(--space-2) var(--space-3); }
+            .user-display-name { display: none; }
         }
-        /* ─── Éligibilité rule hint ──────────────── */
+        /* ─── Règles panel ───────────────────────── */
         .rules-panel {
             background: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -439,8 +460,7 @@
         }
         .rule-arrow { color: var(--color-primary); font-weight: 700; white-space: nowrap; }
         .rule-req { color: var(--color-text-muted); }
-        
-        /* ─── Drag & Drop & Add Button ──────────────────────── */
+        /* ─── Drag & Drop ────────────────────────── */
         .drag-handle {
             cursor: grab;
             color: var(--color-text-faint);
@@ -449,13 +469,8 @@
             display: flex;
             align-items: center;
         }
-        .drag-handle:active {
-            cursor: grabbing;
-        }
-        tbody tr.dragging {
-            opacity: 0.4;
-            background: var(--color-surface-offset);
-        }
+        .drag-handle:active { cursor: grabbing; }
+        tbody tr.dragging { opacity: 0.4; background: var(--color-surface-offset); }
         .add-in-cat-btn {
             width: 100%;
             padding: var(--space-3);
@@ -468,10 +483,7 @@
             font-weight: 600;
             transition: all var(--transition-interactive);
         }
-        .add-in-cat-btn:hover {
-            background: var(--color-surface-2);
-            color: var(--color-primary);
-        }
+        .add-in-cat-btn:hover { background: var(--color-surface-2); color: var(--color-primary); }
     </style>
 </head>
 <body>
@@ -500,7 +512,14 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Règles
         </button>
-        
+
+        <!-- Avatar utilisateur connecté -->
+        <div class="user-avatar-wrap" id="userAvatarWrap">
+            <span class="user-display-name" id="userDisplayName"></span>
+            <img class="user-avatar" id="userAvatarImg" src="" alt="" style="display:none">
+            <div class="user-avatar-fallback" id="userAvatarFallback" style="display:none"></div>
+        </div>
+
         <button class="btn btn-primary" id="loginBtn">🔒 Connexion EM</button>
         <button class="btn btn-danger" id="logoutBtn" style="display: none;">Déconnexion</button>
         <button class="btn btn-warning" id="editBtn" style="display: none;">
@@ -508,7 +527,7 @@
             Mode Édition
         </button>
 
-        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème" data-theme-toggle>
+        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
     </div>
@@ -577,53 +596,32 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-// 2. INITIALISATION DE LA SÉCURITÉ (C'est ce qui manquait)
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LdNzDYtAAAAAK2pbz5WTRbRRYj0MsOAQ29F8ksN'),
-  isTokenAutoRefreshEnabled: true
-});
-
 const db = getDatabase(app);
-const rosterRef = ref(db, "effectif_408th");
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const rosterRef = ref(db, "effectif_408th");
 
-// Catégories et leurs grades (dans l'ordre hiérarchique)
+initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('6LdNzDYtAAAAAK2pbz5WTRbRRYj0MsOAQ29F8ksN'),
+    isTokenAutoRefreshEnabled: true
+});
+
+// ── Variables globales (déclarées UNE SEULE FOIS) ─────────
+let currentUserEmail = "";
+let currentUserRole = null;
+let isEditing = false;
+let allData = [];
+let tempData = [];
+
+// ── Catégories ────────────────────────────────────────────
 const CATEGORIES = [
-    {
-        id: "em",
-        name: "État-Major et autres",
-        style: "officers",
-        grades: ["Référent EM", "Shock Régimentaire"]
-    },
-    {
-        id: "officiers",
-        name: "Officiers",
-        style: "officers",
-        grades: ["Commandant Maréchal", "Commandant Jedi", "Général Jedi", "Commandant", "Vice-Commandant", "Major", "Capitaine"]
-    },
-    {
-        id: "subofficiers",
-        name: "Officiers Subalternes",
-        style: "sub-officers",
-        grades: ["Commandant Jedi Test", "Capitaine-2nd", "Lieutenant", "2nd Lieutenant"]
-    },
-    {
-        id: "sousoff",
-        name: "Sous-Officiers",
-        style: "nco",
-        grades: ["Adjudant-Chef", "Adjudant", "Sergent-Chef", "Sergent"]
-    },
-    {
-        id: "troupe",
-        name: "Homme de rang",
-        style: "enlisted",
-        grades: ["Caporal-Chef", "Caporal", "Clone Trooper", "CT"]
-    }
+    { id: "em", name: "État-Major et autres", style: "officers", grades: ["Référent EM", "Shock Régimentaire"] },
+    { id: "officiers", name: "Officiers", style: "officers", grades: ["Commandant Maréchal", "Commandant Jedi", "Général Jedi", "Commandant", "Vice-Commandant", "Major", "Capitaine"] },
+    { id: "subofficiers", name: "Officiers Subalternes", style: "sub-officers", grades: ["Commandant Jedi Test", "Capitaine-2nd", "Lieutenant", "2nd Lieutenant"] },
+    { id: "sousoff", name: "Sous-Officiers", style: "nco", grades: ["Adjudant-Chef", "Adjudant", "Sergent-Chef", "Sergent"] },
+    { id: "troupe", name: "Homme de rang", style: "enlisted", grades: ["Caporal-Chef", "Caporal", "Clone Trooper", "CT"] }
 ];
 
-// Règles d'éligibilité par grade EXACT (correspondance stricte)
 const PROMO_RULES = [
     { from: "CT", to: "Caporal", jours: 4, missions: 2, commandements: 0 },
     { from: "Clone Trooper", to: "Caporal", jours: 4, missions: 2, commandements: 0 },
@@ -643,16 +641,11 @@ const PROMO_RULES = [
 
 const QUALIFS = ["LAAT-I/C", "ARC-170", "PA", "MDC", "T-51", "BARC", "AT-PT", "Y-Wing"];
 
-// ── État ─────────────────────────────────────────────────
-let isEditing = false;
-let allData = [];  
-let tempData = []; 
-
 // ── DOM refs ──────────────────────────────────────────────
-const editBtn = document.getElementById("editBtn");
-const saveBtn = document.getElementById("saveBtn");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
 const addAdminBtn = document.getElementById("addAdminBtn");
 const editBanner = document.getElementById("editBanner");
 const tablesContainer = document.getElementById("tablesContainer");
@@ -663,44 +656,69 @@ const filterStatut = document.getElementById("filterStatut");
 const filterEligibility = document.getElementById("filterEligibility");
 const rulesBtn = document.getElementById("rulesBtn");
 const rulesPanel = document.getElementById("rulesPanel");
+const userAvatarWrap = document.getElementById("userAvatarWrap");
+const userAvatarImg = document.getElementById("userAvatarImg");
+const userAvatarFallback = document.getElementById("userAvatarFallback");
+const userDisplayName = document.getElementById("userDisplayName");
 
-// ── Authentification & Sécurité ───────────────────────────
+// ── Authentification ──────────────────────────────────────
+function showUserAvatar(user) {
+    userAvatarWrap.classList.add("visible");
+    // Nom affiché : displayName si dispo, sinon email tronqué
+    const name = user.displayName || user.email.split("@")[0];
+    userDisplayName.textContent = name;
+
+    if (user.photoURL) {
+        userAvatarImg.src = user.photoURL;
+        userAvatarImg.alt = name;
+        userAvatarImg.style.display = "block";
+        userAvatarFallback.style.display = "none";
+    } else {
+        // Initiales comme fallback
+        const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+        userAvatarFallback.textContent = initials;
+        userAvatarFallback.style.display = "flex";
+        userAvatarImg.style.display = "none";
+    }
+}
+
+function hideUserAvatar() {
+    userAvatarWrap.classList.remove("visible");
+    userAvatarImg.style.display = "none";
+    userAvatarFallback.style.display = "none";
+    userDisplayName.textContent = "";
+}
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUserEmail = user.email;
         const emailKey = user.email.replace(/\./g, ',');
-        
-        // On récupère l'objet complet associé à l'email
+
+        showUserAvatar(user);
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-flex";
+
         get(child(ref(db), `admins/${emailKey}`)).then((snapshot) => {
             if (snapshot.exists()) {
-                const data = snapshot.val();
-                currentUserRole = data.role; // Récupère 'admin' ou 'superadmin'
-                
-                // On affiche le bouton d'édition pour tout admin (quel que soit le rôle)
+                currentUserRole = snapshot.val().role;
                 editBtn.style.display = "inline-flex";
-                loginBtn.style.display = "none";
-                logoutBtn.style.display = "inline-flex";
-                
-                console.log("Accès autorisé, rôle détecté :", currentUserRole);
             } else {
-                // Utilisateur connecté mais pas dans la liste des admins
-                editBtn.style.display = "none";
                 currentUserRole = null;
-                showToast("Accès restreint : non administrateur", "error");
+                editBtn.style.display = "none";
             }
         });
     } else {
-        // Utilisateur déconnecté
+        currentUserEmail = "";
+        currentUserRole = null;
+        hideUserAvatar();
         loginBtn.style.display = "inline-flex";
         logoutBtn.style.display = "none";
         editBtn.style.display = "none";
-        currentUserRole = null;
-        if (isEditing) disableEditMode();
     }
 });
 
 loginBtn.addEventListener("click", () => {
-    signInWithPopup(auth, provider).catch(error => showToast("Erreur de connexion", "error"));
+    signInWithPopup(auth, provider).catch(() => showToast("Erreur de connexion", "error"));
 });
 
 logoutBtn.addEventListener("click", () => {
@@ -708,11 +726,7 @@ logoutBtn.addEventListener("click", () => {
 });
 
 editBtn.addEventListener("click", () => {
-    if (!isEditing) {
-        activateEdit();
-    } else {
-        disableEditMode();
-    }
+    if (!isEditing) { activateEdit(); } else { disableEditMode(); }
 });
 
 function activateEdit() {
@@ -728,53 +742,39 @@ function disableEditMode() {
     isEditing = false;
     tempData = [];
     editBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Mode Édition`;
-    editBtn.className = "btn btn-warning"; // Garde le style warning pour indiquer l'accès admin
+    editBtn.className = "btn btn-warning";
     editBanner.classList.remove("visible");
     renderAll();
 }
 
-// Ajouter un admin depuis l'interface
-// Remplacez votre écouteur addAdminBtn existant par celui-ci :
 addAdminBtn.addEventListener("click", () => {
-    // Vérification côté client : seul le superadmin peut ouvrir cette fenêtre
     if (currentUserRole !== 'superadmin') {
         showToast("❌ Seul un Superadmin peut ajouter des accès.", "error");
         return;
     }
-
     const email = prompt("E-mail du nouvel utilisateur :");
     if (!email) return;
-    
-    const role = prompt("Quel rôle pour cette personne ? (tapez 'admin' ou 'superadmin')").toLowerCase();
-    
+    const role = prompt("Rôle ? (admin ou superadmin)").toLowerCase();
     if (role === 'admin' || role === 'superadmin') {
         const emailKey = email.trim().toLowerCase().replace(/\./g, ',');
-        
-        // On envoie un objet { role: "..." }
-        set(ref(db, `admins/${emailKey}`), { role: role })
-            .then(() => showToast(`✅ ${email} a été ajouté avec le rôle ${role}`, "success"))
-            .catch((err) => {
-                console.error(err);
-                showToast("❌ Erreur : Vous n'avez pas les droits (ou problème réseau).", "error");
-            });
+        set(ref(db, `admins/${emailKey}`), { role })
+            .then(() => showToast(`✅ ${email} ajouté en tant que ${role}`, "success"))
+            .catch(() => showToast("❌ Erreur : droits insuffisants.", "error"));
     } else {
         showToast("❌ Rôle invalide. Choisissez 'admin' ou 'superadmin'.", "error");
     }
 });
 
-// ── Calcul Automatique des Jours ─────────────────────────
+// ── Calcul jours depuis date promo ────────────────────────
 function calculerJours(datePromo) {
     if (!datePromo) return 0;
-    const ancienne = new Date(datePromo);
-    const mtn = new Date();
-    const diff = Math.floor((mtn - ancienne) / (1000 * 60 * 60 * 24));
-    return diff > 0 ? diff : 0; 
+    const diff = Math.floor((new Date() - new Date(datePromo)) / (1000 * 60 * 60 * 24));
+    return diff > 0 ? diff : 0;
 }
 
-// ── Règles panel ─────────────────────────────────────────
+// ── Règles panel ──────────────────────────────────────────
 function buildRules() {
-    const grid = document.getElementById("rulesGrid");
-    grid.innerHTML = PROMO_RULES.map(r => `
+    document.getElementById("rulesGrid").innerHTML = PROMO_RULES.map(r => `
         <div class="rule-item">
             <span class="rule-arrow">${r.from} → ${r.to}</span>
             <span class="rule-req">
@@ -789,7 +789,9 @@ buildRules();
 
 rulesBtn.addEventListener("click", () => {
     rulesPanel.classList.toggle("visible");
-    rulesBtn.textContent = rulesPanel.classList.contains("visible") ? "✕ Fermer" : "⚖️ Règles";
+    rulesBtn.innerHTML = rulesPanel.classList.contains("visible")
+        ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Fermer`
+        : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Règles`;
 });
 
 // ── Category filter ───────────────────────────────────────
@@ -800,33 +802,25 @@ CATEGORIES.forEach(cat => {
     filterCategory.appendChild(opt);
 });
 
-// ── Firebase Effectif (Lecture en temps réel) ──────────────
+// ── Firebase lecture temps réel ───────────────────────────
 onValue(rosterRef, (snapshot) => {
     if (isEditing) return;
     const raw = snapshot.val();
-    if (raw) {
-        allData = Array.isArray(raw) ? raw : Object.values(raw);
-    } else {
-        allData = [];
-    }
+    allData = raw ? (Array.isArray(raw) ? raw : Object.values(raw)) : [];
     renderAll();
 });
 
-// ── Eligibilité ───────────────────────────────────────────
+// ── Éligibilité ───────────────────────────────────────────
 function computeEligibility(soldier) {
     const grade = (soldier.grade || "").trim();
     const rule = PROMO_RULES.find(r => r.from === grade);
-    
     if (!rule) return "na";
-
-    const jours = calculerJours(soldier.datePromo); 
+    const jours = calculerJours(soldier.datePromo);
     const missions = parseFloat(soldier.missions) || 0;
     const commandements = parseFloat(soldier.commandements) || 0;
-
     const joursOk = jours >= rule.jours;
     const missionOk = rule.missions === 0 || missions >= rule.missions;
     const cmdOk = rule.commandements === 0 || commandements >= rule.commandements;
-
     return (joursOk && missionOk && cmdOk) ? "eligible" : "not-eligible";
 }
 
@@ -839,41 +833,20 @@ function renderStats(data) {
         const cat = getCategoryForGrade(s.grade);
         return cat && (cat.id === "officiers" || cat.id === "em");
     }).length;
-
     statsBar.innerHTML = `
-        <div class="stat-card">
-            <div class="stat-label">Total effectif</div>
-            <div class="stat-value primary">${total}</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Présents</div>
-            <div class="stat-value success">${presents}</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Absents</div>
-            <div class="stat-value warning">${total - presents}</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Éligibles</div>
-            <div class="stat-value success">${eligible}</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-label">Officiers</div>
-            <div class="stat-value primary">${officers}</div>
-        </div>
+        <div class="stat-card"><div class="stat-label">Total effectif</div><div class="stat-value primary">${total}</div></div>
+        <div class="stat-card"><div class="stat-label">Présents</div><div class="stat-value success">${presents}</div></div>
+        <div class="stat-card"><div class="stat-label">Absents</div><div class="stat-value warning">${total - presents}</div></div>
+        <div class="stat-card"><div class="stat-label">Éligibles</div><div class="stat-value success">${eligible}</div></div>
+        <div class="stat-card"><div class="stat-label">Officiers</div><div class="stat-value primary">${officers}</div></div>
     `;
 }
 
-// ── Category resolution ───────────────────────────────────
+// ── Résolution catégorie ──────────────────────────────────
 function getCategoryForGrade(grade) {
     if (!grade) return null;
     const g = grade.toLowerCase();
-    for (const cat of CATEGORIES) {
-        if (cat.grades.some(cg => g === cg.toLowerCase())) {
-            return cat;
-        }
-    }
-    return null;
+    return CATEGORIES.find(cat => cat.grades.some(cg => g === cg.toLowerCase())) || null;
 }
 
 function getOrCreateCategory(soldier) {
@@ -881,16 +854,15 @@ function getOrCreateCategory(soldier) {
     return cat ? cat.id : "troupe";
 }
 
-// ── Render ────────────────────────────────────────────────
+// ── Filtres ───────────────────────────────────────────────
 function getFilteredData() {
     let data = isEditing ? tempData : allData;
     const search = searchInput.value.toLowerCase();
     const catFilter = filterCategory.value;
     const statutFilter = filterStatut.value;
     const eligFilter = filterEligibility.value;
-
     return data.filter(s => {
-        const matchSearch = !search || 
+        const matchSearch = !search ||
             (s.grade||"").toLowerCase().includes(search) ||
             (s.matricule||"").toLowerCase().includes(search) ||
             (s.steamId||"").toLowerCase().includes(search);
@@ -901,13 +873,13 @@ function getFilteredData() {
     });
 }
 
+// ── Render principal ──────────────────────────────────────
 function renderAll() {
     const filtered = getFilteredData();
     renderStats(filtered);
 
     const groups = {};
     CATEGORIES.forEach(cat => { groups[cat.id] = []; });
-
     filtered.forEach(soldier => {
         const catId = getOrCreateCategory(soldier);
         if (!groups[catId]) groups[catId] = [];
@@ -952,32 +924,20 @@ function renderAll() {
         tablesContainer.appendChild(section);
 
         const tbody = section.querySelector(`#tbody-${cat.id}`);
-        soldiers.forEach((soldier) => {
+        soldiers.forEach(soldier => {
             const globalIdx = (isEditing ? tempData : allData).indexOf(soldier);
             renderRow(tbody, soldier, globalIdx, cat);
         });
 
         if (isEditing) {
-            const addBtn = section.querySelector('.add-in-cat-btn');
-            addBtn.addEventListener('click', () => {
+            section.querySelector('.add-in-cat-btn').addEventListener('click', () => {
                 const defaultGrade = cat.grades[cat.grades.length - 1];
-                tempData.push({
-                    grade: defaultGrade,
-                    matricule: "",
-                    steamId: "",
-                    statut: "Présent",
-                    datePromo: "", 
-                    missions: 0,
-                    commandements: 0,
-                    qualifs: []
-                });
+                tempData.push({ grade: defaultGrade, matricule: "", steamId: "", statut: "Présent", datePromo: "", missions: 0, commandements: 0, qualifs: [] });
                 renderAll();
                 const currentSection = document.querySelector(`[data-cat-id="${cat.id}"]`);
                 if (currentSection) {
-                    const newInputs = currentSection.querySelectorAll(`[data-field="matricule"]`);
-                    if (newInputs.length > 0) {
-                        newInputs[newInputs.length - 1].focus();
-                    }
+                    const inputs = currentSection.querySelectorAll(`[data-field="matricule"]`);
+                    if (inputs.length > 0) inputs[inputs.length - 1].focus();
                 }
             });
         }
@@ -994,37 +954,23 @@ function renderRow(tbody, soldier, idx, cat) {
     }).join("") || "";
 
     if (isEditing) {
-        // ── Mode édition & Drag'n'Drop ───────────────────
         tr.draggable = true;
-        
         tr.addEventListener("dragstart", (e) => {
             e.dataTransfer.setData("text/plain", idx);
             e.dataTransfer.effectAllowed = "move";
             setTimeout(() => tr.classList.add("dragging"), 0);
         });
-        
-        tr.addEventListener("dragend", () => {
-            tr.classList.remove("dragging");
-        });
-        
-        tr.addEventListener("dragover", (e) => {
-            e.preventDefault(); 
-            tr.style.borderTop = "2px solid var(--color-primary)";
-        });
-        
-        tr.addEventListener("dragleave", () => {
-            tr.style.borderTop = "";
-        });
-        
+        tr.addEventListener("dragend", () => tr.classList.remove("dragging"));
+        tr.addEventListener("dragover", (e) => { e.preventDefault(); tr.style.borderTop = "2px solid var(--color-primary)"; });
+        tr.addEventListener("dragleave", () => { tr.style.borderTop = ""; });
         tr.addEventListener("drop", (e) => {
             e.preventDefault();
             tr.style.borderTop = "";
             const draggedIdx = parseInt(e.dataTransfer.getData("text/plain"));
-            
             if (!isNaN(draggedIdx) && draggedIdx !== idx) {
                 const [movedItem] = tempData.splice(draggedIdx, 1);
                 tempData.splice(idx, 0, movedItem);
-                renderAll(); 
+                renderAll();
             }
         });
 
@@ -1034,17 +980,13 @@ function renderRow(tbody, soldier, idx, cat) {
 
         const qualifChecks = QUALIFS.map(q => {
             const checked = (soldier.qualifs||[]).includes(q) ? "checked" : "";
-            return `<label style="font-size:11px;white-space:nowrap;cursor:pointer">
-                <input type="checkbox" value="${q}" ${checked} data-qualif="${idx}"> ${q}
-            </label>`;
+            return `<label style="font-size:11px;white-space:nowrap;cursor:pointer"><input type="checkbox" value="${q}" ${checked} data-qualif="${idx}"> ${q}</label>`;
         }).join(" ");
 
         tr.innerHTML = `
-            <td style="display: flex; gap: 8px; align-items: center; border-bottom: none;">
+            <td style="display:flex;gap:8px;align-items:center;border-bottom:none;">
                 <span class="drag-handle" title="Glisser pour réorganiser">≡</span>
-                <select class="select-input" data-field="grade" data-idx="${idx}" style="min-width:130px; flex: 1;">
-                    ${gradeOptions}
-                </select>
+                <select class="select-input" data-field="grade" data-idx="${idx}" style="min-width:130px;flex:1;">${gradeOptions}</select>
             </td>
             <td><input class="text-input" type="text" data-field="matricule" data-idx="${idx}" value="${soldier.matricule || ""}"></td>
             <td><input class="text-input" type="text" data-field="steamId" data-idx="${idx}" value="${soldier.steamId || ""}" style="min-width:140px"></td>
@@ -1055,24 +997,16 @@ function renderRow(tbody, soldier, idx, cat) {
                     <option ${soldier.statut==="Congé"?"selected":""}>Congé</option>
                 </select>
             </td>
-            <td class="center"><input class="text-input" type="date" data-field="datePromo" data-idx="${idx}" value="${soldier.datePromo || ""}" style="width:120px; text-align:center;"></td>
+            <td class="center"><input class="text-input" type="date" data-field="datePromo" data-idx="${idx}" value="${soldier.datePromo || ""}" style="width:120px;text-align:center;"></td>
             <td class="center"><input class="num-input" type="number" min="0" step="0.5" data-field="missions" data-idx="${idx}" value="${soldier.missions || 0}"></td>
             <td class="center"><input class="num-input" type="number" min="0" step="0.5" data-field="commandements" data-idx="${idx}" value="${soldier.commandements || 0}"></td>
             <td class="center">
-                <span class="badge ${elig === "eligible" ? "badge-eligible" : elig === "na" ? "" : "badge-not-eligible"}">
-                    ${elig === "eligible" ? "✓ Éligible" : elig === "na" ? "—" : "✗ Non éligible"}
+                <span class="badge ${elig==="eligible"?"badge-eligible":elig==="na"?"":"badge-not-eligible"}">
+                    ${elig==="eligible"?"✓ Éligible":elig==="na"?"—":"✗ Non éligible"}
                 </span>
             </td>
-            <td>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
-                    ${qualifChecks}
-                </div>
-            </td>
-            <td class="center">
-                <div class="row-actions">
-                    <button class="icon-btn delete" data-delete="${idx}" title="Supprimer">🗑</button>
-                </div>
-            </td>
+            <td><div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">${qualifChecks}</div></td>
+            <td class="center"><div class="row-actions"><button class="icon-btn delete" data-delete="${idx}" title="Supprimer">🗑</button></div></td>
         `;
 
         tr.querySelectorAll("[data-field]").forEach(input => {
@@ -1080,17 +1014,12 @@ function renderRow(tbody, soldier, idx, cat) {
                 const field = e.target.dataset.field;
                 const i = parseInt(e.target.dataset.idx);
                 tempData[i][field] = e.target.value;
-                
-                if (field === "grade") {
-                    renderAll();
-                    return;
-                }
-
+                if (field === "grade") { renderAll(); return; }
                 const newElig = computeEligibility(tempData[i]);
                 const badge = tr.querySelector(".badge");
-                if (badge && field !== "grade") {
-                    badge.className = `badge ${newElig === "eligible" ? "badge-eligible" : newElig === "na" ? "" : "badge-not-eligible"}`;
-                    badge.textContent = newElig === "eligible" ? "✓ Éligible" : newElig === "na" ? "—" : "✗ Non éligible";
+                if (badge) {
+                    badge.className = `badge ${newElig==="eligible"?"badge-eligible":newElig==="na"?"":"badge-not-eligible"}`;
+                    badge.textContent = newElig==="eligible"?"✓ Éligible":newElig==="na"?"—":"✗ Non éligible";
                 }
             });
         });
@@ -1098,26 +1027,21 @@ function renderRow(tbody, soldier, idx, cat) {
         tr.querySelectorAll("[data-qualif]").forEach(cb => {
             cb.addEventListener("change", () => {
                 const i = parseInt(cb.dataset.qualif);
-                const allCbs = tr.querySelectorAll("[data-qualif]");
-                tempData[i].qualifs = Array.from(allCbs)
-                    .filter(c => c.checked)
-                    .map(c => c.value);
+                tempData[i].qualifs = Array.from(tr.querySelectorAll("[data-qualif]"))
+                    .filter(c => c.checked).map(c => c.value);
             });
         });
 
         tr.querySelectorAll("[data-delete]").forEach(btn => {
             btn.addEventListener("click", () => {
-                const i = parseInt(btn.dataset.delete);
-                tempData.splice(i, 1);
+                tempData.splice(parseInt(btn.dataset.delete), 1);
                 renderAll();
             });
         });
 
     } else {
-        // ── Mode lecture ──────────────────────────────────
-        const statutClass = (soldier.statut || "").toLowerCase() === "présent" ? "badge-statut-present" :
-                            (soldier.statut || "").toLowerCase() === "absent" ? "badge-statut-absent" : "badge-statut-conge";
-
+        const statutClass = (soldier.statut||"").toLowerCase() === "présent" ? "badge-statut-present" :
+                            (soldier.statut||"").toLowerCase() === "absent" ? "badge-statut-absent" : "badge-statut-conge";
         tr.innerHTML = `
             <td><span class="badge badge-grade">${soldier.grade || "—"}</span></td>
             <td><strong>${soldier.matricule || "—"}</strong></td>
@@ -1127,8 +1051,8 @@ function renderRow(tbody, soldier, idx, cat) {
             <td class="center" style="font-variant-numeric:tabular-nums">${soldier.missions ?? "—"}</td>
             <td class="center" style="font-variant-numeric:tabular-nums">${soldier.commandements ?? "—"}</td>
             <td class="center">
-                <span class="badge ${elig === "eligible" ? "badge-eligible" : elig === "na" ? "" : "badge-not-eligible"}">
-                    ${elig === "eligible" ? "✓ Éligible" : elig === "na" ? "—" : "✗ Non éligible"}
+                <span class="badge ${elig==="eligible"?"badge-eligible":elig==="na"?"":"badge-not-eligible"}">
+                    ${elig==="eligible"?"✓ Éligible":elig==="na"?"—":"✗ Non éligible"}
                 </span>
             </td>
             <td><div class="qualif-list">${qualifHtml}</div></td>
@@ -1138,27 +1062,22 @@ function renderRow(tbody, soldier, idx, cat) {
     tbody.appendChild(tr);
 }
 
-// ── Filters ───────────────────────────────────────────────
+// ── Filtres ───────────────────────────────────────────────
 [searchInput, filterCategory, filterStatut, filterEligibility].forEach(el => {
-    el.addEventListener("input", () => renderAll());
-    el.addEventListener("change", () => renderAll());
+    el.addEventListener("input", renderAll);
+    el.addEventListener("change", renderAll);
 });
 
-// ── Save ──────────────────────────────────────────────────
+// ── Sauvegarde ────────────────────────────────────────────
 saveBtn.addEventListener("click", () => {
-    const toSave = tempData.filter(s =>
-        s.grade || s.matricule || s.steamId
-    );
+    const toSave = tempData.filter(s => s.grade || s.matricule || s.steamId);
     set(rosterRef, toSave)
         .then(() => {
             allData = JSON.parse(JSON.stringify(toSave));
             disableEditMode();
             showToast("✅ Données sauvegardées avec succès !", "success");
         })
-        .catch((err) => {
-            showToast("❌ Erreur lors de la sauvegarde.", "error");
-            console.error(err);
-        });
+        .catch(() => showToast("❌ Erreur lors de la sauvegarde.", "error"));
 });
 
 // ── Toast ─────────────────────────────────────────────────
@@ -1172,11 +1091,10 @@ function showToast(message, type = "success") {
 
 // ── Theme toggle ──────────────────────────────────────────
 const themeToggle = document.getElementById("themeToggle");
-const html = document.documentElement;
 let currentTheme = "dark";
 themeToggle.addEventListener("click", () => {
     currentTheme = currentTheme === "dark" ? "light" : "dark";
-    html.setAttribute("data-theme", currentTheme);
+    document.documentElement.setAttribute("data-theme", currentTheme);
     themeToggle.innerHTML = currentTheme === "dark"
         ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
         : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
