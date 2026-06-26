@@ -667,25 +667,26 @@ const rulesPanel = document.getElementById("rulesPanel");
 // ── Authentification & Sécurité ───────────────────────────
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "inline-flex";
-        
-        // Vérification dans la base de données
+        currentUserEmail = user.email;
         const emailKey = user.email.replace(/\./g, ',');
+        
+        // On lit l'objet complet sous l'email
         get(child(ref(db), `admins/${emailKey}`)).then((snapshot) => {
-            if (snapshot.exists() && snapshot.val() === true) {
-                editBtn.style.display = "inline-flex"; 
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                currentUserRole = userData.role; // Stocke 'admin' ou 'superadmin'
+                editBtn.style.display = "inline-flex";
+                console.log("Rôle détecté :", currentUserRole);
             } else {
                 editBtn.style.display = "none";
-                showToast("Connecté (Accès lecture seule)", "warning");
+                currentUserRole = null;
             }
-        }).catch((error) => {
-            console.error("Erreur de vérification des droits :", error);
         });
     } else {
         loginBtn.style.display = "inline-flex";
         logoutBtn.style.display = "none";
         editBtn.style.display = "none";
+        currentUserRole = null;
         if (isEditing) disableEditMode();
     }
 });
@@ -725,20 +726,31 @@ function disableEditMode() {
 }
 
 // Ajouter un admin depuis l'interface
+// Remplacez votre écouteur addAdminBtn existant par celui-ci :
 addAdminBtn.addEventListener("click", () => {
-    const newEmail = prompt("Entrez l'adresse e-mail Google du nouvel officier :");
+    // Vérification côté client : seul le superadmin peut ouvrir cette fenêtre
+    if (currentUserRole !== 'superadmin') {
+        showToast("❌ Seul un Superadmin peut ajouter des accès.", "error");
+        return;
+    }
+
+    const email = prompt("E-mail du nouvel utilisateur :");
+    if (!email) return;
     
-    if (newEmail && newEmail.trim() !== "") {
-        const emailKey = newEmail.trim().toLowerCase().replace(/\./g, ',');
+    const role = prompt("Quel rôle pour cette personne ? (tapez 'admin' ou 'superadmin')").toLowerCase();
+    
+    if (role === 'admin' || role === 'superadmin') {
+        const emailKey = email.trim().toLowerCase().replace(/\./g, ',');
         
-        set(ref(db, `admins/${emailKey}`), true)
-            .then(() => {
-                showToast(`✅ Accès accordé à ${newEmail.trim()}`, "success");
-            })
-            .catch((error) => {
-                console.error(error);
-                showToast("❌ Erreur : vous n'avez pas les droits ou problème réseau.", "error");
+        // On envoie un objet { role: "..." }
+        set(ref(db, `admins/${emailKey}`), { role: role })
+            .then(() => showToast(`✅ ${email} a été ajouté avec le rôle ${role}`, "success"))
+            .catch((err) => {
+                console.error(err);
+                showToast("❌ Erreur : Vous n'avez pas les droits (ou problème réseau).", "error");
             });
+    } else {
+        showToast("❌ Rôle invalide. Choisissez 'admin' ou 'superadmin'.", "error");
     }
 });
 
