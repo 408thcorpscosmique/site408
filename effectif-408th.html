@@ -318,14 +318,23 @@
             font-weight: 700;
             letter-spacing: 0.3px;
         }
+        /* Nouvelles couleurs de qualifications */
+        .qualif-banpilotage { background: #5a5a5a; color: #fff; }
         .qualif-laatic { background: #ff6b35; color: #fff; }
         .qualif-arc170 { background: #f59e0b; color: #000; }
-        .qualif-pa { background: #10b981; color: #fff; }
-        .qualif-mdc { background: #6366f1; color: #fff; }
-        .qualif-t51 { background: #ec4899; color: #fff; }
-        .qualif-barc { background: #0ea5e9; color: #fff; }
-        .qualif-atpt { background: #8b5cf6; color: #fff; }
+        .qualif-parjai { background: #10b981; color: #fff; }
         .qualif-ywing { background: #eab308; color: #000; }
+        .qualif-vwing { background: #a855f7; color: #fff; }
+        .qualif-auzituckgunship { background: #854d0e; color: #fff; }
+        .qualif-barcmedic { background: #0ea5e9; color: #fff; }
+        .qualif-mdc { background: #6366f1; color: #fff; }
+        .qualif-cmd { background: #ef4444; color: #fff; }
+        .qualif-eod { background: #71717a; color: #fff; }
+        .qualif-atrt { background: #8b5cf6; color: #fff; }
+        .qualif-mortier { background: #b45309; color: #fff; }
+        .qualif-formateurmortier { background: #78350f; color: #fff; }
+        .qualif-repa { background: #3b82f6; color: #fff; }
+        .qualif-instructeurcct { background: #ec4899; color: #fff; }
         /* ─── Number inputs ──────────────────────── */
         .num-input {
             width: 70px;
@@ -639,7 +648,12 @@ const PROMO_RULES = [
     { from: "Vice-Commandant", to: "Commandant", jours: 30, missions: 0, commandements: 8 }
 ];
 
-const QUALIFS = ["LAAT-I/C", "ARC-170", "PA", "MDC", "T-51", "BARC", "AT-PT", "Y-Wing"];
+const QUALIFS = [
+    "BAN PILOTAGE", "LAAT-I/C", "ARC-170", "PARJAI", 
+    "Y-WING", "V-WING", "AUZITUCK GUNSHIP", "BARC MEDIC", 
+    "MDC", "CMD", "CMD", "EOD", "AT-RT", "MORTIER", 
+    "FORMATEUR MORTIER", "RÉPA", "INSTRUCTEUR CCT"
+];
 
 // ── DOM refs ──────────────────────────────────────────────
 const loginBtn = document.getElementById("loginBtn");
