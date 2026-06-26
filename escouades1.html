@@ -167,14 +167,24 @@
     .modal-role {
       margin: 0; color: var(--modal-color, #00ffff); text-transform: uppercase;
       letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; opacity: 0.85;
+      }
+    #modal-img {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
     }
+
+    #modal-img-fallback {
+      display: none;
+    }
+
     .modal-img-container {
-      position: relative; width: 100%; height: 200px;
-      border: 1px solid color-mix(in srgb, var(--modal-color, #00ffff) 35%, transparent);
-      border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden; background: rgba(255,255,255,0.03);
-    }
-    .modal-img {
-      width: 100%; height: 100%; object-fit: cover; display: block; object-position: center 35%;
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
     }
     .modal-img-fallback {
       position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
@@ -780,4 +790,3 @@ btnDeleteM.addEventListener("click", async () => {
 </script>
 </body>
 </html>
- 
