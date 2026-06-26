@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>408th Corps Cosmique - Escouades</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="Logo_408th.png">
+  <meta property="og:title" content="408th Corps Cosmique">
+  <meta property="og:description" content="Accédez ici aux escouades du 408th Corps Cosmique">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/">
+  <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
+  <meta name="theme-color" content="#7B00FF">
+  <style>
+    .category-title {
+      text-align: center; color: #fff; margin-top: 3rem; margin-bottom: 2rem;
+      text-transform: uppercase; letter-spacing: 3px; font-size: 1.8rem;
+      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+    .category-separator {
+      width: 50px; height: 3px; background: var(--modal-color, #00ffff);
+      margin: 0 auto 3rem auto; box-shadow: 0 0 10px var(--modal-color, #00ffff);
+    }
+
+    /* ── AUTH BAR ── */
+    #auth-bar {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 1rem 0.5rem 1.2rem;
+      background: rgba(10,20,40,0.85);
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+      justify-content: flex-end;
+      backdrop-filter: blur(6px);
+      position: relative;
+      z-index: 50;
+    }
+    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
+    .auth-user-wrap.visible { display: flex; }
+    .auth-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; object-fit: cover;
+    }
+    .auth-avatar-fallback {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
+      color: #7B00FF; font-size: 0.65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-transform: uppercase;
+    }
+    .auth-username {
+      font-size: 0.68rem; color: #666; max-width: 110px; letter-spacing: 0.5px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .auth-btn {
+      padding: 0.3rem 0.9rem; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .auth-btn-login {
+      background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0;
+    }
+    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
+    .auth-btn-logout {
+      background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060;
+    }
+    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+
+    /* ── PANNEAU ADMIN ── */
+    #admin-toggle-btn {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border: 1px solid #7B00FF; color: #c8cdd6;
+      padding: 0.6rem 1.1rem; border-radius: 6px; font-size: 0.78rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      box-shadow: 0 0 18px rgba(123,0,255,0.3); transition: all 0.2s;
+      display: none; align-items: center; gap: 0.5rem;
+    }
+    #admin-toggle-btn.visible { display: flex; }
+    #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
+    #admin-panel {
+      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
+      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
+      width: 360px; max-height: 75vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
+    }
+    #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
+    @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    #admin-panel h3 { color: #7B00FF; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(123,0,255,0.3); }
+    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-form label { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: -0.3rem; }
+    .admin-form input, .admin-form select, .admin-form textarea {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
+      font-size: 0.82rem; font-family: inherit; width: 100%; transition: border-color 0.2s;
+    }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: #7B00FF; }
+    .admin-form textarea { resize: vertical; min-height: 80px; }
+    .admin-form select option { background: #0a1428; }
+    .admin-btn { margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF; background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%; }
+    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
+    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
+    .admin-notice.success { color: #00ff88; }
+    .admin-notice.error   { color: #e74c3c; }
+
+    #firebase-loading { text-align: center; padding: 3rem 1rem; color: #555; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; }
+    #firebase-loading::after { content: ''; display: block; width: 32px; height: 32px; margin: 1rem auto 0; border: 2px solid rgba(123,0,255,0.2); border-top-color: #7B00FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── MODALE ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
+    @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .modal-content { position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%); border: 1px solid var(--modal-color, #00ffff); box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--modal-color,#00ffff) 20%, transparent); border-radius: 6px; padding: 2rem; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; }
+    .modal-content::before { content: ''; display: block; position: absolute; top:0; left:0; right:0; height: 3px; background: var(--modal-color,#00ffff); border-radius: 6px 6px 0 0; box-shadow: 0 0 12px var(--modal-color,#00ffff); }
+    .close-modal { position: absolute; top:1rem; right:1rem; background: none; border: 1px solid rgba(255,255,255,0.15); color: #aaa; font-size: 1.3rem; line-height:1; width:2rem; height:2rem; border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: all 0.2s; }
+    .close-modal:hover { color:#fff; border-color: var(--modal-color,#00ffff); background: rgba(255,255,255,0.05); }
+    .modal-header { margin-bottom:1.25rem; padding-right:2rem; }
+    #modal-title { margin:0 0 0.3rem; color:#fff; text-transform:uppercase; letter-spacing:3px; font-size:1.3rem; }
+    #modal-role { margin:0; color: var(--modal-color,#00ffff); text-transform:uppercase; letter-spacing:1.5px; font-size:0.8rem; font-weight:500; opacity:0.85; }
+    .modal-img-container { position:relative; width:100%; height:200px; border:1px solid color-mix(in srgb,var(--modal-color,#00ffff) 35%,transparent); border-radius:4px; margin-bottom:1.5rem; overflow:hidden; background:rgba(255,255,255,0.03); }
+    #modal-img { width:100%; height:100%; object-fit:cover; display:block; object-position:center 35%; }
+    .modal-img-fallback { position:absolute; inset:0; display:none; align-items:center; justify-content:center; font-size:2.5rem; font-weight:700; letter-spacing:6px; color:var(--modal-color,#00ffff); opacity:0.25; background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.01) 10px,rgba(255,255,255,0.01) 20px); }
+    #modal-desc { color:#c8cdd6; line-height:1.7; font-size:0.95rem; margin:0 0 1.25rem; }
+    .recrutement-modality { font-size:0.85rem; color:#c8cdd6; margin-bottom:0.5rem; letter-spacing:0.5px; }
+    #modal-modality { color:var(--modal-color,#00ffff); font-weight:700; text-transform:uppercase; }
+    .recrutement-ref { font-size:0.85rem; color:#c8cdd6; margin-bottom:1.5rem; letter-spacing:0.5px; }
+    #modal-ref { color:var(--modal-color,#00ffff); font-weight:700; text-transform:uppercase; }
+    .modal-spec-btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.2rem; border:1px solid var(--modal-color,#00ffff); border-radius:4px; color:var(--modal-color,#00ffff); text-decoration:none; font-size:0.8rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; background:color-mix(in srgb,var(--modal-color,#00ffff) 8%,transparent); transition:all 0.2s; }
+    .modal-spec-btn:hover { background:color-mix(in srgb,var(--modal-color,#00ffff) 20%,transparent); box-shadow:0 0 12px color-mix(in srgb,var(--modal-color,#00ffff) 30%,transparent); color:#fff; }
+    .modal-spec-btn svg { flex-shrink:0; }
+    .modal-admin-actions { display:none; gap:0.5rem; margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.07); }
+    .modal-admin-actions.visible { display:flex; }
+    .modal-admin-actions button { flex:1; padding:0.5rem; border-radius:4px; font-size:0.75rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
+    .btn-edit-modal { background:rgba(123,0,255,0.15); border:1px solid #7B00FF; color:#c8cdd6; }
+    .btn-edit-modal:hover { background:rgba(123,0,255,0.35); color:#fff; }
+    .btn-delete-modal { background:rgba(231,76,60,0.12); border:1px solid #e74c3c; color:#e74c3c; }
+    .btn-delete-modal:hover { background:rgba(231,76,60,0.3); color:#fff; }
+
+    /* ── Auth dans nav ── */
+    .nav-auth {
+      display: flex; align-items: center; gap: 0.6rem; margin-left: auto;
+    }
+    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
+    .auth-user-wrap.visible { display: flex; }
+    .auth-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid #7B00FF; object-fit: cover;
+    }
+    .auth-avatar-fallback {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
+      color: #c8cdd6; font-size: 0.62rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-transform: uppercase;
+    }
+    .auth-username {
+      font-size: 0.7rem; color: #8b949e; max-width: 100px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .auth-btn {
+      padding: 0.3rem 0.8rem; border-radius: 4px;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .auth-btn-login {
+      background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0;
+    }
+    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
+    .auth-btn-logout {
+      background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060;
+    }
+    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">
+    <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
+    <span class="nav-brand">408TH CORPS COSMIQUE</span>
+  </div>
+  <a href="index.html">Accueil</a>
+  <a href="discipline.html">Règlement</a>
+  <a href="promotions.html">Promotions</a>
+  <a href="formations.html">Formations</a>
+  <a href="specs.html">Spécialisations</a>
+  <a href="escouades.html" class="active">Escouades</a>
+
+  <!-- Auth dans la nav -->
+  <div class="nav-auth" id="navAuth">
+    <div class="auth-user-wrap" id="authUserWrap">
+      <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none">
+      <div class="auth-avatar-fallback" id="authAvatarFallback" style="display:none"></div>
+      <span class="auth-username" id="authUsername"></span>
+    </div>
+    <button class="auth-btn auth-btn-login" id="loginBtn">🔒 Connexion</button>
+    <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none">Déconnexion</button>
+  </div>
+</nav>
+
+    <span class="auth-username" id="authUsername"></span>
+  </div>
+  <button class="auth-btn auth-btn-login" id="loginBtn">🔒 Connexion Google</button>
+  <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none">Déconnexion</button>
+</div>
+
+<div class="content">
+  <section id="escouades">
+    <div class="section-header reveal">
+      <div class="section-number">07</div>
+      <h2 class="section-title">Escouades de Combat</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <h3 class="category-title reveal">Escouades Gratuites</h3>
+    <div class="category-separator reveal" style="background:#00ff88;box-shadow:0 0 10px #00ff88;"></div>
+    <div class="escouades-grid reveal" id="grid-gratuites">
+      <div id="firebase-loading">Chargement des escouades…</div>
+    </div>
+
+    <h3 class="category-title reveal" style="margin-top:4rem;">Escouades Payantes</h3>
+    <div class="category-separator reveal" style="background:#ff0055;box-shadow:0 0 10px #ff0055;"></div>
+    <div class="escouades-grid reveal" id="grid-payantes"></div>
+  </section>
+</div>
+
+<!-- ── MODALE ── -->
+<div id="escouade-modal" class="modal-overlay">
+  <div class="modal-content holo-card">
+    <button class="close-modal" aria-label="Fermer">&times;</button>
+    <div class="modal-header">
+      <h2 id="modal-title"></h2>
+      <h4 id="modal-role"></h4>
+    </div>
+    <div class="modal-img-container">
+      <img id="modal-img" src="" alt="" onerror="this.style.display='none';document.getElementById('modal-img-fallback').style.display='flex'">
+      <div id="modal-img-fallback" class="modal-img-fallback"><span id="modal-img-label"></span></div>
+    </div>
+    <p id="modal-desc"></p>
+    <div class="recrutement-modality">Modalité : <span id="modal-modality"></span></div>
+    <div class="recrutement-ref">Référence recrutement : <span id="modal-ref"></span></div>
+    <a id="modal-spec-link" href="#" class="modal-spec-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <span id="modal-spec-label">Voir la spécialisation</span>
+    </a>
+    <div class="modal-admin-actions" id="modal-admin-actions">
+      <button class="btn-edit-modal" id="btn-edit-modal">✏️ Modifier</button>
+      <button class="btn-delete-modal" id="btn-delete-modal">🗑 Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOUTON ADMIN (visible seulement si admin) ── -->
+<button id="admin-toggle-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+  Admin
+</button>
+
+<div id="admin-panel">
+  <h3>⚙ Panneau Admin</h3>
+  <form class="admin-form" id="admin-form" autocomplete="off">
+    <input type="hidden" id="edit-doc-id" value="">
+    <label>Nom de l'escouade *</label>
+    <input type="text" id="a-title" placeholder="Compagnie Cendres" required>
+    <label>Rôle / Sous-titre *</label>
+    <input type="text" id="a-role" placeholder="Vétérans affiliés à l'Ordre Jedi" required>
+    <label>Description (HTML autorisé)</label>
+    <textarea id="a-desc" placeholder="Description complète…"></textarea>
+    <label>Image (fichier ou URL)</label>
+    <input type="text" id="a-img" placeholder="cendres.png">
+    <label>Couleur principale</label>
+    <input type="color" id="a-color" value="#00ffff">
+    <label>Lien spécialisation</label>
+    <input type="url" id="a-spec-url" placeholder="https://…">
+    <label>Texte bouton spécialisation</label>
+    <input type="text" id="a-spec-label" placeholder="Voir la spécialisation">
+    <label>Référence recrutement</label>
+    <input type="text" id="a-ref" placeholder="0000 Pseudo">
+    <label>Modalité</label>
+    <input type="text" id="a-modality" placeholder="Gratuit / Payant…">
+    <label>Catégorie *</label>
+    <select id="a-type">
+      <option value="gratuite">Gratuite</option>
+      <option value="payante">Payante</option>
+    </select>
+    <label>Ordre d'affichage</label>
+    <input type="number" id="a-ordre" placeholder="1" min="0">
+    <button type="submit" class="admin-btn" id="admin-submit-btn">➕ Ajouter l'escouade</button>
+    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">✕ Annuler la modification</button>
+    <div class="admin-notice" id="admin-notice"></div>
+  </form>
+</div>
+
+<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+<script src="script.js"></script>
+
+<!-- ── FIREBASE SDK ── -->
+<script type="module">
+import { initializeApp }         from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref as dbRef, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// ══════════════════════════════════════════
+//  CONFIG FIREBASE
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
+  authDomain: "thsite-3fe39.firebaseapp.com",
+  projectId: "thsite-3fe39",
+  storageBucket: "thsite-3fe39.firebasestorage.app",
+  messagingSenderId: "974675357380",
+  appId: "1:974675357380:web:836fbaae3fb66034e6a391",
+  measurementId: "G-Y95QVRY8WK",
+  databaseURL: "https://thsite-3fe39-default-rtdb.europe-west1.firebasedatabase.app"
+};
+
+const app      = initializeApp(firebaseConfig);
+const db       = getFirestore(app);
+const auth     = getAuth(app);
+const rtdb     = getDatabase(app);
+const provider = new GoogleAuthProvider();
+
+let currentUserRole = null;
+let currentDocId    = null;
+
+// ══════════════════════════════════════════
+//  AUTH — identique à effectif.html
+// ══════════════════════════════════════════
+const loginBtn    = document.getElementById("loginBtn");
+const logoutBtn   = document.getElementById("logoutBtn");
+const avatarWrap  = document.getElementById("authUserWrap");
+const avatarImg   = document.getElementById("authAvatarImg");
+const avatarFall  = document.getElementById("authAvatarFallback");
+const usernameEl  = document.getElementById("authUsername");
+const adminBtn    = document.getElementById("admin-toggle-btn");
+const adminPanel  = document.getElementById("admin-panel");
+
+function showAvatar(user) {
+  avatarWrap.classList.add("visible");
+  const name = user.displayName || user.email.split("@")[0];
+  usernameEl.textContent = name;
+  if (user.photoURL) {
+    avatarImg.src = user.photoURL;
+    avatarImg.alt = name;
+    avatarImg.style.display = "block";
+    avatarFall.style.display = "none";
+  } else {
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+    avatarFall.textContent = initials;
+    avatarFall.style.display = "flex";
+    avatarImg.style.display  = "none";
+  }
+}
+
+function hideAvatar() {
+  avatarWrap.classList.remove("visible");
+  avatarImg.style.display  = "none";
+  avatarFall.style.display = "none";
+  usernameEl.textContent   = "";
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    showAvatar(user);
+    loginBtn.style.display  = "none";
+    logoutBtn.style.display = "inline-block";
+
+    // Vérifier le rôle dans Realtime DB (même structure que effectif.html)
+    const emailKey = user.email.replace(/\./g, ",");
+    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
+    if (snap.exists()) {
+      currentUserRole = snap.val().role; // "admin" ou "superadmin"
+      adminBtn.classList.add("visible");
+    } else {
+      currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      adminPanel.classList.remove("open");
+    }
+  } else {
+    hideAvatar();
+    currentUserRole = null;
+    loginBtn.style.display  = "inline-block";
+    logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    adminPanel.classList.remove("open");
+  }
+});
+
+loginBtn.addEventListener("click", () => {
+  signInWithPopup(auth, provider).catch(err => console.error("Login error:", err));
+});
+logoutBtn.addEventListener("click", () => {
+  signOut(auth);
+});
+
+// ══════════════════════════════════════════
+//  GÉNÉRATION CARTES
+// ══════════════════════════════════════════
+function buildCard(docId, data) {
+  const color   = data.color || "#00ffff";
+  const hasImg  = data.img && data.img.trim() !== "";
+  const bgStyle = hasImg
+    ? `background-image:url('${data.img}');background-size:cover;background-position:center 35%;`
+    : `background:color-mix(in srgb,${color} 10%,transparent);`;
+  const placeholder = hasImg ? "" : `<span style="font-size:1.1rem;font-weight:700;letter-spacing:4px;opacity:.3;color:${color};">${(data.title||"").replace(/Escouade |Compagnie |Brigade |Division |Bataillon /gi,"").substring(0,8)}</span>`;
+  return `
+    <div class="escouade-card"
+         data-id="${docId}"
+         data-title="${(data.title||"").replace(/"/g,"&quot;")}"
+         data-role="${(data.role||"").replace(/"/g,"&quot;")}"
+         data-desc="${(data.desc||"").replace(/"/g,"&quot;")}"
+         data-img="${data.img||""}"
+         data-color="${color}"
+         data-spec-label="${(data.specLabel||"Voir la spécialisation").replace(/"/g,"&quot;")}"
+         data-spec-url="${data.specUrl||"#"}"
+         data-ref="${(data.ref||"").replace(/"/g,"&quot;")}"
+         data-modality="${(data.modality||"").replace(/"/g,"&quot;")}"
+         style="cursor:pointer;">
+      <div class="card-img-container">
+        <div class="img-placeholder" style="${bgStyle}border:2px solid ${color};min-height:150px;display:flex;align-items:center;justify-content:center;">
+          ${placeholder}
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 style="color:${color};">${data.title||""}</h3>
+        <p>${data.role||""}</p>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+//  FIRESTORE — TEMPS RÉEL
+// ══════════════════════════════════════════
+const gridGrat = document.getElementById("grid-gratuites");
+const gridPay  = document.getElementById("grid-payantes");
+
+const q = query(collection(db, "escouades"), orderBy("ordre"));
+onSnapshot(q, (snapshot) => {
+  gridGrat.innerHTML = "";
+  gridPay.innerHTML  = "";
+  if (snapshot.empty) {
+    gridGrat.innerHTML = '<p style="color:#555;text-align:center;padding:2rem;font-size:.85rem;">Aucune escouade pour l\'instant.</p>';
+    bindCards(); return;
+  }
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const html = buildCard(docSnap.id, data);
+    if (data.type === "gratuite") gridGrat.insertAdjacentHTML("beforeend", html);
+    else                          gridPay.insertAdjacentHTML("beforeend", html);
+  });
+  bindCards();
+}, err => {
+  gridGrat.innerHTML = `<p style="color:#e74c3c;text-align:center;padding:2rem;">Erreur : ${err.message}</p>`;
+});
+
+// ══════════════════════════════════════════
+//  MODALE
+// ══════════════════════════════════════════
+const overlay      = document.getElementById("escouade-modal");
+const titleEl      = document.getElementById("modal-title");
+const roleEl       = document.getElementById("modal-role");
+const imgEl        = document.getElementById("modal-img");
+const fallback     = document.getElementById("modal-img-fallback");
+const imgLabel     = document.getElementById("modal-img-label");
+const descEl       = document.getElementById("modal-desc");
+const modalityEl   = document.getElementById("modal-modality");
+const refEl        = document.getElementById("modal-ref");
+const specLink     = document.getElementById("modal-spec-link");
+const specLabelEl  = document.getElementById("modal-spec-label");
+const adminActions = document.getElementById("modal-admin-actions");
+const btnEditM     = document.getElementById("btn-edit-modal");
+const btnDeleteM   = document.getElementById("btn-delete-modal");
+
+function openModal(card) {
+  const color = card.dataset.color || "#00ffff";
+  currentDocId = card.dataset.id || null;
+  overlay.querySelector(".modal-content").style.setProperty("--modal-color", color);
+  titleEl.textContent    = card.dataset.title    || "";
+  roleEl.textContent     = card.dataset.role     || "";
+  descEl.innerHTML       = card.dataset.desc     || "";
+  modalityEl.textContent = card.dataset.modality || "Non définie";
+  refEl.textContent      = card.dataset.ref      || "Non définie";
+  specLabelEl.textContent= card.dataset.specLabel|| "Voir la spécialisation";
+  specLink.href          = card.dataset.specUrl  || "#";
+  fallback.style.display = "none";
+  imgEl.style.display    = "block";
+  imgEl.alt = card.dataset.title || "";
+  imgEl.src = card.dataset.img   || "";
+  imgLabel.textContent = (card.dataset.title||"").replace(/Escouade |Compagnie |Brigade |Division |Bataillon /gi,"");
+  // Boutons admin visibles seulement si connecté admin
+  if (currentUserRole) adminActions.classList.add("visible");
+  else                  adminActions.classList.remove("visible");
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+  currentDocId = null;
+}
+
+function bindCards() {
+  document.querySelectorAll(".escouade-card").forEach(card => {
+    card.addEventListener("click", () => openModal(card));
+  });
+}
+
+overlay.querySelector(".close-modal").addEventListener("click", closeModal);
+overlay.addEventListener("click", e => { if (e.target === overlay) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// ══════════════════════════════════════════
+//  ADMIN — TOGGLE
+// ══════════════════════════════════════════
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  adminPanel.classList.toggle("open");
+});
+
+// ══════════════════════════════════════════
+//  ADMIN — FORMULAIRE
+// ══════════════════════════════════════════
+const adminForm     = document.getElementById("admin-form");
+const editDocIdInp  = document.getElementById("edit-doc-id");
+const submitBtn     = document.getElementById("admin-submit-btn");
+const cancelEditBtn = document.getElementById("cancel-edit-btn");
+const adminNotice   = document.getElementById("admin-notice");
+
+function getFormData() {
+  return {
+    title    : document.getElementById("a-title").value.trim(),
+    role     : document.getElementById("a-role").value.trim(),
+    desc     : document.getElementById("a-desc").value.trim(),
+    img      : document.getElementById("a-img").value.trim(),
+    color    : document.getElementById("a-color").value,
+    specUrl  : document.getElementById("a-spec-url").value.trim()  || "#",
+    specLabel: document.getElementById("a-spec-label").value.trim()|| "Voir la spécialisation",
+    ref      : document.getElementById("a-ref").value.trim(),
+    modality : document.getElementById("a-modality").value.trim(),
+    type     : document.getElementById("a-type").value,
+    ordre    : parseInt(document.getElementById("a-ordre").value)   || Date.now()
+  };
+}
+
+function fillForm(data, docId) {
+  editDocIdInp.value = docId;
+  document.getElementById("a-title").value     = data.title     || "";
+  document.getElementById("a-role").value      = data.role      || "";
+  document.getElementById("a-desc").value      = data.desc      || "";
+  document.getElementById("a-img").value       = data.img       || "";
+  document.getElementById("a-color").value     = data.color     || "#00ffff";
+  document.getElementById("a-spec-url").value  = data.specUrl   || "";
+  document.getElementById("a-spec-label").value= data.specLabel || "";
+  document.getElementById("a-ref").value       = data.ref       || "";
+  document.getElementById("a-modality").value  = data.modality  || "";
+  document.getElementById("a-type").value      = data.type      || "gratuite";
+  document.getElementById("a-ordre").value     = data.ordre     || "";
+  submitBtn.textContent = "💾 Enregistrer les modifications";
+  cancelEditBtn.style.display = "block";
+  adminPanel.classList.add("open");
+  adminPanel.scrollTop = 0;
+}
+
+function resetForm() {
+  adminForm.reset();
+  document.getElementById("a-color").value = "#00ffff";
+  editDocIdInp.value = "";
+  submitBtn.textContent = "➕ Ajouter l'escouade";
+  cancelEditBtn.style.display = "none";
+  adminNotice.textContent = "";
+  adminNotice.className   = "admin-notice";
+}
+
+cancelEditBtn.addEventListener("click", resetForm);
+
+adminForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) { adminNotice.textContent = "✗ Non autorisé."; adminNotice.className = "admin-notice error"; return; }
+  const data  = getFormData();
+  const docId = editDocIdInp.value;
+  adminNotice.textContent = "";
+  try {
+    if (docId) {
+      await updateDoc(doc(db, "escouades", docId), data);
+      adminNotice.textContent = "✓ Escouade mise à jour !";
+    } else {
+      await addDoc(collection(db, "escouades"), data);
+      adminNotice.textContent = "✓ Escouade ajoutée !";
+    }
+    adminNotice.className = "admin-notice success";
+    resetForm();
+  } catch (err) {
+    adminNotice.textContent = "✗ Erreur : " + err.message;
+    adminNotice.className   = "admin-notice error";
+    console.error(err);
+  }
+});
+
+// Modifier depuis modale
+btnEditM.addEventListener("click", async () => {
+  if (!currentDocId || !currentUserRole) return;
+  const snap = await getDoc(doc(db, "escouades", currentDocId));
+  if (snap.exists()) { fillForm(snap.data(), currentDocId); closeModal(); }
+});
+
+// Supprimer depuis modale
+btnDeleteM.addEventListener("click", async () => {
+  if (!currentDocId || !currentUserRole) return;
+  if (!confirm(`Supprimer définitivement "${titleEl.textContent}" ?`)) return;
+  try {
+    await deleteDoc(doc(db, "escouades", currentDocId));
+    closeModal();
+  } catch (err) { alert("Erreur : " + err.message); }
+});
+</script>
+</body>
+</html>
