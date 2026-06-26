@@ -5,34 +5,235 @@
   <title>408th Corps Cosmique - Escouades</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="Logo_408th.png">
-  <!-- =========================================
-       BALISES POUR DISCORD ET RÉSEAUX SOCIAUX
-       ========================================= -->
   <meta property="og:title" content="408th Corps Cosmique">
   <meta property="og:description" content="Accédez ici aux escouades du 408th Corps Cosmique">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/">
   <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
-  <meta name="theme-color" content="#7B00FF"> <!-- Barre de couleur violette sur Discord -->
+  <meta name="theme-color" content="#7B00FF">
   <style>
-    /* Styles ajoutés pour les titres de catégories */
     .category-title {
-      text-align: center;
-      color: #fff;
-      margin-top: 3rem;
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 1.8rem;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      text-align: center; color: #fff; margin-top: 3rem; margin-bottom: 2rem;
+      text-transform: uppercase; letter-spacing: 3px; font-size: 1.8rem;
+      text-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
     .category-separator {
-      width: 50px;
-      height: 3px;
-      background: var(--modal-color, #00ffff);
-      margin: 0 auto 3rem auto;
-      box-shadow: 0 0 10px var(--modal-color, #00ffff);
+      width: 50px; height: 3px; background: var(--modal-color, #00ffff);
+      margin: 0 auto 3rem auto; box-shadow: 0 0 10px var(--modal-color, #00ffff);
     }
+
+    #auth-bar {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 1rem 0.5rem 1.2rem;
+      background: rgba(10,20,40,0.85);
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+      justify-content: flex-end;
+      backdrop-filter: blur(6px);
+      position: relative;
+      z-index: 50;
+    }
+    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
+    .auth-user-wrap.visible { display: flex; }
+    .auth-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; object-fit: cover;
+    }
+    .auth-avatar-fallback {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
+      color: #7B00FF; font-size: 0.65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-transform: uppercase;
+    }
+    .auth-username {
+      font-size: 0.68rem; color: #666;
+      max-width: 110px; letter-spacing: 0.5px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .auth-btn {
+      padding: 0.3rem 0.9rem; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; border: 1px solid;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .auth-btn-login { background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0; }
+    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
+    .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
+    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+
+    #admin-toggle-btn, #accounts-btn {
+      position: fixed; right: 1.5rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border-radius: 6px;
+      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; padding: 0.6rem 1.1rem;
+      border: 1px solid #7B00FF; color: #c8cdd6;
+      box-shadow: 0 0 18px rgba(123,0,255,0.3);
+      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
+    }
+    #admin-toggle-btn { bottom: 1.5rem; }
+    #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
+    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
+    #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
+    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+
+    #admin-panel {
+      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
+      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
+      width: 360px; max-height: 75vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
+    }
+    #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
+    @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    #admin-panel h3 {
+      color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
+      font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(123,0,255,0.3);
+    }
+    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-form label {
+      font-size: 0.72rem; color: #888; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: -0.3rem;
+    }
+    .admin-form input, .admin-form select, .admin-form textarea {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
+      font-size: 0.82rem; font-family: inherit; width: 100%;
+      transition: border-color 0.2s;
+    }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: #7B00FF; }
+    .admin-form textarea { resize: vertical; min-height: 80px; }
+    .admin-btn {
+      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
+      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
+    }
+    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
+    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
+    .admin-notice.success { color: #00ff88; }
+    .admin-notice.error { color: #e74c3c; }
+
+    .firebase-loading {
+      text-align: center; padding: 3rem 1rem; color: #555;
+      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .firebase-loading::after {
+      content: ''; display: block; width: 32px; height: 32px; margin: 1rem auto 0;
+      border: 2px solid rgba(123,0,255,0.2); border-top-color: #7B00FF;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px); z-index: 1000; align-items: center;
+      justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
+    @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .modal-content {
+      position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid var(--modal-color, #00ffff);
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
+      border-radius: 6px; padding: 2rem; max-width: 520px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-content::before {
+      content: ''; display: block; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--modal-color, #00ffff);
+      border-radius: 6px 6px 0 0; box-shadow: 0 0 12px var(--modal-color, #00ffff);
+    }
+    .close-modal {
+      position: absolute; top: 1rem; right: 1rem; background: none;
+      border: 1px solid rgba(255,255,255,0.15); color: #aaa;
+      font-size: 1.3rem; line-height: 1; width: 2rem; height: 2rem;
+      border-radius: 4px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .close-modal:hover {
+      color: #fff; border-color: var(--modal-color, #00ffff);
+      background: rgba(255,255,255,0.05);
+    }
+    .modal-header { margin-bottom: 1.25rem; padding-right: 2rem; }
+    .modal-title {
+      margin: 0 0 0.3rem; color: #fff; text-transform: uppercase;
+      letter-spacing: 3px; font-size: 1.3rem;
+    }
+    .modal-role {
+      margin: 0; color: var(--modal-color, #00ffff); text-transform: uppercase;
+      letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; opacity: 0.85;
+      }
+    #modal-img {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+    }
+
+    #modal-img-fallback {
+      display: none;
+    }
+
+    .modal-img-container {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+    .modal-img-fallback {
+      position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+      font-size: 2.5rem; font-weight: 700; letter-spacing: 6px; color: var(--modal-color, #00ffff);
+      opacity: 0.25; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.01) 10px, rgba(255,255,255,0.01) 20px);
+    }
+    .modal-desc { color: #c8cdd6; line-height: 1.7; font-size: 0.95rem; margin: 0 0 1.25rem; }
+    .recrutement-modality, .recrutement-ref { font-size: 0.85rem; color: #c8cdd6; margin-bottom: 0.5rem; letter-spacing: 0.5px; }
+    .modal-modality, .modal-ref { color: var(--modal-color, #00ffff); font-weight: 700; text-transform: uppercase; }
+    .modal-spec-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem;
+      border: 1px solid var(--modal-color, #00ffff); border-radius: 4px;
+      color: var(--modal-color, #00ffff); text-decoration: none; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      background: color-mix(in srgb, var(--modal-color, #00ffff) 8%, transparent);
+      transition: all 0.2s;
+    }
+    .modal-spec-btn:hover {
+      background: color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--modal-color, #00ffff) 30%, transparent);
+      color: #fff;
+    }
+    .modal-spec-btn svg { flex-shrink: 0; }
+
+    .modal-admin-actions {
+      display: none; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .modal-admin-actions.visible { display: flex; }
+    .modal-admin-actions button {
+      flex: 1; padding: 0.5rem; border-radius: 4px; font-size: 0.75rem;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-edit-modal { background: rgba(123,0,255,0.15); border: 1px solid #7B00FF; color: #c8cdd6; }
+    .btn-edit-modal:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .btn-delete-modal { background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #e74c3c; }
+    .btn-delete-modal:hover { background: rgba(231,76,60,0.3); color: #fff; }
+
+    #accounts-btn {
+      position: fixed; bottom: 5.6rem; right: 1.5rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border: 1px solid #00ff88; color: #c8cdd6;
+      padding: 0.6rem 1.1rem; border-radius: 6px; font-size: 0.78rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      box-shadow: 0 0 18px rgba(0,255,136,0.18); transition: all 0.2s;
+      display: none; align-items: center; gap: 0.5rem;
+    }
+    #accounts-btn.visible { display: flex; }
+    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
   </style>
 </head>
 <body>
@@ -49,899 +250,584 @@
   <a href="formations.html">Formations</a>
   <a href="specs.html">Spécialisations</a>
   <a href="escouades.html" class="active">Escouades</a>
+
+  <div class="nav-auth" id="navAuth">
+    <div class="auth-user-wrap" id="authUserWrap">
+      <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none">
+      <div class="auth-avatar-fallback" id="authAvatarFallback" style="display:none"></div>
+      <span class="auth-username" id="authUsername"></span>
+    </div>
+    <button class="auth-btn auth-btn-login" id="loginBtn">🔒 Connexion</button>
+    <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none">Déconnexion</button>
+  </div>
 </nav>
 
-<div class="content">
-  <section id="escouades">
-    <div class="section-header reveal">
-      <div class="section-number">07</div>
-      <h2 class="section-title">Escouades de Combat</h2>
-      <div class="section-line"></div>
-    </div>
+<section class="content" id="escouades">
+  <div class="section-header reveal">
+    <div class="section-number">07</div>
+    <h2 class="section-title">Escouades de Combat</h2>
+    <div class="section-line"></div>
+  </div>
 
-    <!-- =========================================
-         CATÉGORIE : ESCOUADES GRATUITES
-         ========================================= -->
-    <h3 class="category-title reveal">Escouades Gratuites</h3>
-    <div class="category-separator reveal" style="background: #00ff88; box-shadow: 0 0 10px #00ff88;"></div>
+  <h3 class="category-title reveal">Escouades Gratuites</h3>
+  <div class="category-separator reveal" style="background:#00ff88; box-shadow:0 0 10px #00ff88;"></div>
+  <div class="escouades-grid reveal" id="grid-gratuites">
+    <div id="firebase-loading">Chargement des escouades</div>
+  </div>
 
-    <div class="escouades-grid reveal">
-      
-      <!-- COMPAGNIE CENDRES -->
-      <div class="escouade-card"
-          data-title="Compagnie Cendres"
-          data-role="Vétérans affiliés à l'Ordre Jedi"
-          data-desc="Ils nous croyaient morts.<br>
-          Des vétérans arrachés à des régiments détruits.<br>
-          Des clones portés disparus.<br>
-          Des soldats blessés que la guerre n'a pas su achever.<br>
-          <br>
-          La Compagnie Cendres est née de ceux qui ont survécu.
-          Issus d'unités brisées et de campagnes oubliées, chacun a apporté ses méthodes, ses réflexes et ses cicatrices.<br>
-          <br>
-          Les grades d'autrefois ont brûlé avec leurs anciennes unités. Aujourd'hui, tous sont égaux devant la mission. Tous sont égaux devant la mort.<br>
-          <br>
-          Affiliée à l'Ordre Jedi, la Compagnie Cendres a gagné la confiance des Gardiens de la Paix au fil des campagnes. Sans jamais quitter la chaîne de commandement de la République, elle est régulièrement appelée à épauler les Jedi lors de missions sensibles : escorte d'holocrons, protection de reliques, traque d'utilisateurs du Côté Obscur ou interventions au sein du Temple Jedi sous autorisation.
-          <br>
-          La Compagnie Cendres porte également sa propre trame narrative. Secrets enfouis, événements passés et vérités oubliées se dévoileront progressivement au fil des missions et des interactions de ses membres. Entre enquêtes, espionnage, recherche d'informations, entraînements spécifiques et situations inhabituelles, chacun pourra prendre part à une histoire évolutive destinée à enrichir le RolePlay et à offrir des expériences sortant des opérations militaires classiques.<br>
-          <br>
-          À terre n'est pas vaincu.<br>
-          <br>
-          Mantra de la Compagnie Cendres :<br>
-          Brûlés par la guerre. Forgés par les cendres."
-          data-img="cendres.png"
-          data-color="#A67C52"
-          data-spec-label="Doctrine de la compagnie"
-          data-spec-url="#"
-          data-ref="2217 Icarus (Propriétaire) • 8957 Hephaestos • 3214 Ares"
-          data-modality="Joueurs souhaitant incarner un personnage RP <br> Recrutement par simulation et missions <br> Bonne intégration au groupe requise <br> Gratuit pour les recrues <br> 23 places disponibles financées par le propriétaire">
-
-          <div class="card-img-container">
-            <div class="img-placeholder" 
-               style="background-image: url('cendres.png'); background-size: cover; background-position: center 35% ; border: 2px solid #A67C52; min-height: 10px;"
-               data-img="cendres.png">
-            </div>
-          </div>
-          <div class="card-info">
-              <h3 style="color:#A67C52;">Compagnie Cendres</h3>
-              <p>Vétérans affiliés à l'Ordre Jedi</p>
-          </div>
-      </div>
-
-      <!-- NOBLE SQUAD -->
-      <div class="escouade-card" 
-           data-title="Noble Squad" 
-           data-role="Garde d'Honneur & Escarmouche" 
-           data-desc="L’escouade Noble est une unité d’élite de la Grande Armée de la République fondée en -21 av. BY sur Kamino par l’ARC 1259 et le pilote 2320. Née de la volonté de réunir des clones aux compétences complémentaires, elle rassemble des spécialistes capables d’intervenir dans tous les types d’opérations, qu’il s’agisse de reconnaissance, de soutien lourd, d’ingénierie, de médecine ou d’assauts de première ligne. Forgée par les épreuves de la Guerre des Clones et l’expérience de ses membres, la Noble se distingue par sa polyvalence, sa cohésion et sa capacité à s’adapter aux situations les plus critiques. Là où une escouade classique pourrait échouer,La Noble est envoyée pour accomplir les missions les plus complexes au nom de la République." 
-           data-img="noble.png"
-           data-color="#8e44ad"
-           data-spec-label="Voir la documentation de l'Escouade Noble"
-           data-spec-url="https://docs.google.com/document/d/1NgKV-umZmzuVuopr25T6PhspVw65cUDQDZ_SFPHQnWo/"
-           data-ref="1259 Aura / 1239 Prim / 2320 Angel"
-           data-modality="Gratuit (sous réserve de réussite aux tests)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('noble.png'); background-size: cover; background-position: center; border: 2px solid #000000; min-height: 150px;"
-               data-img="noble.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #ffffff;">Noble Squad</h3>
-          <p>Garde d'Honneur & Escarmouche</p>
-        </div>
-      </div>
-            
-      <!-- BATAILLON 241ST -->
-      <div class="escouade-card" 
-           data-title="Bataillon 241st" 
-           data-role="Bataillon d'Infanterie" 
-           data-desc="Le 241st Bataillon est une unité d'assaut réputée pour son agressivité tactique et sa capacité à frapper au cœur des lignes ennemies. Conçu pour mener les opérations les plus périlleuses, il rassemble des soldats polyvalents capables de s'adapter à une grande variété de missions, allant des combats rapprochés aux offensives mécanisées. Équipé d'un arsenal aussi diversifié que redoutable et encadré par des officiers expérimentés, le 241st se distingue par sa détermination sans faille, sa cohésion sur le champ de bataille et son efficacité lors des interventions à haut risque. Qu'il s'agisse de briser une défense ennemie, d'appuyer une avancée alliée ou de mener des opérations de reconnaissance d'élite, le bataillon répond toujours présent là où les combats sont les plus intenses." 
-           data-img="241.png"
-           data-color="#04beec"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="8912 Tukk / 4401 Narcor / 9174 Frost"
-           data-modality="Gratuit (sous réserve de réussite aux tests)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('241.png'); background-size: cover; background-position: center; border: 2px solid #04beec; min-height: 150px;"
-               data-img="241.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #04beec;">Bataillon 241st</h3>
-          <p>Bataillon d'Infanterie</p>
-        </div>
-      </div>
-      
-      <!-- N7 LEGION : SKULL DIVISION -->
-      <div class="escouade-card" 
-           data-title="N7 Legion : Skull Division" 
-           data-role="Division d'Élite" 
-           data-desc="La N7 Legion S.K.U.L.L Division est une unité d'élite  , spécialisée dans les opérations à haut risque, les interventions spéciales et les missions stratégiques nécessitant un personnel hautement qualifié. Héritière des traditions des programmes 66th, la division rassemble des opérateurs sélectionnés pour leurs compétences tactiques, leur discipline et leur capacité à agir de manière autonome en environnement hostile.
-           La division intervient principalement lors d'opérations de reconnaissance avancée, d'infiltration, d'extraction de personnel sensible, de lutte contre les menaces majeures et de missions nécessitant un déploiement rapide de forces spécialisées. Son histoire est marquée par de nombreuses campagnes où ses membres ont démontré leur efficacité dans les situations les plus critiques." 
-           data-img="n7.png"
-           data-color="#e74c3c"
-           data-spec-label="Voir le site de la spécialisation"
-           data-spec-url="https://sites.google.com/view/408th-corp-cosmique-n7-company/n7-legion-s-k-u-l-l-division"
-           data-ref="2773 Phantom"
-           data-modality="Gratuit (sous réserve de réussite aux tests/ Sélection sur dossier)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('n7.png'); background-size: cover; background-position: center 38%; border: 2px solid #b30000; min-height: 150px;"
-               data-img="n7.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #e74c3c;">N7 Skull Division</h3>
-          <p>Division d'Élite</p>
-        </div>
-      </div>
-
-      <!-- NOVA -->
-      <div class="escouade-card" 
-           data-title="NOVA" 
-           data-role="Force Frappe Stellaire" 
-           data-desc="L'escouade Nova est née d'une ambition claire : briller au sommet du classement. Nous sommes un groupe de joueurs passionnés , convaincus que le talent brut n'est rien sans la stratégie et la cohésion d'équipe. Rejoindre Nova, c'est intégrer une équipe qui s'entraîne sérieusement, analyse ses erreurs sans tabou, et célèbre chaque victoire ensemble." 
-           data-img="nova.png"
-           data-color="#ff00ea"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="https://docs.google.com/document/d/1ToRqz_Wgb6Cj9NgmgJt9K-eM6fiwwU3hII3hPlMywp8/edit?tab=t.0"
-           data-ref="0504 Akio"
-           data-modality="Gratuit (sous réserve de réussite aux tests)">
-          <div class="card-img-container">
-            <div class="img-placeholder" 
-               style="background-image: url('nova.png'); background-size: cover; background-position: center 21%; border: 2px solid #ff00ea; min-height: 150px;"
-               data-img="nova.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #ff00ea;">NOVA</h3>
-          <p>Force de Frappe Stellaire</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE CARNAGE -->
-      <div class="escouade-card" 
-           data-title="Escouade Carnage" 
-           data-role="Escouade de Combat" 
-           data-desc="Escouade Carnage est une unité d'élite de la Grande Armée de la République, spécialisée dans les opérations à haut risque et les missions nécessitant une puissance de frappe exceptionnelle. Créée durant les périodes les plus sombres de la Guerre des Clones, cette escouade a été déployée sur de nombreux fronts où les pertes étaient élevées et où les forces conventionnelles ne suffisaient plus. <br> 
-           <br>
-           Réputés pour leur agressivité au combat, leur discipline et leur efficacité, les membres de Carnage excelent dans les assauts frontaux, les opérations de choc, les missions de sauvetage et l'élimination de cibles prioritaires. Leur devise est simple : <br> 
-           <br>
-           Frapper vite. Frapper fort. Ne rien laisser derrière. <br>
-           <br>
-           Chaque clone de l'escouade porte fièrement les couleurs de Carnage, symbole de courage, de sacrifice et de détermination face aux armées séparatistes." 
-           data-img="carnage.png"
-           data-color="#c0392b"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="6644 Havoc"
-           data-modality="Gratuit (Sous réserve de réussite de candidature)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('carnage.png'); background-size: cover; background-position: center 4%;; border: 2px solid #ff0000; min-height: 150px;"
-               data-img="carnage.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #c0392b;">Escouade Carnage</h3>
-          <p>Force Brute</p>
-        </div>
-      </div>
-    </div> <!-- Fin escouades-grid gratuites -->
-
-    <!-- =========================================
-         CATÉGORIE : ESCOUADES PAYANTES
-         ========================================= -->
-    <h3 class="category-title reveal" style="margin-top: 4rem;">Escouades Payantes</h3>
-    <div class="category-separator reveal" style="background: #ff0055; box-shadow: 0 0 10px #ff0055;"></div>
-
-    <div class="escouades-grid reveal">
-
-      <!-- ESCOUADE ÉCARLATE -->
-      <div class="escouade-card" 
-           data-title="Escouade Écarlate" 
-           data-role="Force de Rupture Lourde" 
-           data-desc="Issue d'un programme secret inspiré des traditions de l'Ancienne République, l'Escouade Écarlate a été formée dès l'enfance selon une discipline martiale impitoyable. Véritable bélier tactique du 408th, elle excelle dans les percées de lignes ennemies et les assauts contre les positions les plus fortifiées." 
-           data-img="logoecarlate.png"
-           data-color="#b30000"
-           data-spec-label="Site officiel de l'Escouade Écarlate"
-           data-spec-url="https://aissa59330.github.io/compagnie_ecarlate/"
-           data-ref="7739 Björn / 7522 Vortex"
-           data-modality="Payant (Prix d'une place)">
-
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('logoecarlate.png'); background-size: cover; background-position: center; border: 2px solid #b30000; min-height: 150px;"
-               data-img="logoecarlate.png">
-          </div>
-        </div>
-
-        <div class="card-info">
-          <h3 style="color: #b30000;">Escouade Écarlate</h3>
-          <p>Escouade d'élite lourde</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE MONDE -->
-      <div class="escouade-card" 
-           data-title="Escouade Monde" 
-           data-role="Reconnaissance Globale" 
-           data-desc="Spécialistes de l'exploration planétaire et du repérage." 
-           data-img="onu.jpg"
-           data-color="#1abc9c"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="1992 Yurôpe"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('onu.jpg'); background-size: cover; background-position: center; border: 2px solid #00e1ff; min-height: 150px;"
-               data-img="onu.jpg">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #1abc9c;">Escouade Monde</h3>
-          <p>Reconnaissance Globale</p>
-        </div>
-      </div>
-      
-      <!-- ESCOUADE ASTARTES -->
-      <div class="escouade-card" 
-           data-title="Escouade Astartes" 
-           data-role="Choc & Assaut" 
-           data-desc="Une escouade redoutée pour son approche brutale et décisive en combat rapproché." 
-           data-img="astrates.png"
-           data-color="#34495e"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="0603 Rylanor"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('astrates.png'); background-size: cover; background-position: center; border: 2px solid #424645; min-height: 150px;"
-               data-img="astrates.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #424645;">Escouade Astartes</h3>
-          <p>Choc & Assaut</p>
-        </div>
-      </div>
-      
-      <!-- 187TH LEGION ASTRALE -->
-      <div class="escouade-card" 
-          data-title="187th Legion Astrale" 
-          data-role="Infanterie d'Assaut Violette" 
-          data-desc="Gardiens des cieux et maîtres des affrontements à mi-distance." 
-          data-img="astral.png"
-          data-color="#9b59b6"
-          data-spec-label="Voir la spécialisation"
-          data-spec-url="#"
-          data-ref="8050 Wyvern"
-          data-modality="Payant (Prix d'une place)">
-
-        <div class="card-img-container">
-          <div class="img-placeholder"
-              style="background-image: url('astral.png'); background-size: cover; background-position: center; border: 2px solid #9b59b6; min-height: 150px;"
-              data-img="astral.png">
-          </div>
-        </div>
-
-        <div class="card-info">
-          <h3 style="color: #9b59b6;">187th Legion Astrale</h3>
-          <p>Infanterie d'Assaut</p>
-        </div>
-      </div>
-
-      <!-- SILENT SQUAD -->
-      <div class="escouade-card" 
-           data-title="Silent Squad" 
-           data-role="Opérations Furtives" 
-           data-desc="Unités de la république des premières heures de la guerre qui a survécu jusqu'ici. Cette escouade avec ses armures se concentre sur l'infiltration en milieu hostile et a à sa disposition un armement varié qui lui permet de s'adapter en toute situation derrière les lignes ennemies. Les membres de l'escouade porte tous le kama et épaulette mais ont un code couleur le bleu pour les membres et le rouge pour le chef de la squad." 
-           data-img="silent.png"
-           data-color="#7f8c8d"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="Silent-Leader 1448 Firecharge"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('silent.png'); background-size: cover; background-position: center; border: 2px solid #9b59b6; min-height: 150px;"
-               data-img="silent.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #7f8c8d;">Silent Squad</h3>
-          <p>Opérations Furtives</p>
-        </div>
-      </div>
-      
-      <!-- COMPANY CEO -->
-      <div class="escouade-card" 
-           data-title="Company CEO" 
-           data-role="Supervision & Commandement" 
-           data-desc="En attente de description officielle." 
-           data-img="CEO.png"
-           data-color="#ff00f2"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="2585 AL-Qatrazz / 0609 AL Kaponi"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder"
-              style="background-image: url('CEO.png'); background-size: cover; background-position: center; border: 2px solid #ff00ea; min-height: 150px;"
-              data-img="CEO.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #ff00f2;">Company CEO</h3>
-          <p>Supervision & Commandement</p>
-        </div>
-      </div>
-
-      <!-- COMPAGNIE COSMOS -->
-      <div class="escouade-card" 
-           data-title="Compagnie Cosmos" 
-           data-role="Force d'Intervention" 
-           data-desc="Composée de vétérans et de recrues prometteuses, la Compagnie Cosmos est le pilier central des déploiements massifs." 
-           data-img="cosmos.png"
-           data-color="#9b59b6"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="0092 Yhie / 4062 Flunch"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" 
-               style="background-image: url('cosmos.png'); background-size: cover; background-position: center; border: 2px solid #9b59b6; min-height: 150px;"
-               data-img="cosmos.png">
-          </div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #9b59b6;">Compagnie Cosmos</h3>
-          <p>Force d'Intervention</p>
-        </div>
-      </div>
-      
-      <!-- BRIGADE VICE -->
-      <div class="escouade-card" 
-           data-title="Brigade Vice" 
-           data-role="Brigade Spéciale" 
-           data-desc="La Brigade Vice excelle dans les environnements hostiles et les missions non conventionnelles." 
-           data-img="img_placeholder.png"
-           data-color="#f1c40f"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="6900 Kurso / 6905 Flamenco"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(241,196,15,0.1); color: #f1c40f; border-color: #f1c40f;">VICE</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #f1c40f;">Brigade Vice</h3>
-          <p>Brigade Spéciale</p>
-        </div>
-      </div>
-
-      <!-- COMPAGNIE SURVIVAL -->
-      <div class="escouade-card" 
-           data-title="Compagnie Survival" 
-           data-role="Survie & Opérations Extrêmes" 
-           data-desc="Forces entraînées pour opérer dans les pires conditions environnementales de la galaxie." 
-           data-img="img_placeholder.png"
-           data-color="#e67e22"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="1987 Vort"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(230,126,34,0.1); color: #e67e22; border-color: #e67e22;">SURVIVAL</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #e67e22;">Compagnie Survival</h3>
-          <p>Survie & Opérations Extrêmes</p>
-        </div>
-      </div>
-
-      <!-- ONYX SQUAD -->
-      <div class="escouade-card" 
-           data-title="Onyx Squad" 
-           data-role="Infiltration Black Ops" 
-           data-desc="Opérateurs fantômes n'existant officiellement sur aucun registre de la République." 
-           data-img="img_placeholder.png"
-           data-color="#000000"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="1378 Trèfle"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(255,255,255,0.05); color: #fff; border-color: #555;">ONYX</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #fff;">Onyx Squad</h3>
-          <p>Infiltration Black Ops</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE RYVER -->
-      <div class="escouade-card" 
-           data-title="Escouade Ryver" 
-           data-role="Escouade d'Assaut" 
-           data-desc="L'escouade Ryver est une force opérationnelle redoutable du 408th." 
-           data-img="img_placeholder.png"
-           data-color="#3498db"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="0606 Ryver / 9359 Daikou / 1709 Jeysus / 0068 Pablo"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(52,152,219,0.1); color: #3498db; border-color: #3498db;">RYVER</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #3498db;">Escouade Ryver</h3>
-          <p>Escouade d'Assaut</p>
-        </div>
-      </div>
-
-      <!-- DIVISION YGGDRASIL -->
-      <div class="escouade-card" 
-           data-title="Division Yggdrasil" 
-           data-role="Division Spéciale" 
-           data-desc="Une division mythique dont la ténacité au combat est légendaire." 
-           data-img="img_placeholder.png"
-           data-color="#16a085"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="1968 Brokk"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(22,160,133,0.1); color: #16a085; border-color: #16a085;">YGGDRASIL</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #16a085;">Division Yggdrasil</h3>
-          <p>Division Spéciale</p>
-        </div>
-      </div>
-
-      <!-- COMPAGNIE ESTA'S -->
-      <div class="escouade-card" 
-           data-title="Compagnie Esta's" 
-           data-role="Unité d'Intervention" 
-           data-desc="Unité polyvalente capable de s'adapter à toutes les situations de crise." 
-           data-img="img_placeholder.png"
-           data-color="#d35400"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="2505 Esta's"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(211,84,0,0.1); color: #d35400; border-color: #d35400;">ESTA'S</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #d35400;">Compagnie Esta's</h3>
-          <p>Unité d'Intervention</p>
-        </div>
-      </div>
-
-      <!-- BARC CORP -->
-      <div class="escouade-card" 
-           data-title="Barc Corp" 
-           data-role="Motorisé & Blindés" 
-           data-desc="Spécialistes de la reconnaissance rapide et du soutien motorisé." 
-           data-img="img_placeholder.png"
-           data-color="#2980b9"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="1185 Zenith"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(41,128,185,0.1); color: #2980b9; border-color: #2980b9;">BARC</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #2980b9;">Barc Corp</h3>
-          <p>Motorisé & Blindés</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE KASHYYYK -->
-      <div class="escouade-card" 
-           data-title="Escouade Kashyyyk" 
-           data-role="Opérations Forestières" 
-           data-desc="Conçue pour la guerre en milieu naturel dense avec le soutien des Wookies." 
-           data-img="img_placeholder.png"
-           data-color="#27ae60"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="0606 Ryver"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(39,174,96,0.1); color: #27ae60; border-color: #27ae60;">KASHYYYK</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #27ae60;">Escouade Kashyyyk</h3>
-          <p>Opérations Forestières</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE KEELI -->
-      <div class="escouade-card" 
-           data-title="Escouade Keeli" 
-           data-role="Escouade d'Appui" 
-           data-desc="Hommage au capitaine légendaire, l'escouade Keeli se bat jusqu'au dernier homme." 
-           data-img="img_placeholder.png"
-           data-color="#8e44ad"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="2935 Keeli"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(142,68,173,0.1); color: #8e44ad; border-color: #8e44ad;">KEELI</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #8e44ad;">Escouade Keeli</h3>
-          <p>Escouade d'Appui</p>
-        </div>
-      </div>
-
-      <!-- ELITE SQUAD -->
-      <div class="escouade-card" 
-           data-title="Elite Squad" 
-           data-role="Opérations d'Élite" 
-           data-desc="L'élite de l'élite. Réservée aux clones les plus performants du bataillon." 
-           data-img="img_placeholder.png"
-           data-color="#f39c12"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="3618 Looper"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(243,156,18,0.1); color: #f39c12; border-color: #f39c12;">ELITE</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #f39c12;">Elite Squad</h3>
-          <p>Opérations d'Élite</p>
-        </div>
-      </div>
-
-      <!-- ESCOUADE 0106 -->
-      <div class="escouade-card" 
-           data-title="Escouade 0106" 
-           data-role="Unité de Réserve Tactique" 
-           data-desc="Une force de réserve capable d'être déployée instantanément là où le front vacille." 
-           data-img="img_placeholder.png"
-           data-color="#bdc3c7"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="0106 Krahm"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(189,195,199,0.1); color: #bdc3c7; border-color: #bdc3c7;">0106</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #bdc3c7;">Escouade 0106</h3>
-          <p>Unité Tactique</p>
-        </div>
-      </div>
-
-      <!-- ASH SQUAD -->
-      <div class="escouade-card" 
-           data-title="Ash Squad" 
-           data-role="Infanterie Pyrotechnique" 
-           data-desc="Le feu purifie. L'escouade Ash se charge de brûler les défenses ennemies." 
-           data-img="img_placeholder.png"
-           data-color="#e74c3c"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="3487 Kindle / 4216 Steel"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(231,76,60,0.1); color: #e74c3c; border-color: #e74c3c;">ASH</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #e74c3c;">Ash Squad</h3>
-          <p>Infanterie Pyrotechnique</p>
-        </div>
-      </div>
-
-      <!-- 21ST CORPS NOVA -->
-      <div class="escouade-card" 
-           data-title="21st Corps Nova" 
-           data-role="Galactic Marines" 
-           data-desc="Infanterie lourde habilitée aux opérations zéro gravité." 
-           data-img="img_placeholder.png"
-           data-color="#8e44ad"
-           data-spec-label="Voir la spécialisation"
-           data-spec-url="#"
-           data-ref="2591 Snow"
-           data-modality="Payant (Prix d'une place)">
-        <div class="card-img-container">
-          <div class="img-placeholder" style="background: rgba(142,68,173,0.1); color: #8e44ad; border-color: #8e44ad;">21ST</div>
-        </div>
-        <div class="card-info">
-          <h3 style="color: #8e44ad;">21st Corps Nova</h3>
-          <p>Galactic Marines</p>
-        </div>
-      </div>
-
-    </div> <!-- Fin escouades-grid payantes -->
-  </section>
-</div>
+  <h3 class="category-title reveal" style="margin-top:4rem;">Escouades Payantes</h3>
+  <div class="category-separator reveal" style="background:#ff0055; box-shadow:0 0 10px #ff0055;"></div>
+  <div class="escouades-grid reveal" id="grid-payantes"></div>
+</section>
 
 <div id="escouade-modal" class="modal-overlay">
   <div class="modal-content holo-card">
-
     <button class="close-modal" aria-label="Fermer">&times;</button>
-
     <div class="modal-header">
-      <div class="modal-header-text">
-        <h2 id="modal-title"></h2>
-        <h4 id="modal-role"></h4>
-      </div>
+      <h2 id="modal-title"></h2>
+      <h4 id="modal-role"></h4>
     </div>
 
-    <div id="modal-img-container" class="modal-img-container">
-      <img id="modal-img" src="" alt="" onerror="this.style.display='none'; document.getElementById('modal-img-fallback').style.display='flex';">
-      <div id="modal-img-fallback" class="modal-img-fallback">
-        <span id="modal-img-label"></span>
-      </div>
+    <div class="modal-img-container">
+      <img id="modal-img" src="" alt="" onerror="this.style.display='none';document.getElementById('modal-img-fallback').style.display='flex'">
+      <div id="modal-img-fallback" class="modal-img-fallback"><span id="modal-img-label"></span></div>
     </div>
 
     <p id="modal-desc"></p>
-
-    <div class="recrutement-modality">
-      Modalité : <span id="modal-modality"></span>
-    </div>
-
-    <div class="recrutement-ref">
-      Référence recrutement : <span id="modal-ref"></span>
-    </div>
+    <div class="recrutement-modality">Modalité : <span id="modal-modality"></span></div>
+    <div class="recrutement-ref">Référence recrutement : <span id="modal-ref"></span></div>
 
     <a id="modal-spec-link" href="#" class="modal-spec-btn" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
       <span id="modal-spec-label">Voir la spécialisation</span>
     </a>
 
+    <div class="modal-admin-actions" id="modal-admin-actions">
+      <button class="btn-edit-modal" id="btn-edit-modal">Modifier</button>
+      <button class="btn-delete-modal" id="btn-delete-modal">Supprimer</button>
+    </div>
   </div>
 </div>
 
-<style>
-/* ── MODALE AMÉLIORÉE ── */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-.modal-overlay.active {
-  display: flex;
-  animation: modalFadeIn 0.2s ease;
-}
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
+<button id="admin-toggle-btn" class="admin-toggle-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
+  </svg>
+  Admin
+</button>
 
-.modal-content {
-  position: relative;
-  background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-  border: 1px solid var(--modal-color, #00ffff);
-  box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
-  border-radius: 6px;
-  padding: 2rem;
-  max-width: 520px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
+<div id="admin-panel">
+  <h3>⚙ Panneau Admin</h3>
+  <form class="admin-form" id="admin-form" autocomplete="off">
+    <input type="hidden" id="edit-doc-id" value="">
+    <label>Nom de l'escouade *</label>
+    <input type="text" id="a-title" placeholder="Escouade des Cendres" required>  <!-- ← ajouter cette ligne -->
+    <label>Rôle / Sous-titre *</label>
+    <input type="text" id="a-role" placeholder="Vétérans affiliés à l'Ordre Jedi" required>
+    <label>Description (HTML autorisé)</label>
+    <textarea id="a-desc" placeholder="Description complète"></textarea>
+    <label>Source de l'image</label>
+    <select id="a-img-mode">
+      <option value="local">Fichier local</option>
+      <option value="url">Lien Imgur / URL</option>
+    </select>
 
-/* Barre de couleur en haut */
-.modal-content::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--modal-color, #00ffff);
-  border-radius: 6px 6px 0 0;
-  box-shadow: 0 0 12px var(--modal-color, #00ffff);
-}
+    <label>Nom du fichier local</label>
+    <input type="text" id="a-img-local" placeholder="cendres.png">
 
-.close-modal {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: none;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #aaa;
-  font-size: 1.3rem;
-  line-height: 1;
-  width: 2rem; height: 2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.close-modal:hover {
-  color: #fff;
-  border-color: var(--modal-color, #00ffff);
-  background: rgba(255,255,255,0.05);
-}
+    <label>Lien Imgur / URL</label>
+    <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
+    <input type="text" id="a-img" placeholder="cendres.png">
+    <label>Position de l’image</label>
+    <input type="text" id="a-img-pos" placeholder="center 35%">
+    <label>Couleur principale</label>
+    <input type="color" id="a-color" value="#00ffff">
+    <label>Lien spécialisation</label>
+    <input type="url" id="a-spec-url" placeholder="https://">
+    <label>Texte bouton spécialisation</label>
+    <input type="text" id="a-spec-label" placeholder="Voir la spécialisation">
+    <label>Référence recrutement</label>
+    <input type="text" id="a-ref" placeholder="0000 Pseudo">
+    <label>Modalité</label>
+    <input type="text" id="a-modality" placeholder="Gratuit / Payant">
+    <label>Catégorie</label>
+    <select id="a-type">
+      <option value="gratuite">Gratuite</option>
+      <option value="payante">Payante</option>
+    </select>
+    <label>Ordre d'affichage</label>
+    <input type="number" id="a-ordre" placeholder="1" min="0">
+    <button type="submit" class="admin-btn" id="admin-submit-btn">Ajouter l'escouade</button>
+    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">Annuler la modification</button>
+  </form>
+  <div class="admin-notice" id="admin-notice"></div>
+</div>
 
-.modal-header { margin-bottom: 1.25rem; padding-right: 2rem; }
-#modal-title {
-  margin: 0 0 0.3rem;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 1.3rem;
-}
-#modal-role {
-  margin: 0;
-  color: var(--modal-color, #00ffff);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  opacity: 0.85;
-}
+<button id="accounts-btn" class="admin-toggle-btn" style="bottom: 5.6rem;">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+  Comptes
+</button>
 
-/* ── Image ── */
-.modal-img-container {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  border: 1px solid color-mix(in srgb, var(--modal-color, #00ffff) 35%, transparent);
-  border-radius: 4px;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-  background: rgba(255,255,255,0.03);
-}
-#modal-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  object-position: center 35%;
-}
-.modal-img-fallback {
-  position: absolute;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 6px;
-  color: var(--modal-color, #00ffff);
-  opacity: 0.25;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(255,255,255,0.01) 10px,
-    rgba(255,255,255,0.01) 20px
-  );
-}
+<div id="accounts-modal" class="modal-overlay">
+  <div class="modal-content" style="max-width:760px;">
+    <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
+    <div class="modal-header">
+      <h2 class="modal-title">Gestion des comptes</h2>
+      <h4 class="modal-role">Superadmin uniquement</h4>
+    </div>
 
-/* ── Description ── */
-#modal-desc {
-  color: #c8cdd6;
-  line-height: 1.7;
-  font-size: 0.95rem;
-  margin: 0 0 1.25rem;
-}
+    <div id="accounts-list" style="display:grid; gap:0.75rem; margin-bottom:1rem;"></div>
 
-/* ── Modalité & Référence Recrutement ── */
-.recrutement-modality {
-  font-size: 0.85rem;
-  color: #c8cdd6;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
-}
-#modal-modality {
-  color: var(--modal-color, #00ffff);
-  font-weight: 700;
-  text-transform: uppercase;
-}
+    <form id="add-account-form" class="admin-form">
+      <label>Email</label>
+      <input type="email" id="new-account-email" placeholder="admin@mail.com" required>
+      <label>Rôle</label>
+      <select id="new-account-role">
+        <option value="admin">admin</option>
+        <option value="superadmin">superadmin</option>
+      </select>
+      <button type="submit" class="admin-btn">Ajouter / mettre à jour</button>
+    </form>
 
-.recrutement-ref {
-  font-size: 0.85rem;
-  color: #c8cdd6;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.5px;
-}
-#modal-ref {
-  color: var(--modal-color, #00ffff);
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-/* ── Bouton spécialité ── */
-.modal-spec-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid var(--modal-color, #00ffff);
-  border-radius: 4px;
-  color: var(--modal-color, #00ffff);
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background: color-mix(in srgb, var(--modal-color, #00ffff) 8%, transparent);
-  transition: all 0.2s;
-}
-.modal-spec-btn:hover {
-  background: color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--modal-color, #00ffff) 30%, transparent);
-  color: #fff;
-}
-.modal-spec-btn svg { flex-shrink: 0; }
-</style>
+    <div id="accounts-notice" class="admin-notice"></div>
+  </div>
+</div>
 
 <footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+
 <script src="script.js"></script>
-<script>
-(function () {
-  const overlay   = document.getElementById('escouade-modal');
-  const titleEl   = document.getElementById('modal-title');
-  const roleEl    = document.getElementById('modal-role');
-  const imgEl     = document.getElementById('modal-img');
-  const fallback  = document.getElementById('modal-img-fallback');
-  const imgLabel  = document.getElementById('modal-img-label');
-  const descEl    = document.getElementById('modal-desc');
-  const modalityEl= document.getElementById('modal-modality'); // Ajout de la modalité
-  const refEl     = document.getElementById('modal-ref');
-  const specLink  = document.getElementById('modal-spec-link');
-  const specLabel = document.getElementById('modal-spec-label');
 
-  // Ouvre la modale au clic sur une carte
-  document.querySelectorAll('.escouade-card').forEach(card => {
-    card.style.cursor = 'pointer';
-    card.addEventListener('click', () => {
-      const color    = card.dataset.color    || '#00ffff';
-      const imgSrc   = card.dataset.img      || '';
-      const title    = card.dataset.title    || '';
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref as dbRef, get, child, set, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-      // Couleur dynamique via CSS custom property
-      overlay.querySelector('.modal-content').style.setProperty('--modal-color', color);
+const firebaseConfig = {
+  apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
+  authDomain: "thsite-3fe39.firebaseapp.com",
+  databaseURL: "https://thsite-3fe39-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "thsite-3fe39",
+  storageBucket: "thsite-3fe39.firebasestorage.app",
+  messagingSenderId: "974675357380",
+  appId: "1:974675357380:web:836fbaae3fb66034e6a391",
+  measurementId: "G-Y95QVRY8WK"
+};
 
-      titleEl.textContent   = title;
-      roleEl.textContent    = card.dataset.role    || '';
-      descEl.innerHTML      = card.dataset.desc    || '';
-      modalityEl.innerHTML = card.dataset.modality || 'Non définie';// Récupération de la modalité
-      refEl.textContent     = card.dataset.ref     || 'Non définie';
-      specLabel.textContent = card.dataset.specLabel || 'Voir la spécialisation';
-      specLink.href         = card.dataset.specUrl  || '#';
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const rtdb = getDatabase(app);
+const provider = new GoogleAuthProvider();
 
-      // Image : montre l'img si dispo, sinon fallback texte
-      fallback.style.display = 'none';
-      imgEl.style.display    = 'block';
-      imgEl.alt              = title;
-      imgEl.src              = imgSrc;
-      imgLabel.textContent   = title.replace('Escouade ', '');
+let currentUserRole = null;
+let currentDocId = null;
 
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const avatarWrap = document.getElementById("authUserWrap");
+const avatarImg = document.getElementById("authAvatarImg");
+const avatarFall = document.getElementById("authAvatarFallback");
+const usernameEl = document.getElementById("authUsername");
+const adminBtn = document.getElementById("admin-toggle-btn");
+const adminPanel = document.getElementById("admin-panel");
+const accountsBtn = document.getElementById("accounts-btn");
+const accountsModal = document.getElementById("accounts-modal");
+const closeAccountsModal = document.getElementById("close-accounts-modal");
+const accountsList = document.getElementById("accounts-list");
+const addAccountForm = document.getElementById("add-account-form");
+const newAccountEmail = document.getElementById("new-account-email");
+const newAccountRole = document.getElementById("new-account-role");
+const accountsNotice = document.getElementById("accounts-notice");
+
+function showAvatar(user) {
+  avatarWrap.classList.add("visible");
+  const name = user.displayName || user.email.split("@")[0];
+  usernameEl.textContent = name;
+  if (user.photoURL) {
+    avatarImg.src = user.photoURL;
+    avatarImg.alt = name;
+    avatarImg.style.display = "block";
+    avatarFall.style.display = "none";
+  } else {
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    avatarFall.textContent = initials;
+    avatarFall.style.display = "flex";
+    avatarImg.style.display = "none";
+  }
+}
+
+function hideAvatar() {
+  avatarWrap.classList.remove("visible");
+  avatarImg.style.display = "none";
+  avatarFall.style.display = "none";
+  usernameEl.textContent = "";
+}
+
+function emailToKey(email) {
+  return email.trim().toLowerCase().replace(/\./g, ",");
+}
+
+function setAccountsNotice(msg, cls = "admin-notice") {
+  accountsNotice.textContent = msg;
+  accountsNotice.className = cls;
+}
+
+async function loadAccounts() {
+  accountsList.innerHTML = '<p style="color:#888;margin:0;">Chargement...</p>';
+  try {
+    const snap = await get(child(dbRef(rtdb), "admins"));
+    if (!snap.exists()) {
+      accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
+      return;
+    }
+
+    accountsList.innerHTML = "";
+    Object.entries(snap.val()).forEach(([key, data]) => {
+      const email = key.replace(/,/g, ".");
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
+      row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "admin-btn danger";
+      del.style.width = "auto";
+      del.textContent = "Supprimer";
+      del.addEventListener("click", async () => {
+        if (currentUserRole !== "superadmin") return;
+        if (!confirm(`Supprimer ${email} ?`)) return;
+        try {
+          await remove(dbRef(rtdb, `admins/${key}`));
+          setAccountsNotice("Compte supprimé.", "admin-notice success");
+          await loadAccounts();
+        } catch (err) {
+          setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+        }
+      });
+
+      row.appendChild(del);
+      accountsList.appendChild(row);
     });
-  });
+  } catch (err) {
+    accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : ' + err.message + "</p>";
+  }
+}
 
-  // Ferme la modale
-  function closeModal() {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    showAvatar(user);
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+
+    const emailKey = user.email.replace(/\./g, ",");
+    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
+    if (snap.exists()) {
+      currentUserRole = snap.val().role;
+      adminBtn.classList.add("visible");
+      if (currentUserRole === "superadmin") {
+        accountsBtn.classList.add("visible");
+      } else {
+        accountsBtn.classList.remove("visible");
+      }
+    } else {
+      currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      accountsBtn.classList.remove("visible");
+      adminPanel.classList.remove("open");
+      accountsModal.classList.remove("active");
+    }
+  } else {
+    hideAvatar();
+    currentUserRole = null;
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    accountsBtn.classList.remove("visible");
+    adminPanel.classList.remove("open");
+    accountsModal.classList.remove("active");
+  }
+});
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    try {
+      await signInWithRedirect(auth, provider);
+    } catch (e) {
+      console.error("Login error:", err, e);
+      alert("Connexion impossible. Autorise les popups ou utilise la redirection.");
+    }
+  }
+});
+
+logoutBtn.addEventListener("click", () => signOut(auth));
+
+const gridGrat = document.getElementById("grid-gratuites");
+const gridPay = document.getElementById("grid-payantes");
+
+function buildCard(docId, data) {
+  const color = data.color || "#00ffff";
+  const hasImg = data.img && data.img.trim() !== "";
+
+  const bgStyle = hasImg
+    ? `background-image:url('${data.img}'); background-size:cover; background-position:${data.imgPos || "center 35%"};`
+    : `background:${color}10;`;
+
+  const placeholder = hasImg
+    ? ""
+    : `<span style="
+        font-size:1.1rem;
+        font-weight:700;
+        letter-spacing:4px;
+        opacity:.3;
+        color:${color};
+      ">
+        ${(data.title || "")
+          .replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "")
+          .substring(0, 8)}
+      </span>`;
+
+  return `
+    <div class="escouade-card" data-id="${docId}" data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}" data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}" data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}" data-ref="${data.ref || ""}" data-modality="${data.modality || ""}" style="cursor:pointer;">
+      <div class="card-img-container">
+        <div class="img-placeholder" style="${bgStyle}border:2px solid ${color};min-height:150px;display:flex;align-items:center;justify-content:center;">${placeholder}</div>
+      </div>
+      <div class="card-info">
+        <h3 style="color:${color};">${data.title || ""}</h3>
+        <p>${data.role || ""}</p>
+      </div>
+    </div>`;
+}
+
+
+const q = query(collection(db, "escouades"), orderBy("ordre"));
+onSnapshot(q, snapshot => {
+  gridGrat.innerHTML = "";
+  gridPay.innerHTML = "";
+  if (snapshot.empty) {
+    gridGrat.innerHTML = '<p style="color:#555;text-align:center;padding:2rem;font-size:.85rem;">Aucune escouade pour l’instant.</p>';
+    bindCards();
+    return;
+  }
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const html = buildCard(docSnap.id, data);
+    if (data.type === "gratuite") gridGrat.insertAdjacentHTML("beforeend", html);
+    else gridPay.insertAdjacentHTML("beforeend", html);
+  });
+  bindCards();
+}, err => {
+  gridGrat.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem;">Erreur : ' + err.message + "</p>";
+});
+
+const overlay = document.getElementById("escouade-modal");
+const titleEl = document.getElementById("modal-title");
+const roleEl = document.getElementById("modal-role");
+const imgEl = document.getElementById("modal-img");
+const fallback = document.getElementById("modal-img-fallback");
+const imgLabel = document.getElementById("modal-img-label");
+const descEl = document.getElementById("modal-desc");
+const modalityEl = document.getElementById("modal-modality");
+const refEl = document.getElementById("modal-ref");
+const specLink = document.getElementById("modal-spec-link");
+const specLabelEl = document.getElementById("modal-spec-label");
+const adminActions = document.getElementById("modal-admin-actions");
+const btnEditM = document.getElementById("btn-edit-modal");
+const btnDeleteM = document.getElementById("btn-delete-modal");
+
+function openModal(card) {
+  const color = card.dataset.color || "#00ffff";
+  currentDocId = card.dataset.id || null;
+  overlay.querySelector(".modal-content").style.setProperty("--modal-color", color);
+  titleEl.textContent = card.dataset.title || "";
+  roleEl.textContent = card.dataset.role || "";
+  descEl.innerHTML = card.dataset.desc || "";
+  modalityEl.textContent = card.dataset.modality || "Non définie";
+  refEl.textContent = card.dataset.ref || "Non définie";
+  specLabelEl.textContent = card.dataset.specLabel || "Voir la spécialisation";
+  specLink.href = card.dataset.specUrl || "#";
+  fallback.style.display = "none";
+  imgEl.style.display = "block";
+  imgEl.alt = card.dataset.title || "";
+  imgEl.src = card.dataset.img || "";
+  imgLabel.textContent = (card.dataset.title || "").replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "");
+
+  if (currentUserRole) adminActions.classList.add("visible");
+  else adminActions.classList.remove("visible");
+
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  overlay.classList.remove("active");
+  document.body.style.overflow = "";
+  currentDocId = null;
+}
+
+function bindCards() {
+  document.querySelectorAll(".escouade-card").forEach(card => card.addEventListener("click", () => openModal(card)));
+}
+
+overlay.querySelector(".close-modal").addEventListener("click", closeModal);
+overlay.addEventListener("click", e => { if (e.target === overlay) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+const adminForm = document.getElementById("admin-form");
+const editDocIdInp = document.getElementById("edit-doc-id");
+const submitBtn = document.getElementById("admin-submit-btn");
+const cancelEditBtn = document.getElementById("cancel-edit-btn");
+const adminNotice = document.getElementById("admin-notice");
+
+function getFormData() {
+  const imgMode = document.getElementById("a-img-mode").value;
+  const localImg = document.getElementById("a-img-local").value.trim();
+  const urlImg = document.getElementById("a-img-url").value.trim();
+
+  return {
+    title: document.getElementById("a-title").value.trim(),
+    role: document.getElementById("a-role").value.trim(),
+    desc: document.getElementById("a-desc").value.trim(),
+    imgPos: document.getElementById("a-img-pos").value.trim() || "center 35%",
+    img: imgMode === "url" ? urlImg : localImg,
+    color: document.getElementById("a-color").value,
+    specUrl: document.getElementById("a-spec-url").value.trim(),
+    specLabel: document.getElementById("a-spec-label").value.trim() || "Voir la spécialisation",
+    ref: document.getElementById("a-ref").value.trim(),
+    modality: document.getElementById("a-modality").value.trim(),
+    type: document.getElementById("a-type").value,
+    ordre: parseInt(document.getElementById("a-ordre").value || Date.now(), 10)
+  };
+}
+
+function fillForm(data, docId) {
+  editDocIdInp.value = docId;
+  document.getElementById("a-title").value = data.title || "";
+  document.getElementById("a-role").value = data.role || "";
+  document.getElementById("a-desc").value = data.desc || "";
+  document.getElementById("a-img-pos").value = data.imgPos || "center 35%";
+
+  const isUrl = (data.img || "").startsWith("http://") || (data.img || "").startsWith("https://");
+  document.getElementById("a-img-mode").value = isUrl ? "url" : "local";
+  document.getElementById("a-img-local").value = isUrl ? "" : (data.img || "");
+  document.getElementById("a-img-url").value = isUrl ? (data.img || "") : "";
+
+  document.getElementById("a-color").value = data.color || "#00ffff";
+  document.getElementById("a-spec-url").value = data.specUrl || "";
+  document.getElementById("a-spec-label").value = data.specLabel || "Voir la spécialisation";
+  document.getElementById("a-ref").value = data.ref || "";
+  document.getElementById("a-modality").value = data.modality || "";
+  document.getElementById("a-type").value = data.type || "gratuite";
+  document.getElementById("a-ordre").value = data.ordre || 1;
+  submitBtn.textContent = "Enregistrer les modifications";
+  cancelEditBtn.style.display = "block";
+  adminPanel.classList.add("open");
+  adminPanel.scrollTop = 0;
+}
+
+function resetForm() {
+  adminForm.reset();
+  document.getElementById("a-color").value = "#00ffff";
+  document.getElementById("a-img-pos").value = "center 35%";
+  document.getElementById("a-img-mode").value = "local";
+  document.getElementById("a-img-local").value = "";
+  document.getElementById("a-img-url").value = "";
+  editDocIdInp.value = "";
+  submitBtn.textContent = "Ajouter l'escouade";
+  cancelEditBtn.style.display = "none";
+  adminNotice.textContent = "";
+  adminNotice.className = "admin-notice";
+}
+
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  adminPanel.classList.toggle("open");
+});
+
+accountsBtn.addEventListener("click", async () => {
+  if (currentUserRole !== "superadmin") return;
+  accountsModal.classList.add("active");
+  setAccountsNotice("");
+  await loadAccounts();
+});
+
+closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
+
+addAccountForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentUserRole !== "superadmin") return;
+  const email = newAccountEmail.value.trim().toLowerCase();
+  if (!email) return;
+  try {
+    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
+    setAccountsNotice("Compte ajouté.", "admin-notice success");
+    newAccountEmail.value = "";
+    await loadAccounts();
+  } catch (err) {
+    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+  }
+});
+
+adminForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) {
+    adminNotice.textContent = "Non autorisé.";
+    adminNotice.className = "admin-notice error";
+    return;
   }
 
-  overlay.querySelector('.close-modal').addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-})();
+  const data = getFormData();
+  const docId = editDocIdInp.value;
+  try {
+    if (docId) {
+      await updateDoc(doc(db, "escouades", docId), data);
+      adminNotice.textContent = "Escouade mise à jour !";
+    } else {
+      await addDoc(collection(db, "escouades"), data);
+      adminNotice.textContent = "Escouade ajoutée !";
+    }
+    adminNotice.className = "admin-notice success";
+    resetForm();
+  } catch (err) {
+    adminNotice.textContent = "Erreur : " + err.message;
+    adminNotice.className = "admin-notice error";
+  }
+});
+
+cancelEditBtn.addEventListener("click", resetForm);
+
+btnEditM.addEventListener("click", async () => {
+  if (!currentDocId || !currentUserRole) return;
+  const snap = await getDoc(doc(db, "escouades", currentDocId));
+  if (snap.exists()) {
+    fillForm(snap.data(), currentDocId);
+    closeModal();
+  }
+});
+
+btnDeleteM.addEventListener("click", async () => {
+  if (!currentDocId || !currentUserRole) return;
+  if (!confirm(`Supprimer définitivement ${titleEl.textContent} ?`)) return;
+  try {
+    await deleteDoc(doc(db, "escouades", currentDocId));
+    closeModal();
+  } catch (err) {
+    alert("Erreur : " + err.message);
+  }
+});
 </script>
 </body>
 </html>
