@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effectif - 408th Corps Cosmique</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+            --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+            --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+            --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+            --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+            --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+            --radius-sm: 0.375rem; --radius-md: 0.5rem;
+            --radius-lg: 0.75rem; --radius-full: 9999px;
+            --transition-interactive: 180ms cubic-bezier(0.16,1,0.3,1);
+        }
+        [data-theme="dark"] {
+            --color-bg: #0d1117;
+            --color-surface: #161b22;
+            --color-surface-2: #1c2230;
+            --color-surface-offset: #1e2736;
+            --color-border: #30363d;
+            --color-divider: #21262d;
+            --color-text: #e6edf3;
+            --color-text-muted: #8b949e;
+            --color-text-faint: #484f58;
+            --color-primary: #58a6ff;
+            --color-primary-hover: #388bfd;
+            --color-primary-highlight: #1f3a5a;
+            --color-success: #3fb950;
+            --color-success-bg: #1a3a22;
+            --color-warning: #e3b341;
+            --color-warning-bg: #3a2e12;
+            --color-error: #f85149;
+            --color-error-bg: #3a1210;
+            --color-gold: #e3b341;
+            --color-purple: #bc8cff;
+            --color-teal: #39d2c0;
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        [data-theme="light"] {
+            --color-bg: #f6f8fa;
+            --color-surface: #ffffff;
+            --color-surface-2: #f0f3f6;
+            --color-surface-offset: #e8ecf0;
+            --color-border: #d0d7de;
+            --color-divider: #e8ecf0;
+            --color-text: #1f2328;
+            --color-text-muted: #636c76;
+            --color-text-faint: #9198a1;
+            --color-primary: #0969da;
+            --color-primary-hover: #0550ae;
+            --color-primary-highlight: #dbeafe;
+            --color-success: #1a7f37;
+            --color-success-bg: #dafbe1;
+            --color-warning: #9a6700;
+            --color-warning-bg: #fff8c5;
+            --color-error: #cf222e;
+            --color-error-bg: #ffebe9;
+            --color-gold: #9a6700;
+            --color-purple: #7c3aed;
+            --color-teal: #0f766e;
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body {
+            font-family: 'Satoshi', 'Segoe UI', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-size: var(--text-base);
+            min-height: 100dvh;
+        }
+        /* ─── Header ─────────────────────────────── */
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-4) var(--space-8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .header-logo svg { display: block; }
+        .header-title {
+            font-size: var(--text-lg);
+            font-weight: 700;
+            color: var(--color-text);
+            letter-spacing: 0.5px;
+        }
+        .header-subtitle {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        /* ─── Buttons ────────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all var(--transition-interactive);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary);
+        }
+        .btn-primary:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-primary) 30%, transparent); }
+        .btn-success {
+            background: var(--color-success);
+            color: #fff;
+            border-color: var(--color-success);
+        }
+        .btn-success:hover { opacity: 0.85; }
+        .btn-ghost {
+            background: transparent;
+            color: var(--color-text-muted);
+            border-color: var(--color-border);
+        }
+        .btn-ghost:hover { background: var(--color-surface-2); color: var(--color-text); }
+        .btn-warning {
+            background: var(--color-warning);
+            color: #000;
+            border-color: var(--color-warning);
+        }
+        .btn-warning:hover { opacity: 0.85; }
+        .btn-danger {
+            background: var(--color-error);
+            color: #fff;
+            border-color: var(--color-error);
+        }
+        .btn-danger:hover { opacity: 0.85; }
+        /* ─── Theme toggle ───────────────────────── */
+        .theme-toggle {
+            width: 36px; height: 36px;
+            border-radius: var(--radius-full);
+            background: var(--color-surface-offset);
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-text-muted);
+            transition: all var(--transition-interactive);
+        }
+        .theme-toggle:hover { background: var(--color-surface-2); color: var(--color-text); }
+        /* ─── Main layout ────────────────────────── */
+        .main { max-width: 1400px; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+        /* ─── Stats bar ─────────────────────────── */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        .stat-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-5);
+        }
+        .stat-label { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: var(--space-1); }
+        .stat-value { font-size: var(--text-xl); font-weight: 700; color: var(--color-text); }
+        .stat-value.success { color: var(--color-success); }
+        .stat-value.warning { color: var(--color-warning); }
+        .stat-value.primary { color: var(--color-primary); }
+        /* ─── Controls bar ───────────────────────── */
+        .controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .controls-left { display: flex; align-items: center; gap: var(--space-3); }
+        .controls-right { display: flex; align-items: center; gap: var(--space-3); }
+        /* ─── Category header ─────────────────────── */
+        .category-header {
+            background: linear-gradient(135deg, #3b1fa3, #7c3aed);
+            color: #fff;
+            padding: var(--space-3) var(--space-6);
+            font-size: var(--text-sm);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .category-header.officers { background: linear-gradient(135deg, #1a3a6b, #0969da); }
+        .category-header.sub-officers { background: linear-gradient(135deg, #3b1fa3, #7c3aed); }
+        .category-header.nco { background: linear-gradient(135deg, #1a4a2a, #1a7f37); }
+        .category-header.enlisted { background: linear-gradient(135deg, #4a1a1a, #cf222e); }
+        .category-count {
+            font-size: var(--text-xs);
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        /* ─── Table container ─────────────────────── */
+        .table-wrapper {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-md);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            background: var(--color-surface-2);
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            border-bottom: 1px solid var(--color-border);
+            white-space: nowrap;
+        }
+        thead th.center { text-align: center; }
+        tbody tr {
+            border-bottom: 1px solid var(--color-divider);
+            transition: background var(--transition-interactive);
+        }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: var(--color-surface-2); }
+        tbody td {
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-sm);
+            vertical-align: middle;
+        }
+        tbody td.center { text-align: center; }
+        /* ─── Badges ──────────────────────────────── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-eligible {
+            background: var(--color-success-bg);
+            color: var(--color-success);
+        }
+        .badge-not-eligible {
+            background: var(--color-error-bg);
+            color: var(--color-error);
+        }
+        .badge-grade {
+            background: var(--color-primary-highlight);
+            color: var(--color-primary);
+        }
+        .badge-statut-present {
+            background: var(--color-success-bg);
+            color: var(--color-success);
+        }
+        .badge-statut-absent {
+            background: var(--color-error-bg);
+            color: var(--color-error);
+        }
+        .badge-statut-conge {
+            background: var(--color-warning-bg);
+            color: var(--color-warning);
+        }
+        /* ─── Qualif chips ───────────────────────── */
+        .qualif-list { display: flex; gap: var(--space-1); flex-wrap: wrap; }
+        .qualif-chip {
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .qualif-laat { background: #ff6b35; color: #fff; }
+        .qualif-arc { background: #f59e0b; color: #000; }
+        .qualif-pa { background: #10b981; color: #fff; }
+        .qualif-mdc { background: #6366f1; color: #fff; }
+        .qualif-t51 { background: #ec4899; color: #fff; }
+        .qualif-barc { background: #0ea5e9; color: #fff; }
+        .qualif-at_pt { background: #8b5cf6; color: #fff; }
+        /* ─── Number inputs ──────────────────────── */
+        .num-input {
+            width: 70px;
+            background: var(--color-surface-offset);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: var(--space-1) var(--space-2);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+            font-family: inherit;
+            text-align: center;
+        }
+        .num-input:focus { outline: 2px solid var(--color-primary); border-color: var(--color-primary); }
+        /* ─── Select inputs ──────────────────────── */
+        .select-input {
+            background: var(--color-surface-offset);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: var(--space-1) var(--space-2);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+            font-family: inherit;
+            cursor: pointer;
+            min-width: 110px;
+        }
+        .select-input:focus { outline: 2px solid var(--color-primary); border-color: var(--color-primary); }
+        /* ─── Text input in table ────────────────── */
+        .text-input {
+            background: var(--color-surface-offset);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: var(--space-1) var(--space-2);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+            font-family: inherit;
+            width: 100%;
+            min-width: 100px;
+        }
+        .text-input:focus { outline: 2px solid var(--color-primary); border-color: var(--color-primary); }
+        /* ─── Row actions ────────────────────────── */
+        .row-actions { display: flex; gap: var(--space-1); justify-content: center; }
+        .icon-btn {
+            width: 28px; height: 28px;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-text-muted);
+            transition: all var(--transition-interactive);
+            font-size: 14px;
+        }
+        .icon-btn:hover.delete { background: var(--color-error-bg); color: var(--color-error); border-color: var(--color-error); }
+        /* ─── Edit mode indicator ────────────────── */
+        .edit-mode-banner {
+            display: none;
+            background: color-mix(in oklch, var(--color-warning) 15%, transparent);
+            border: 1px solid var(--color-warning);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-5);
+            font-size: var(--text-sm);
+            color: var(--color-warning);
+            margin-bottom: var(--space-4);
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .edit-mode-banner.visible { display: flex; }
+        /* ─── Empty state ────────────────────────── */
+        .empty-state {
+            padding: var(--space-12) var(--space-8);
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+        .empty-state p { margin-top: var(--space-2); font-size: var(--text-sm); }
+        /* ─── Toast ──────────────────────────────── */
+        .toast-container {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        .toast {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-5);
+            font-size: var(--text-sm);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 240px;
+            animation: slideIn 0.2s ease;
+        }
+        .toast.success { border-left: 3px solid var(--color-success); }
+        .toast.error { border-left: 3px solid var(--color-error); }
+        .toast.warning { border-left: 3px solid var(--color-warning); }
+        @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+        /* ─── Responsive ─────────────────────────── */
+        @media (max-width: 768px) {
+            .main { padding: var(--space-4) var(--space-3); }
+            .header { padding: var(--space-3) var(--space-4); }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            table { font-size: var(--text-xs); }
+            thead th, tbody td { padding: var(--space-2) var(--space-3); }
+        }
+        /* ─── Éligibilité rule hint ──────────────── */
+        .rules-panel {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+            display: none;
+        }
+        .rules-panel.visible { display: block; }
+        .rules-panel h3 { font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-4); color: var(--color-primary); }
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-3); }
+        .rule-item {
+            background: var(--color-surface-2);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .rule-arrow { color: var(--color-primary); font-weight: 700; white-space: nowrap; }
+        .rule-req { color: var(--color-text-muted); }
+        
+        /* ─── Drag & Drop & Add Button ──────────────────────── */
+        .drag-handle {
+            cursor: grab;
+            color: var(--color-text-faint);
+            font-size: 18px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        tbody tr.dragging {
+            opacity: 0.4;
+            background: var(--color-surface-offset);
+        }
+        .add-in-cat-btn {
+            width: 100%;
+            padding: var(--space-3);
+            text-align: center;
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-divider);
+            cursor: pointer;
+            color: var(--color-text-muted);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            transition: all var(--transition-interactive);
+        }
+        .add-in-cat-btn:hover {
+            background: var(--color-surface-2);
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-brand">
+        <div class="header-logo">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-label="408th Corps Cosmique">
+                <circle cx="20" cy="20" r="18" stroke="#58a6ff" stroke-width="1.5"/>
+                <circle cx="20" cy="20" r="10" stroke="#58a6ff" stroke-width="1"/>
+                <path d="M20 2 L22 10 L20 12 L18 10 Z" fill="#58a6ff"/>
+                <path d="M38 20 L30 22 L28 20 L30 18 Z" fill="#58a6ff"/>
+                <path d="M20 38 L18 30 L20 28 L22 30 Z" fill="#58a6ff"/>
+                <path d="M2 20 L10 18 L12 20 L10 22 Z" fill="#58a6ff"/>
+                <circle cx="20" cy="20" r="3" fill="#58a6ff"/>
+                <text x="11" y="23.5" font-family="Satoshi,sans-serif" font-size="7" font-weight="700" fill="#58a6ff">408</text>
+            </svg>
+        </div>
+        <div>
+            <div class="header-title">408th Corps Cosmique</div>
+            <div class="header-subtitle">Base de Données — Effectif</div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button class="btn btn-ghost" id="rulesBtn" title="Voir les règles d'éligibilité">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Règles
+        </button>
+        
+        <button class="btn btn-primary" id="loginBtn">🔒 Connexion EM</button>
+        <button class="btn btn-danger" id="logoutBtn" style="display: none;">Déconnexion</button>
+        <button class="btn btn-warning" id="editBtn" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Mode Édition
+        </button>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème" data-theme-toggle>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+    </div>
+</header>
+
+<main class="main">
+
+    <div class="rules-panel" id="rulesPanel">
+        <h3>⚖️ Règles de promotion (temps minimum + missions)</h3>
+        <div class="rules-grid" id="rulesGrid"></div>
+    </div>
+
+    <div class="edit-mode-banner" id="editBanner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <span>Mode Édition actif — modifiez l'effectif puis sauvegardez</span>
+        <div style="margin-left:auto;display:flex;gap:var(--space-2)">
+            <button class="btn btn-ghost" id="addAdminBtn" style="color:var(--color-warning); border-color:var(--color-warning);">👤 Ajouter un Admin</button>
+            <button class="btn btn-success" id="saveBtn">💾 Sauvegarder</button>
+        </div>
+    </div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="controls-bar">
+        <div class="controls-left">
+            <select class="select-input" id="filterCategory" style="min-width:160px">
+                <option value="">Toutes catégories</option>
+            </select>
+            <select class="select-input" id="filterStatut">
+                <option value="">Tous statuts</option>
+                <option value="Présent">Présent</option>
+                <option value="Absent">Absent</option>
+                <option value="Congé">Congé</option>
+            </select>
+            <select class="select-input" id="filterEligibility">
+                <option value="">Tous</option>
+                <option value="eligible">Éligibles</option>
+                <option value="not-eligible">Non éligibles</option>
+            </select>
+        </div>
+        <div class="controls-right">
+            <input type="text" class="select-input" id="searchInput" placeholder="🔍 Rechercher..." style="min-width:200px">
+        </div>
+    </div>
+
+    <div id="tablesContainer"></div>
+
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDz9EEC12FVt41K8pab4a2pAkEIBonF3Ac",
+    authDomain: "effectif-408th-corps-cosmique.firebaseapp.com",
+    databaseURL: "https://effectif-408th-corps-cosmique-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "effectif-408th-corps-cosmique",
+    storageBucket: "effectif-408th-corps-cosmique.firebasestorage.app",
+    messagingSenderId: "8876594930",
+    appId: "1:8876594930:web:7a0b66cdbe006316e7a26b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const rosterRef = ref(db, "effectif_408th");
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// Catégories et leurs grades (dans l'ordre hiérarchique)
+const CATEGORIES = [
+    {
+        id: "em",
+        name: "État-Major et autres",
+        style: "officers",
+        grades: ["Référent EM"]
+    },
+    {
+        id: "officiers",
+        name: "Officiers",
+        style: "officers",
+        grades: ["Commandant Maréchal", "Commandant", "Vice-Commandant", "Major", "Capitaine"]
+    },
+    {
+        id: "subofficiers",
+        name: "Officiers Subalternes",
+        style: "sub-officers",
+        grades: ["Capitaine-2nd", "Lieutenant", "2nd Lieutenant"]
+    },
+    {
+        id: "sousoff",
+        name: "Sous-Officiers",
+        style: "nco",
+        grades: ["Adjudant-Chef", "Adjudant", "Sergent-Chef", "Sergent"]
+    },
+    {
+        id: "troupe",
+        name: "Homme de rang",
+        style: "enlisted",
+        grades: ["Caporal-Chef", "Caporal", "Clone Trooper", "CT"]
+    }
+];
+
+// Règles d'éligibilité par grade EXACT (correspondance stricte)
+const PROMO_RULES = [
+    { from: "CT", to: "Caporal", jours: 4, missions: 2, commandements: 0 },
+    { from: "Clone Trooper", to: "Caporal", jours: 4, missions: 2, commandements: 0 },
+    { from: "Caporal", to: "Caporal-Chef", jours: 5, missions: 3, commandements: 0 },
+    { from: "Caporal-Chef", to: "Sergent", jours: 7, missions: 5, commandements: 0 },
+    { from: "Sergent", to: "Sergent-Chef", jours: 10, missions: 7, commandements: 0 },
+    { from: "Sergent-Chef", to: "Adjudant", jours: 13, missions: 8, commandements: 0 },
+    { from: "Adjudant", to: "Adjudant-Chef", jours: 15, missions: 9, commandements: 0 },
+    { from: "Adjudant-Chef", to: "2nd Lieutenant", jours: 17, missions: 11, commandements: 0 },
+    { from: "2nd Lieutenant", to: "Lieutenant", jours: 17, missions: 12, commandements: 0 },
+    { from: "Lieutenant", to: "Capitaine-2nd", jours: 20, missions: 16, commandements: 0 },
+    { from: "Capitaine-2nd", to: "Capitaine", jours: 20, missions: 0, commandements: 1.5 },
+    { from: "Capitaine", to: "Major", jours: 22, missions: 0, commandements: 3 },
+    { from: "Major", to: "Vice-Commandant", jours: 30, missions: 0, commandements: 5 },
+    { from: "Vice-Commandant", to: "Commandant", jours: 30, missions: 0, commandements: 8 }
+];
+
+const QUALIFS = ["LAAT-I/C", "ARC-170", "PA", "MDC", "T-51", "BARC", "AT-PT", "Y-Wing"];
+
+// ── État ─────────────────────────────────────────────────
+let isEditing = false;
+let allData = [];  
+let tempData = []; 
+
+// ── DOM refs ──────────────────────────────────────────────
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const addAdminBtn = document.getElementById("addAdminBtn");
+const editBanner = document.getElementById("editBanner");
+const tablesContainer = document.getElementById("tablesContainer");
+const statsBar = document.getElementById("statsBar");
+const searchInput = document.getElementById("searchInput");
+const filterCategory = document.getElementById("filterCategory");
+const filterStatut = document.getElementById("filterStatut");
+const filterEligibility = document.getElementById("filterEligibility");
+const rulesBtn = document.getElementById("rulesBtn");
+const rulesPanel = document.getElementById("rulesPanel");
+
+// ── Authentification & Sécurité ───────────────────────────
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-flex";
+        
+        // Vérification dans la base de données
+        const emailKey = user.email.replace(/\./g, ',');
+        get(child(ref(db), `admins/${emailKey}`)).then((snapshot) => {
+            if (snapshot.exists() && snapshot.val() === true) {
+                editBtn.style.display = "inline-flex"; 
+            } else {
+                editBtn.style.display = "none";
+                showToast("Connecté (Accès lecture seule)", "warning");
+            }
+        }).catch((error) => {
+            console.error("Erreur de vérification des droits :", error);
+        });
+    } else {
+        loginBtn.style.display = "inline-flex";
+        logoutBtn.style.display = "none";
+        editBtn.style.display = "none";
+        if (isEditing) disableEditMode();
+    }
+});
+
+loginBtn.addEventListener("click", () => {
+    signInWithPopup(auth, provider).catch(error => showToast("Erreur de connexion", "error"));
+});
+
+logoutBtn.addEventListener("click", () => {
+    signOut(auth).then(() => showToast("Déconnecté", "success"));
+});
+
+editBtn.addEventListener("click", () => {
+    if (!isEditing) {
+        activateEdit();
+    } else {
+        disableEditMode();
+    }
+});
+
+function activateEdit() {
+    isEditing = true;
+    tempData = JSON.parse(JSON.stringify(allData));
+    editBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Annuler`;
+    editBtn.className = "btn btn-danger";
+    editBanner.classList.add("visible");
+    renderAll();
+}
+
+function disableEditMode() {
+    isEditing = false;
+    tempData = [];
+    editBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Mode Édition`;
+    editBtn.className = "btn btn-warning"; // Garde le style warning pour indiquer l'accès admin
+    editBanner.classList.remove("visible");
+    renderAll();
+}
+
+// Ajouter un admin depuis l'interface
+addAdminBtn.addEventListener("click", () => {
+    const newEmail = prompt("Entrez l'adresse e-mail Google du nouvel officier :");
+    
+    if (newEmail && newEmail.trim() !== "") {
+        const emailKey = newEmail.trim().toLowerCase().replace(/\./g, ',');
+        
+        set(ref(db, `admins/${emailKey}`), true)
+            .then(() => {
+                showToast(`✅ Accès accordé à ${newEmail.trim()}`, "success");
+            })
+            .catch((error) => {
+                console.error(error);
+                showToast("❌ Erreur : vous n'avez pas les droits ou problème réseau.", "error");
+            });
+    }
+});
+
+// ── Calcul Automatique des Jours ─────────────────────────
+function calculerJours(datePromo) {
+    if (!datePromo) return 0;
+    const ancienne = new Date(datePromo);
+    const mtn = new Date();
+    const diff = Math.floor((mtn - ancienne) / (1000 * 60 * 60 * 24));
+    return diff > 0 ? diff : 0; 
+}
+
+// ── Règles panel ─────────────────────────────────────────
+function buildRules() {
+    const grid = document.getElementById("rulesGrid");
+    grid.innerHTML = PROMO_RULES.map(r => `
+        <div class="rule-item">
+            <span class="rule-arrow">${r.from} → ${r.to}</span>
+            <span class="rule-req">
+                ${r.jours}j min
+                ${r.missions > 0 ? "+ " + r.missions + " missions" : ""}
+                ${r.commandements > 0 ? "+ " + r.commandements + " cmd" : ""}
+            </span>
+        </div>
+    `).join("");
+}
+buildRules();
+
+rulesBtn.addEventListener("click", () => {
+    rulesPanel.classList.toggle("visible");
+    rulesBtn.textContent = rulesPanel.classList.contains("visible") ? "✕ Fermer" : "⚖️ Règles";
+});
+
+// ── Category filter ───────────────────────────────────────
+CATEGORIES.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat.id;
+    opt.textContent = cat.name;
+    filterCategory.appendChild(opt);
+});
+
+// ── Firebase Effectif (Lecture en temps réel) ──────────────
+onValue(rosterRef, (snapshot) => {
+    if (isEditing) return;
+    const raw = snapshot.val();
+    if (raw) {
+        allData = Array.isArray(raw) ? raw : Object.values(raw);
+    } else {
+        allData = [];
+    }
+    renderAll();
+});
+
+// ── Eligibilité ───────────────────────────────────────────
+function computeEligibility(soldier) {
+    const grade = (soldier.grade || "").trim();
+    const rule = PROMO_RULES.find(r => r.from === grade);
+    
+    if (!rule) return "na";
+
+    const jours = calculerJours(soldier.datePromo); 
+    const missions = parseFloat(soldier.missions) || 0;
+    const commandements = parseFloat(soldier.commandements) || 0;
+
+    const joursOk = jours >= rule.jours;
+    const missionOk = rule.missions === 0 || missions >= rule.missions;
+    const cmdOk = rule.commandements === 0 || commandements >= rule.commandements;
+
+    return (joursOk && missionOk && cmdOk) ? "eligible" : "not-eligible";
+}
+
+// ── Stats ─────────────────────────────────────────────────
+function renderStats(data) {
+    const total = data.length;
+    const presents = data.filter(s => s.statut === "Présent").length;
+    const eligible = data.filter(s => computeEligibility(s) === "eligible").length;
+    const officers = data.filter(s => {
+        const cat = getCategoryForGrade(s.grade);
+        return cat && (cat.id === "officiers" || cat.id === "em");
+    }).length;
+
+    statsBar.innerHTML = `
+        <div class="stat-card">
+            <div class="stat-label">Total effectif</div>
+            <div class="stat-value primary">${total}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Présents</div>
+            <div class="stat-value success">${presents}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Absents</div>
+            <div class="stat-value warning">${total - presents}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Éligibles</div>
+            <div class="stat-value success">${eligible}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Officiers</div>
+            <div class="stat-value primary">${officers}</div>
+        </div>
+    `;
+}
+
+// ── Category resolution ───────────────────────────────────
+function getCategoryForGrade(grade) {
+    if (!grade) return null;
+    const g = grade.toLowerCase();
+    for (const cat of CATEGORIES) {
+        if (cat.grades.some(cg => g === cg.toLowerCase())) {
+            return cat;
+        }
+    }
+    return null;
+}
+
+function getOrCreateCategory(soldier) {
+    const cat = getCategoryForGrade(soldier.grade);
+    return cat ? cat.id : "troupe";
+}
+
+// ── Render ────────────────────────────────────────────────
+function getFilteredData() {
+    let data = isEditing ? tempData : allData;
+    const search = searchInput.value.toLowerCase();
+    const catFilter = filterCategory.value;
+    const statutFilter = filterStatut.value;
+    const eligFilter = filterEligibility.value;
+
+    return data.filter(s => {
+        const matchSearch = !search || 
+            (s.grade||"").toLowerCase().includes(search) ||
+            (s.matricule||"").toLowerCase().includes(search) ||
+            (s.steamId||"").toLowerCase().includes(search);
+        const matchStatut = !statutFilter || s.statut === statutFilter;
+        const matchElig = !eligFilter || computeEligibility(s) === eligFilter;
+        const matchCat = !catFilter || getOrCreateCategory(s) === catFilter;
+        return matchSearch && matchStatut && matchElig && matchCat;
+    });
+}
+
+function renderAll() {
+    const filtered = getFilteredData();
+    renderStats(filtered);
+
+    const groups = {};
+    CATEGORIES.forEach(cat => { groups[cat.id] = []; });
+
+    filtered.forEach(soldier => {
+        const catId = getOrCreateCategory(soldier);
+        if (!groups[catId]) groups[catId] = [];
+        groups[catId].push(soldier);
+    });
+
+    tablesContainer.innerHTML = "";
+
+    CATEGORIES.forEach(cat => {
+        const soldiers = groups[cat.id];
+        if (soldiers.length === 0 && !isEditing) return;
+
+        const section = document.createElement("div");
+        section.className = "table-wrapper";
+        section.dataset.catId = cat.id;
+
+        section.innerHTML = `
+            <div class="category-header ${cat.style}">
+                <span>${cat.name}</span>
+                <span class="category-count">${soldiers.length} membre${soldiers.length > 1 ? "s" : ""}</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:180px">Grade</th>
+                        <th>Matricule</th>
+                        <th>Steam ID</th>
+                        <th class="center">Statut</th>
+                        <th class="center" style="width:130px">Jours (Date Promo)</th>
+                        <th class="center">Missions</th>
+                        <th class="center">Cmd.</th>
+                        <th class="center">Éligibilité</th>
+                        <th>Qualifications</th>
+                        ${isEditing ? '<th class="center">Actions</th>' : ""}
+                    </tr>
+                </thead>
+                <tbody id="tbody-${cat.id}"></tbody>
+            </table>
+            ${soldiers.length === 0 && !isEditing ? `<div class="empty-state"><p>Aucun membre dans cette catégorie.</p></div>` : ""}
+            ${isEditing ? `<div class="add-in-cat-btn" data-cat="${cat.id}">+ Ajouter dans ${cat.name}</div>` : ""}
+        `;
+        tablesContainer.appendChild(section);
+
+        const tbody = section.querySelector(`#tbody-${cat.id}`);
+        soldiers.forEach((soldier) => {
+            const globalIdx = (isEditing ? tempData : allData).indexOf(soldier);
+            renderRow(tbody, soldier, globalIdx, cat);
+        });
+
+        if (isEditing) {
+            const addBtn = section.querySelector('.add-in-cat-btn');
+            addBtn.addEventListener('click', () => {
+                const defaultGrade = cat.grades[cat.grades.length - 1];
+                tempData.push({
+                    grade: defaultGrade,
+                    matricule: "",
+                    steamId: "",
+                    statut: "Présent",
+                    datePromo: "", 
+                    missions: 0,
+                    commandements: 0,
+                    qualifs: []
+                });
+                renderAll();
+                const currentSection = document.querySelector(`[data-cat-id="${cat.id}"]`);
+                if (currentSection) {
+                    const newInputs = currentSection.querySelectorAll(`[data-field="matricule"]`);
+                    if (newInputs.length > 0) {
+                        newInputs[newInputs.length - 1].focus();
+                    }
+                }
+            });
+        }
+    });
+}
+
+function renderRow(tbody, soldier, idx, cat) {
+    const elig = computeEligibility(soldier);
+    const tr = document.createElement("tr");
+
+    const qualifHtml = (soldier.qualifs || []).map(q => {
+        const key = q.replace(/[^a-z0-9]/gi, "").toLowerCase();
+        return `<span class="qualif-chip qualif-${key}">${q}</span>`;
+    }).join("") || "";
+
+    if (isEditing) {
+        // ── Mode édition & Drag'n'Drop ───────────────────
+        tr.draggable = true;
+        
+        tr.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", idx);
+            e.dataTransfer.effectAllowed = "move";
+            setTimeout(() => tr.classList.add("dragging"), 0);
+        });
+        
+        tr.addEventListener("dragend", () => {
+            tr.classList.remove("dragging");
+        });
+        
+        tr.addEventListener("dragover", (e) => {
+            e.preventDefault(); 
+            tr.style.borderTop = "2px solid var(--color-primary)";
+        });
+        
+        tr.addEventListener("dragleave", () => {
+            tr.style.borderTop = "";
+        });
+        
+        tr.addEventListener("drop", (e) => {
+            e.preventDefault();
+            tr.style.borderTop = "";
+            const draggedIdx = parseInt(e.dataTransfer.getData("text/plain"));
+            
+            if (!isNaN(draggedIdx) && draggedIdx !== idx) {
+                const [movedItem] = tempData.splice(draggedIdx, 1);
+                tempData.splice(idx, 0, movedItem);
+                renderAll(); 
+            }
+        });
+
+        const gradeOptions = CATEGORIES.flatMap(c => c.grades)
+            .map(g => `<option value="${g}" ${g === soldier.grade ? "selected" : ""}>${g}</option>`)
+            .join("");
+
+        const qualifChecks = QUALIFS.map(q => {
+            const checked = (soldier.qualifs||[]).includes(q) ? "checked" : "";
+            return `<label style="font-size:11px;white-space:nowrap;cursor:pointer">
+                <input type="checkbox" value="${q}" ${checked} data-qualif="${idx}"> ${q}
+            </label>`;
+        }).join(" ");
+
+        tr.innerHTML = `
+            <td style="display: flex; gap: 8px; align-items: center; border-bottom: none;">
+                <span class="drag-handle" title="Glisser pour réorganiser">≡</span>
+                <select class="select-input" data-field="grade" data-idx="${idx}" style="min-width:130px; flex: 1;">
+                    ${gradeOptions}
+                </select>
+            </td>
+            <td><input class="text-input" type="text" data-field="matricule" data-idx="${idx}" value="${soldier.matricule || ""}"></td>
+            <td><input class="text-input" type="text" data-field="steamId" data-idx="${idx}" value="${soldier.steamId || ""}" style="min-width:140px"></td>
+            <td class="center">
+                <select class="select-input" data-field="statut" data-idx="${idx}" style="min-width:90px">
+                    <option ${soldier.statut==="Présent"?"selected":""}>Présent</option>
+                    <option ${soldier.statut==="Absent"?"selected":""}>Absent</option>
+                    <option ${soldier.statut==="Congé"?"selected":""}>Congé</option>
+                </select>
+            </td>
+            <td class="center"><input class="text-input" type="date" data-field="datePromo" data-idx="${idx}" value="${soldier.datePromo || ""}" style="width:120px; text-align:center;"></td>
+            <td class="center"><input class="num-input" type="number" min="0" step="0.5" data-field="missions" data-idx="${idx}" value="${soldier.missions || 0}"></td>
+            <td class="center"><input class="num-input" type="number" min="0" step="0.5" data-field="commandements" data-idx="${idx}" value="${soldier.commandements || 0}"></td>
+            <td class="center">
+                <span class="badge ${elig === "eligible" ? "badge-eligible" : elig === "na" ? "" : "badge-not-eligible"}">
+                    ${elig === "eligible" ? "✓ Éligible" : elig === "na" ? "—" : "✗ Non éligible"}
+                </span>
+            </td>
+            <td>
+                <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+                    ${qualifChecks}
+                </div>
+            </td>
+            <td class="center">
+                <div class="row-actions">
+                    <button class="icon-btn delete" data-delete="${idx}" title="Supprimer">🗑</button>
+                </div>
+            </td>
+        `;
+
+        tr.querySelectorAll("[data-field]").forEach(input => {
+            input.addEventListener("change", (e) => {
+                const field = e.target.dataset.field;
+                const i = parseInt(e.target.dataset.idx);
+                tempData[i][field] = e.target.value;
+                
+                if (field === "grade") {
+                    renderAll();
+                    return;
+                }
+
+                const newElig = computeEligibility(tempData[i]);
+                const badge = tr.querySelector(".badge");
+                if (badge && field !== "grade") {
+                    badge.className = `badge ${newElig === "eligible" ? "badge-eligible" : newElig === "na" ? "" : "badge-not-eligible"}`;
+                    badge.textContent = newElig === "eligible" ? "✓ Éligible" : newElig === "na" ? "—" : "✗ Non éligible";
+                }
+            });
+        });
+
+        tr.querySelectorAll("[data-qualif]").forEach(cb => {
+            cb.addEventListener("change", () => {
+                const i = parseInt(cb.dataset.qualif);
+                const allCbs = tr.querySelectorAll("[data-qualif]");
+                tempData[i].qualifs = Array.from(allCbs)
+                    .filter(c => c.checked)
+                    .map(c => c.value);
+            });
+        });
+
+        tr.querySelectorAll("[data-delete]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const i = parseInt(btn.dataset.delete);
+                tempData.splice(i, 1);
+                renderAll();
+            });
+        });
+
+    } else {
+        // ── Mode lecture ──────────────────────────────────
+        const statutClass = (soldier.statut || "").toLowerCase() === "présent" ? "badge-statut-present" :
+                            (soldier.statut || "").toLowerCase() === "absent" ? "badge-statut-absent" : "badge-statut-conge";
+
+        tr.innerHTML = `
+            <td><span class="badge badge-grade">${soldier.grade || "—"}</span></td>
+            <td><strong>${soldier.matricule || "—"}</strong></td>
+            <td style="font-size:var(--text-xs);color:var(--color-text-muted)">${soldier.steamId || "—"}</td>
+            <td class="center"><span class="badge ${statutClass}">${soldier.statut || "—"}</span></td>
+            <td class="center" style="font-variant-numeric:tabular-nums">${calculerJours(soldier.datePromo)}</td>
+            <td class="center" style="font-variant-numeric:tabular-nums">${soldier.missions ?? "—"}</td>
+            <td class="center" style="font-variant-numeric:tabular-nums">${soldier.commandements ?? "—"}</td>
+            <td class="center">
+                <span class="badge ${elig === "eligible" ? "badge-eligible" : elig === "na" ? "" : "badge-not-eligible"}">
+                    ${elig === "eligible" ? "✓ Éligible" : elig === "na" ? "—" : "✗ Non éligible"}
+                </span>
+            </td>
+            <td><div class="qualif-list">${qualifHtml}</div></td>
+        `;
+    }
+
+    tbody.appendChild(tr);
+}
+
+// ── Filters ───────────────────────────────────────────────
+[searchInput, filterCategory, filterStatut, filterEligibility].forEach(el => {
+    el.addEventListener("input", () => renderAll());
+    el.addEventListener("change", () => renderAll());
+});
+
+// ── Save ──────────────────────────────────────────────────
+saveBtn.addEventListener("click", () => {
+    const toSave = tempData.filter(s =>
+        s.grade || s.matricule || s.steamId
+    );
+    set(rosterRef, toSave)
+        .then(() => {
+            allData = JSON.parse(JSON.stringify(toSave));
+            disableEditMode();
+            showToast("✅ Données sauvegardées avec succès !", "success");
+        })
+        .catch((err) => {
+            showToast("❌ Erreur lors de la sauvegarde.", "error");
+            console.error(err);
+        });
+});
+
+// ── Toast ─────────────────────────────────────────────────
+function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.getElementById("toastContainer").appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+// ── Theme toggle ──────────────────────────────────────────
+const themeToggle = document.getElementById("themeToggle");
+const html = document.documentElement;
+let currentTheme = "dark";
+themeToggle.addEventListener("click", () => {
+    currentTheme = currentTheme === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", currentTheme);
+    themeToggle.innerHTML = currentTheme === "dark"
+        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
+});
+</script>
+</body>
+</html>
