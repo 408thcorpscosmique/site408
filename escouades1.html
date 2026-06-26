@@ -331,7 +331,17 @@
     <input type="text" id="a-role" placeholder="Vétérans affiliés à l'Ordre Jedi" required>
     <label>Description (HTML autorisé)</label>
     <textarea id="a-desc" placeholder="Description complète"></textarea>
-    <label>Image fichier ou URL</label>
+    <label>Source de l'image</label>
+    <select id="a-img-mode">
+      <option value="local">Fichier local</option>
+      <option value="url">Lien Imgur / URL</option>
+    </select>
+
+    <label>Nom du fichier local</label>
+    <input type="text" id="a-img-local" placeholder="cendres.png">
+
+    <label>Lien Imgur / URL</label>
+    <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
     <input type="text" id="a-img" placeholder="cendres.png">
     <label>Couleur principale</label>
     <input type="color" id="a-color" value="#00ffff">
@@ -666,11 +676,15 @@ const cancelEditBtn = document.getElementById("cancel-edit-btn");
 const adminNotice = document.getElementById("admin-notice");
 
 function getFormData() {
+  const imgMode = document.getElementById("a-img-mode").value;
+  const localImg = document.getElementById("a-img-local").value.trim();
+  const urlImg = document.getElementById("a-img-url").value.trim();
+
   return {
     title: document.getElementById("a-title").value.trim(),
     role: document.getElementById("a-role").value.trim(),
     desc: document.getElementById("a-desc").value.trim(),
-    img: document.getElementById("a-img").value.trim(),
+    img: imgMode === "url" ? urlImg : localImg,
     color: document.getElementById("a-color").value,
     specUrl: document.getElementById("a-spec-url").value.trim(),
     specLabel: document.getElementById("a-spec-label").value.trim() || "Voir la spécialisation",
@@ -686,7 +700,12 @@ function fillForm(data, docId) {
   document.getElementById("a-title").value = data.title || "";
   document.getElementById("a-role").value = data.role || "";
   document.getElementById("a-desc").value = data.desc || "";
-  document.getElementById("a-img").value = data.img || "";
+
+  const isUrl = (data.img || "").startsWith("http://") || (data.img || "").startsWith("https://");
+  document.getElementById("a-img-mode").value = isUrl ? "url" : "local";
+  document.getElementById("a-img-local").value = isUrl ? "" : (data.img || "");
+  document.getElementById("a-img-url").value = isUrl ? (data.img || "") : "";
+
   document.getElementById("a-color").value = data.color || "#00ffff";
   document.getElementById("a-spec-url").value = data.specUrl || "";
   document.getElementById("a-spec-label").value = data.specLabel || "Voir la spécialisation";
@@ -703,6 +722,9 @@ function fillForm(data, docId) {
 function resetForm() {
   adminForm.reset();
   document.getElementById("a-color").value = "#00ffff";
+  document.getElementById("a-img-mode").value = "local";
+  document.getElementById("a-img-local").value = "";
+  document.getElementById("a-img-url").value = "";
   editDocIdInp.value = "";
   submitBtn.textContent = "Ajouter l'escouade";
   cancelEditBtn.style.display = "none";
