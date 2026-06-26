@@ -748,21 +748,35 @@ function disableEditMode() {
 }
 
 addAdminBtn.addEventListener("click", () => {
-    if (currentUserRole !== 'superadmin') {
-        showToast("❌ Seul un Superadmin peut ajouter des accès.", "error");
+    // 1. Vérification : l'utilisateur doit au moins être 'admin'
+    if (currentUserRole !== 'admin' && currentUserRole !== 'superadmin') {
+        showToast("❌ Droits insuffisants.", "error");
         return;
     }
+
     const email = prompt("E-mail du nouvel utilisateur :");
     if (!email) return;
-    const role = prompt("Rôle ? (admin ou superadmin)").toLowerCase();
-    if (role === 'admin' || role === 'superadmin') {
+
+    // 2. Définition des choix possibles selon le rôle de l'utilisateur
+    let role;
+    if (currentUserRole === 'superadmin') {
+        role = prompt("Rôle à attribuer ? (admin ou superadmin)").toLowerCase();
+    } else {
+        // Un simple admin ne peut créer que des admins
+        role = 'admin';
+        alert("Vous allez ajouter un nouvel administrateur.");
+    }
+
+    // 3. Validation de l'action
+    if (role === 'admin' || (currentUserRole === 'superadmin' && role === 'superadmin')) {
         const emailKey = email.trim().toLowerCase().replace(/\./g, ',');
         set(ref(db, `admins/${emailKey}`), { role })
             .then(() => showToast(`✅ ${email} ajouté en tant que ${role}`, "success"))
-            .catch(() => showToast("❌ Erreur : droits insuffisants.", "error"));
+            .catch(() => showToast("❌ Erreur lors de l'enregistrement.", "error"));
     } else {
-        showToast("❌ Rôle invalide. Choisissez 'admin' ou 'superadmin'.", "error");
+        showToast("❌ Droits insuffisants pour créer un superadmin.", "error");
     }
+});
 });
 
 // ── Calcul jours depuis date promo ────────────────────────
