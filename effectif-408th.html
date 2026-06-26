@@ -563,6 +563,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-check.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDz9EEC12FVt41K8pab4a2pAkEIBonF3Ac",
@@ -575,9 +576,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+// 2. INITIALISATION DE LA SÉCURITÉ (C'est ce qui manquait)
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LdNzDYtAAAAAK2pbz5WTRbRRYj0MsOAQ29F8ksN'),
+  isTokenAutoRefreshEnabled: true
+});
+
 const db = getDatabase(app);
 const rosterRef = ref(db, "effectif_408th");
-
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
