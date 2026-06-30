@@ -140,6 +140,23 @@
     .spec-subtitle-input:disabled { pointer-events: none; }
 
     .spec-meta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-top: 0.6rem; }
+
+    .spec-image-display {
+      display: block; max-width: 100%; margin-top: 1rem;
+      border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .spec-image-edit { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .spec-image-label { font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+    .spec-image-input {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.4rem 0.6rem;
+      font-size: 0.8rem; font-family: inherit; width: 100%; box-sizing: border-box;
+    }
+    .spec-image-input:focus { outline: none; border-color: #7B00FF; }
+    .spec-image-preview {
+      display: block; max-width: 100%; max-height: 160px; margin-top: 0.6rem;
+      border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
+    }
     .spec-meta-field { display: flex; flex-direction: column; gap: 0.2rem; }
     .spec-meta-field label { font-size: 0.62rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
     .spec-meta-input {
@@ -583,6 +600,7 @@ function defaultSpec(ordre) {
     number: "00",
     ordre: ordre,
     note: "",
+    image: "",
     blocks: [
       { label: "Prérequis", text: "", type: "text" },
       { label: "Avantages", text: "", type: "text" }
@@ -630,6 +648,7 @@ function normalizeSpecDoc(id, data) {
     number: data.number || "00",
     ordre: typeof data.ordre === "number" ? data.ordre : 0,
     note: data.note || "",
+    image: data.image || "",
     blocks,
     type: data.type || "spec"
   };
@@ -643,6 +662,7 @@ function specToPayload(spec) {
     number: spec.number || "00",
     ordre: typeof spec.ordre === "number" ? spec.ordre : parseInt(spec.ordre, 10) || 0,
     note: spec.note || "",
+    image: spec.image || "",
     type: "spec",
     cols: ""
   };
@@ -722,6 +742,19 @@ function renderSpecs() {
     html += `<div style="flex:1; min-width:0;">`;
     html += `<input type="text" class="spec-title-input" data-role="spec-title" data-spec="${si}" style="color:${color};" value="${escapeHtml(spec.title)}" ${isEditing ? '' : 'disabled'}>`;
     html += `<input type="text" class="spec-subtitle-input" data-role="spec-subtitle" data-spec="${si}" value="${escapeHtml(spec.subtitle)}" placeholder="Sous-titre" ${isEditing ? '' : 'disabled'}>`;
+
+    if (isEditing) {
+      html += `<div class="spec-image-edit">
+        <label class="spec-image-label">Image (lien direct Imgur)</label>
+        <input type="text" class="spec-image-input" data-role="spec-image" data-spec="${si}" value="${escapeHtml(spec.image)}" placeholder="https://i.imgur.com/exemple.png">
+        <p class="spec-block-hint">Sur Imgur : clic droit sur l'image &rarr; "Copier l'adresse de l'image" (le lien doit commencer par i.imgur.com).</p>
+      </div>`;
+      if (spec.image) {
+        html += `<img class="spec-image-preview" src="${escapeHtml(spec.image)}" alt="" onerror="this.style.display='none'">`;
+      }
+    } else if (spec.image) {
+      html += `<img class="spec-image-display" src="${escapeHtml(spec.image)}" alt="${escapeHtml(spec.title)}" loading="lazy" onerror="this.style.display='none'">`;
+    }
 
     if (isEditing) {
       html += `<div class="spec-meta-row">
@@ -814,6 +847,12 @@ function attachListeners() {
     inp.addEventListener("input", () => {
       draftSpecs[parseInt(inp.dataset.spec, 10)].subtitle = inp.value;
     });
+  });
+  specsContent.querySelectorAll('[data-role="spec-image"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].image = inp.value.trim();
+    });
+    inp.addEventListener("change", () => renderSpecs());
   });
   specsContent.querySelectorAll('[data-role="spec-color"]').forEach(inp => {
     inp.addEventListener("input", () => {
