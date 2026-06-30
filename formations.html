@@ -12,6 +12,7 @@
   <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
   <meta name="theme-color" content="#7B00FF">
   <style>
+    /* ── Auth bar ── */
     #auth-bar {
       display: flex; align-items: center; gap: 0.6rem;
       padding: 0.5rem 1rem 0.5rem 1.2rem;
@@ -19,8 +20,7 @@
       border-bottom: 1px solid rgba(123,0,255,0.25);
       justify-content: flex-end;
       backdrop-filter: blur(6px);
-      position: relative;
-      z-index: 50;
+      position: relative; z-index: 50;
     }
     .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
     .auth-user-wrap.visible { display: flex; }
@@ -52,7 +52,8 @@
     .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
     .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
 
-    #admin-toggle-btn, #accounts-btn, #site-texts-btn {
+    /* ── Admin & Accounts buttons ── */
+    #admin-toggle-btn, #accounts-btn {
       position: fixed; right: 1.5rem; z-index: 999;
       background: rgba(10,20,40,0.95); border-radius: 6px;
       font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
@@ -63,25 +64,29 @@
     }
     #admin-toggle-btn { bottom: 1.5rem; }
     #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
-    #site-texts-btn { bottom: 9.7rem; border-color: #ffb800; box-shadow: 0 0 18px rgba(255,184,0,0.18); }
-    #admin-toggle-btn.visible, #accounts-btn.visible, #site-texts-btn.visible { display: flex; }
+    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
     #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
     #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
-    #site-texts-btn:hover { background: rgba(255,184,0,0.15); color: #fff; }
 
+    /* ── Admin panel ── */
     #admin-panel {
       display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
       background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
       border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
-      width: 440px; max-height: 80vh; overflow-y: auto;
+      width: 400px; max-height: 80vh; overflow-y: auto;
       box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
     }
     #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
     @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-    #admin-panel h3, #site-texts-panel h3 {
+    #admin-panel h3 {
       color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
       font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
       border-bottom: 1px solid rgba(123,0,255,0.3);
+    }
+    #admin-panel h4 {
+      color: #aaa; text-transform: uppercase; letter-spacing: 1.5px;
+      font-size: 0.75rem; margin: 1rem 0 0.5rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
     .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
     .admin-form label {
@@ -105,10 +110,65 @@
     .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
     .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
     .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-btn.secondary { border-color: #00ff88; background: rgba(0,255,136,0.08); color: #00ff88; }
+    .admin-btn.secondary:hover { background: rgba(0,255,136,0.2); color: #fff; }
     .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
     .admin-notice.success { color: #00ff88; }
     .admin-notice.error { color: #e74c3c; }
 
+    /* ── Items builder ── */
+    #items-builder { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.3rem; }
+    .item-row {
+      display: flex; gap: 0.4rem; align-items: flex-start;
+    }
+    .item-row textarea {
+      flex: 1; min-height: 48px; resize: vertical;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px; color: #c8cdd6; padding: 0.4rem 0.6rem;
+      font-size: 0.8rem; font-family: inherit; box-sizing: border-box;
+    }
+    .item-row textarea:focus { outline: none; border-color: #7B00FF; }
+    .item-row .item-controls { display: flex; flex-direction: column; gap: 0.2rem; }
+    .item-row button {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px; color: #888; font-size: 0.75rem; cursor: pointer;
+      padding: 0.2rem 0.5rem; transition: all 0.15s; white-space: nowrap;
+    }
+    .item-row button:hover { background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c; }
+    .item-row button.move-btn:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #a080ff; }
+    #add-item-btn {
+      background: rgba(0,255,136,0.07); border: 1px dashed rgba(0,255,136,0.3);
+      border-radius: 4px; color: #00ff88; font-size: 0.75rem; cursor: pointer;
+      padding: 0.5rem; text-align: center; transition: all 0.2s; width: 100%;
+    }
+    #add-item-btn:hover { background: rgba(0,255,136,0.15); }
+
+    /* ── Section tabs ── */
+    #section-list {
+      display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem;
+    }
+    .section-tab {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0.75rem; border-radius: 4px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .section-tab:hover { border-color: rgba(123,0,255,0.4); background: rgba(123,0,255,0.08); }
+    .section-tab.active-tab { border-color: #7B00FF; background: rgba(123,0,255,0.15); }
+    .section-tab-left { display: flex; flex-direction: column; gap: 0.1rem; }
+    .section-tab-num { font-size: 0.65rem; color: #7B00FF; letter-spacing: 1px; font-weight: 700; }
+    .section-tab-title { font-size: 0.82rem; color: #c8cdd6; }
+    .section-tab-actions { display: flex; gap: 0.3rem; }
+    .section-tab-actions button {
+      background: none; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px; color: #777; font-size: 0.7rem; cursor: pointer;
+      padding: 0.15rem 0.45rem; transition: all 0.15s;
+    }
+    .section-tab-actions button:hover { color: #fff; }
+    .section-tab-actions .del-section:hover { border-color: #e74c3c; background: rgba(231,76,60,0.15); color: #e74c3c; }
+    .section-tab-actions .edit-section:hover { border-color: #7B00FF; background: rgba(123,0,255,0.15); color: #a080ff; }
+
+    /* ── Accounts modal ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
       backdrop-filter: blur(6px); z-index: 1000; align-items: center;
@@ -117,10 +177,12 @@
     .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
     @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
     .modal-content {
-      position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-      border: 1px solid #7B00FF; border-radius: 6px; padding: 2rem; max-width: 760px; width: 100%;
-      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF;
       box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px rgba(123,0,255,0.2);
+      border-radius: 6px; padding: 2rem; max-width: 760px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
     }
     .close-modal {
       position: absolute; top: 1rem; right: 1rem; background: none;
@@ -133,30 +195,21 @@
     .modal-title { color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.2rem; margin: 0 0 0.3rem; }
     .modal-role { color: #7B00FF; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; margin: 0 0 1.2rem; }
 
-    .content { padding: 2rem 0 4rem; }
-    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-    .section-number { font-size: 3rem; font-weight: 900; color: rgba(123,0,255,0.18); line-height: 1; font-family: monospace; }
-    .section-title { margin: 0; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.4rem; }
-    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(123,0,255,0.6), transparent); }
-
-    .formations-wrap .holo-card {
-      background: rgba(20, 10, 40, 0.55);
-      border: 1px solid rgba(123, 0, 255, 0.4);
-      border-radius: 8px;
-      padding: 1.5rem;
-      position: relative;
-    }
+    /* ── Formations content ── */
     .formations-wrap {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 1.25rem;
+      padding: 2rem 1.25rem 0;
       color: #d1d5db;
       line-height: 1.7;
     }
-    .formations-reminder.holo-card {
+
+    .formations-reminder {
       margin-bottom: 2rem;
       background: rgba(0, 255, 255, 0.05);
-      border-color: rgba(0, 255, 255, 0.5);
+      border: 1px solid rgba(0, 255, 255, 0.5);
+      border-radius: 8px;
+      padding: 1.5rem;
     }
     .formations-reminder p {
       color: #00ffff;
@@ -167,93 +220,103 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .formation-block.holo-card {
-      margin-bottom: 2rem;
+
+    .form-section {
+      margin-bottom: 2rem; padding: 1.5rem;
+      background: rgba(20, 10, 40, 0.55);
+      border: 1px solid rgba(123,0,255,0.4);
+      border-radius: 8px;
+      transition: border-color 0.2s;
     }
-    .formation-block h4 {
-      color: #ff2ea6;
+    .form-section:hover { border-color: rgba(123,0,255,0.6); }
+
+    .form-section-header {
+      display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1rem;
       border-bottom: 1px solid rgba(0, 255, 255, 0.3);
       padding-bottom: 0.5rem;
-      margin-top: 0;
+    }
+    .form-number {
+      font-size: 2.2rem; font-weight: 900; color: rgba(123,0,255,0.25);
+      line-height: 1; flex-shrink: 0;
+      font-family: monospace;
+    }
+    .form-title {
+      font-size: 1.05rem; color: #ff2ea6;
+      margin: 0; font-weight: 600;
+    }
+
+    .form-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-list li {
+      padding: 0.6rem 0.9rem;
+      background: rgba(255,255,255,0.025);
+      border-left: 3px solid rgba(123,0,255,0.4);
+      border-radius: 0 4px 4px 0;
+      color: #d1d5db; line-height: 1.6; font-size: 0.95rem;
+    }
+    .form-list li strong { color: #fff; }
+
+    /* Table type */
+    .form-table-wrap { overflow-x: auto; margin-top: 0.5rem; }
+    .form-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .form-table th {
+      background: rgba(123,0,255,0.15); color: #a080ff;
+      padding: 0.6rem 1rem; text-align: left;
+      text-transform: uppercase; letter-spacing: 1px; font-size: 0.78rem;
+      border-bottom: 1px solid rgba(123,0,255,0.3);
+    }
+    .form-table td {
+      padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #c8cdd6;
+    }
+    .form-table tr:last-child td { border-bottom: none; }
+    .form-table tr:hover td { background: rgba(123,0,255,0.06); }
+
+    /* Note type */
+    .form-note {
+      background: rgba(255,200,0,0.06); border: 1px solid rgba(255,200,0,0.15);
+      border-radius: 6px; padding: 0.85rem 1.1rem;
+      color: #c8a840; font-size: 0.88rem; line-height: 1.6;
       margin-bottom: 1rem;
-      text-transform: none;
-      letter-spacing: normal;
-      font-size: 1.05rem;
-      font-weight: 600;
     }
-    .formation-block .formations-note {
-      color: #d1d5db;
-      margin: 0 0 1rem;
-      font-size: 0.98rem;
+
+    /* Subtitle inside section */
+    .form-subtitle {
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px;
+      color: #00ffff; margin: 0.8rem 0 0.6rem; font-weight: 700;
     }
-    .formation-block ul {
-      color: #d1d5db;
-      line-height: 1.6;
-      padding-left: 1.5rem;
-      margin: 0 0 1.5rem;
+
+    .form-loading {
+      text-align: center; padding: 4rem 1rem; color: #555;
+      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
     }
-    .formation-block ul:last-child {
-      margin-bottom: 0;
+    .form-loading::after {
+      content: ''; display: block; width: 32px; height: 32px; margin: 1rem auto 0;
+      border: 2px solid rgba(123,0,255,0.2); border-top-color: #7B00FF;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
     }
-    .formation-block li {
-      margin-bottom: 0.5rem;
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Admin inline edit overlay on sections */
+    .form-section-admin-bar {
+      display: none; justify-content: flex-end; gap: 0.5rem;
+      margin-top: 1rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
-    .formation-block li strong {
-      color: #fff;
+    .form-section-admin-bar.visible { display: flex; }
+    .form-section-admin-bar button {
+      padding: 0.35rem 0.85rem; border-radius: 4px; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s;
     }
-    .formations-extra {
-      margin-top: 0.4rem;
-      margin-bottom: 1.2rem;
-      color: #9ca3af;
-      font-size: 0.95em;
-      font-style: italic;
-    }
-    .formation-link-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: rgba(0, 255, 255, 0.1);
-      border: 1px solid #00ffff;
-      color: #00ffff;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: bold;
-      text-transform: uppercase;
-      transition: background 0.3s ease;
-      margin-top: 0.5rem;
-    }
-    .formation-link-btn:hover {
-      background: rgba(0, 255, 255, 0.2);
-    }
+    .btn-edit-sec { background: rgba(123,0,255,0.15); border: 1px solid #7B00FF; color: #c8cdd6; }
+    .btn-edit-sec:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .btn-del-sec { background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #e74c3c; }
+    .btn-del-sec:hover { background: rgba(231,76,60,0.3); color: #fff; }
 
     footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
-
-    /* --- Site texts panel --- */
-    #site-texts-panel {
-      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
-      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-      border: 1px solid #ffb800; border-radius: 8px; padding: 1.5rem;
-      width: 460px; max-height: 80vh; overflow-y: auto;
-      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(255,184,0,0.15);
-    }
-    #site-texts-panel.open { display: block; animation: panelIn 0.2s ease; }
-    #site-texts-panel h3 { color: #ffb800; border-bottom-color: rgba(255,184,0,0.3); }
-    #site-texts-panel .admin-btn { border-color: #ffb800; }
-    #site-texts-panel .admin-btn:hover { background: rgba(255,184,0,0.25); }
-    .nav-link-row {
-      display: flex; gap: 0.4rem; align-items: center;
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem;
-    }
-    .nav-link-row input { flex: 1; }
-    .nav-link-row .remove-link-btn {
-      background: rgba(231,76,60,0.15); border: 1px solid #e74c3c; color: #e74c3c;
-      border-radius: 4px; width: 1.8rem; height: 1.8rem; flex-shrink: 0;
-      cursor: pointer; font-size: 0.9rem; line-height: 1;
-    }
-    .nav-link-row .remove-link-btn:hover { background: rgba(231,76,60,0.3); color: #fff; }
-    .site-texts-divider {
-      border: none; border-top: 1px solid rgba(255,184,0,0.25); margin: 1rem 0;
-    }
   </style>
 </head>
 <body>
@@ -262,9 +325,14 @@
 <nav>
   <div class="nav-logo">
     <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
-    <span class="nav-brand" id="navBrandText">408TH CORPS COSMIQUE</span>
+    <span class="nav-brand">408TH CORPS COSMIQUE</span>
   </div>
-  <div id="navLinksWrap"></div>
+  <a href="index.html">Accueil</a>
+  <a href="discipline.html">Règlement</a>
+  <a href="promotions.html">Promotions</a>
+  <a href="formations.html" class="active">Formations</a>
+  <a href="specs.html">Spécialisations</a>
+  <a href="escouades.html">Escouades</a>
 
   <div class="nav-auth" id="navAuth">
     <div class="auth-user-wrap" id="authUserWrap">
@@ -280,21 +348,22 @@
 <section class="content">
   <div class="formations-wrap">
     <div class="section-header reveal">
-      <div class="section-number" id="sectionNumber">04</div>
-      <h2 class="section-title" id="sectionTitle">Formations Militaires</h2>
+      <div class="section-number">04</div>
+      <h2 class="section-title">Formations Militaires</h2>
       <div class="section-line"></div>
     </div>
 
-    <div class="formations-reminder holo-card">
-      <p id="reminderText">N'oubliez pas de demander à passer vos formations !</p>
+    <div class="formations-reminder">
+      <p>N'oubliez pas de demander à passer vos formations !</p>
     </div>
 
     <div id="formations-content">
-      <p style="color:#555;text-align:center;padding:2rem 1rem;">Chargement des formations</p>
+      <div class="form-loading">Chargement des formations</div>
     </div>
   </div>
 </section>
 
+<!-- ── Admin toggle ── -->
 <button id="admin-toggle-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <circle cx="12" cy="12" r="3"></circle>
@@ -303,15 +372,7 @@
   Admin
 </button>
 
-<button id="site-texts-btn">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M4 7V4h16v3"></path>
-    <path d="M9 20h6"></path>
-    <path d="M12 4v16"></path>
-  </svg>
-  Textes du site
-</button>
-
+<!-- ── Accounts button ── -->
 <button id="accounts-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -322,66 +383,79 @@
   Comptes
 </button>
 
+<!-- ── Admin panel ── -->
 <div id="admin-panel">
   <h3>⚙ Panneau Admin — Formations</h3>
-  <form class="admin-form" id="admin-form" autocomplete="off">
-    <input type="hidden" id="edit-doc-id" value="">
-    <label>Numéro</label>
-    <input type="text" id="a-number" value="04" required>
-    <label>Titre</label>
-    <input type="text" id="a-title" value="Formations Militaires" required>
-    <label>Ordre d'affichage</label>
-    <input type="number" id="a-ordre" value="1" min="0">
-    <label>Type</label>
-    <select id="a-type">
-      <option value="list">Liste</option>
-    </select>
-    <label>Note</label>
-    <textarea id="a-note" placeholder="N'oubliez pas de demander à passer vos formations !"></textarea>
-    <label>Contenu (1 bloc par ligne)</label>
-    <textarea id="a-items" placeholder="Une ligne = un bloc de contenu"></textarea>
-    <button type="submit" class="admin-btn" id="admin-submit-btn">Enregistrer</button>
-    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">Annuler la modification</button>
-  </form>
-  <div class="admin-notice" id="admin-notice"></div>
+
+  <!-- Section list -->
+  <div id="section-list-wrap">
+    <h4>Formations existantes</h4>
+    <div id="section-list"><p style="color:#555;font-size:0.78rem;">Chargement…</p></div>
+    <button class="admin-btn secondary" id="new-section-btn" style="margin-top:0.5rem;">+ Nouvelle formation</button>
+  </div>
+
+  <!-- Section form -->
+  <div id="section-form-wrap" style="display:none;">
+    <h4 id="form-mode-label">Nouvelle formation</h4>
+    <form class="admin-form" id="admin-form" autocomplete="off">
+      <input type="hidden" id="edit-doc-id" value="">
+
+      <label>Numéro (affiché en fond)</label>
+      <input type="text" id="a-number" placeholder="04">
+
+      <label>Titre de la formation *</label>
+      <input type="text" id="a-title" placeholder="Formation Pilote" required>
+
+      <label>Ordre d'affichage</label>
+      <input type="number" id="a-ordre" placeholder="1" min="0">
+
+      <label>Type de section</label>
+      <select id="a-type">
+        <option value="list">Liste</option>
+        <option value="table">Tableau</option>
+        <option value="mixed">Mixte (liste + tableau + notes)</option>
+      </select>
+
+      <!-- For table type: column headers -->
+      <div id="table-cols-wrap" style="display:none;">
+        <label>En-têtes colonnes (séparés par |)</label>
+        <input type="text" id="a-cols" placeholder="Formation|Prérequis|Durée">
+      </div>
+
+      <!-- Sub-title before items (optional) -->
+      <label>Sous-titre (optionnel)</label>
+      <input type="text" id="a-subtitle" placeholder="Étapes de la formation">
+
+      <!-- Note (optional, maps to existing "note" field used as reminder text) -->
+      <label>Note (optionnel, HTML ok)</label>
+      <textarea id="a-note" placeholder="N'oubliez pas de demander à passer vos formations !"></textarea>
+
+      <!-- Items builder -->
+      <label style="margin-top:0.5rem;">
+        Éléments
+        <span style="color:#555;font-weight:normal;text-transform:none;letter-spacing:0;">
+          — liste: texte libre (HTML ok) · tableau: valeurs séparées par |
+        </span>
+      </label>
+      <div id="items-builder"></div>
+      <button type="button" id="add-item-btn">+ Ajouter un élément</button>
+
+      <label>Texte complémentaire (optionnel, en italique sous la liste)</label>
+      <input type="text" id="a-extra" placeholder="Info complémentaire">
+
+      <button type="submit" class="admin-btn" id="admin-submit-btn">Enregistrer la formation</button>
+      <button type="button" class="admin-btn danger" id="cancel-edit-btn">Annuler</button>
+    </form>
+    <div class="admin-notice" id="admin-notice"></div>
+  </div>
 </div>
 
-<div id="site-texts-panel">
-  <h3>✎ Textes du site (global)</h3>
-  <form class="admin-form" id="site-texts-form" autocomplete="off">
-    <label>Nom de marque (navigation)</label>
-    <input type="text" id="st-brand" value="408TH CORPS COSMIQUE" required>
-
-    <label>Numéro de section (cette page)</label>
-    <input type="text" id="st-section-number" value="04">
-
-    <label>Titre de section (cette page)</label>
-    <input type="text" id="st-section-title" value="Formations Militaires">
-
-    <label>Texte du bandeau rappel</label>
-    <textarea id="st-reminder" placeholder="N'oubliez pas de demander à passer vos formations !"></textarea>
-
-    <label>Texte du footer</label>
-    <input type="text" id="st-footer" value="408TH CORPS COSMIQUE — USAGE INTERNE UNIQUEMENT">
-
-    <hr class="site-texts-divider">
-    <label>Liens de navigation</label>
-    <div id="nav-links-editor"></div>
-    <button type="button" class="admin-btn" id="add-nav-link-btn" style="background:rgba(255,184,0,0.1);">+ Ajouter un lien</button>
-
-    <hr class="site-texts-divider">
-    <button type="submit" class="admin-btn">Enregistrer les textes</button>
-  </form>
-  <div class="admin-notice" id="site-texts-notice"></div>
-</div>
-
+<!-- ── Accounts modal ── -->
 <div id="accounts-modal" class="modal-overlay">
   <div class="modal-content" style="max-width:760px;">
     <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
-    <div class="modal-header">
-      <h2 class="modal-title">Gestion des comptes</h2>
-      <h4 class="modal-role">Superadmin uniquement</h4>
-    </div>
+    <h2 class="modal-title">Gestion des comptes</h2>
+    <p class="modal-role">Superadmin uniquement</p>
 
     <div id="accounts-list" style="display:grid; gap:0.75rem; margin-bottom:1rem;"></div>
 
@@ -395,23 +469,22 @@
       </select>
       <button type="submit" class="admin-btn">Ajouter / mettre à jour</button>
     </form>
-
     <div id="accounts-notice" class="admin-notice"></div>
   </div>
 </div>
 
-<footer><p id="footerText">408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
 
 <script src="script.js"></script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc, setDoc }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getDatabase, ref as dbRef, get, child, set, remove }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
@@ -424,464 +497,416 @@ const firebaseConfig = {
   measurementId: "G-Y95QVRY8WK"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const rtdb = getDatabase(app);
+const app      = initializeApp(firebaseConfig);
+const db       = getFirestore(app);
+const auth     = getAuth(app);
+const rtdb     = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
 let currentUserRole = null;
+let editingDocId    = null;   // null = create, string = update
 
-// Default nav links, used until Firestore overrides them
-const DEFAULT_NAV_LINKS = [
-  { label: "Accueil", href: "index.html" },
-  { label: "Règlement", href: "discipline.html" },
-  { label: "Promotions", href: "promotions.html" },
-  { label: "Formations", href: "formations.html" },
-  { label: "Spécialisations", href: "specs.html" },
-  { label: "Escouades", href: "escouades.html" }
-];
-const CURRENT_PAGE = "formations.html";
+const loginBtn        = document.getElementById("loginBtn");
+const logoutBtn       = document.getElementById("logoutBtn");
+const avatarWrap      = document.getElementById("authUserWrap");
+const avatarImg       = document.getElementById("authAvatarImg");
+const avatarFall      = document.getElementById("authAvatarFallback");
+const usernameEl      = document.getElementById("authUsername");
+const adminBtn        = document.getElementById("admin-toggle-btn");
+const adminPanel      = document.getElementById("admin-panel");
+const accountsBtn     = document.getElementById("accounts-btn");
+const accountsModal   = document.getElementById("accounts-modal");
+const closeAccModal   = document.getElementById("close-accounts-modal");
+const accountsList    = document.getElementById("accounts-list");
+const addAccountForm  = document.getElementById("add-account-form");
+const newAccEmail     = document.getElementById("new-account-email");
+const newAccRole      = document.getElementById("new-account-role");
+const accountsNotice  = document.getElementById("accounts-notice");
 
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const avatarWrap = document.getElementById("authUserWrap");
-const avatarImg = document.getElementById("authAvatarImg");
-const avatarFall = document.getElementById("authAvatarFallback");
-const usernameEl = document.getElementById("authUsername");
-const adminBtn = document.getElementById("admin-toggle-btn");
-const adminPanel = document.getElementById("admin-panel");
-const accountsBtn = document.getElementById("accounts-btn");
-const accountsModal = document.getElementById("accounts-modal");
-const closeAccountsModal = document.getElementById("close-accounts-modal");
-const accountsList = document.getElementById("accounts-list");
-const addAccountForm = document.getElementById("add-account-form");
-const newAccountEmail = document.getElementById("new-account-email");
-const newAccountRole = document.getElementById("new-account-role");
-const accountsNotice = document.getElementById("accounts-notice");
-
-const siteTextsBtn = document.getElementById("site-texts-btn");
-const siteTextsPanel = document.getElementById("site-texts-panel");
-const siteTextsForm = document.getElementById("site-texts-form");
-const siteTextsNotice = document.getElementById("site-texts-notice");
-const stBrand = document.getElementById("st-brand");
-const stSectionNumber = document.getElementById("st-section-number");
-const stSectionTitle = document.getElementById("st-section-title");
-const stReminder = document.getElementById("st-reminder");
-const stFooter = document.getElementById("st-footer");
-const navLinksEditor = document.getElementById("nav-links-editor");
-const addNavLinkBtn = document.getElementById("add-nav-link-btn");
-const navLinksWrap = document.getElementById("navLinksWrap");
-const navBrandText = document.getElementById("navBrandText");
-const sectionNumberEl = document.getElementById("sectionNumber");
-const sectionTitleEl = document.getElementById("sectionTitle");
-const reminderTextEl = document.getElementById("reminderText");
-const footerTextEl = document.getElementById("footerText");
+const sectionListWrap  = document.getElementById("section-list-wrap");
+const sectionFormWrap  = document.getElementById("section-form-wrap");
+const formModeLabel    = document.getElementById("form-mode-label");
+const sectionListEl    = document.getElementById("section-list");
+const newSectionBtn    = document.getElementById("new-section-btn");
+const adminForm        = document.getElementById("admin-form");
+const editDocIdInp     = document.getElementById("edit-doc-id");
+const aNumber          = document.getElementById("a-number");
+const aTitle           = document.getElementById("a-title");
+const aOrdre           = document.getElementById("a-ordre");
+const aType            = document.getElementById("a-type");
+const aSubtitle        = document.getElementById("a-subtitle");
+const aNote            = document.getElementById("a-note");
+const aCols            = document.getElementById("a-cols");
+const aExtra           = document.getElementById("a-extra");
+const tableColsWrap    = document.getElementById("table-cols-wrap");
+const itemsBuilder     = document.getElementById("items-builder");
+const addItemBtn       = document.getElementById("add-item-btn");
+const submitBtn        = document.getElementById("admin-submit-btn");
+const cancelEditBtn    = document.getElementById("cancel-edit-btn");
+const adminNotice      = document.getElementById("admin-notice");
 
 function showAvatar(user) {
   avatarWrap.classList.add("visible");
   const name = user.displayName || user.email.split("@")[0];
   usernameEl.textContent = name;
   if (user.photoURL) {
-    avatarImg.src = user.photoURL;
-    avatarImg.alt = name;
-    avatarImg.style.display = "block";
-    avatarFall.style.display = "none";
+    avatarImg.src = user.photoURL; avatarImg.alt = name;
+    avatarImg.style.display = "block"; avatarFall.style.display = "none";
   } else {
-    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
     avatarFall.textContent = initials;
-    avatarFall.style.display = "flex";
-    avatarImg.style.display = "none";
+    avatarFall.style.display = "flex"; avatarImg.style.display = "none";
   }
 }
-
 function hideAvatar() {
   avatarWrap.classList.remove("visible");
-  avatarImg.style.display = "none";
-  avatarFall.style.display = "none";
+  avatarImg.style.display = "none"; avatarFall.style.display = "none";
   usernameEl.textContent = "";
 }
+function emailToKey(email) { return email.trim().toLowerCase().replace(/\./g,","); }
 
-function emailToKey(email) {
-  return email.trim().toLowerCase().replace(/\./g, ",");
-}
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    showAvatar(user);
+    loginBtn.style.display  = "none";
+    logoutBtn.style.display = "inline-block";
+    const snap = await get(child(dbRef(rtdb), `admins/${emailToKey(user.email)}`));
+    if (snap.exists()) {
+      currentUserRole = snap.val().role;
+      adminBtn.classList.add("visible");
+      if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
+      else accountsBtn.classList.remove("visible");
+    } else {
+      currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      accountsBtn.classList.remove("visible");
+      adminPanel.classList.remove("open");
+    }
+    refreshAdminBars();
+  } else {
+    hideAvatar();
+    currentUserRole = null;
+    loginBtn.style.display  = "inline-block";
+    logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    accountsBtn.classList.remove("visible");
+    adminPanel.classList.remove("open");
+    accountsModal.classList.remove("active");
+    refreshAdminBars();
+  }
+});
 
-function setAccountsNotice(msg, cls = "admin-notice") {
-  accountsNotice.textContent = msg;
-  accountsNotice.className = cls;
-}
+loginBtn.addEventListener("click", async () => {
+  try { await signInWithPopup(auth, provider); }
+  catch { try { await signInWithRedirect(auth, provider); } catch(e) { alert("Connexion impossible."); } }
+});
+logoutBtn.addEventListener("click", () => signOut(auth));
+
+function setAccNotice(msg, cls="admin-notice") { accountsNotice.textContent=msg; accountsNotice.className=cls; }
 
 async function loadAccounts() {
   accountsList.innerHTML = '<p style="color:#888;margin:0;">Chargement...</p>';
   try {
     const snap = await get(child(dbRef(rtdb), "admins"));
-    if (!snap.exists()) {
-      accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
-      return;
-    }
-
+    if (!snap.exists()) { accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>'; return; }
     accountsList.innerHTML = "";
     Object.entries(snap.val()).forEach(([key, data]) => {
-      const email = key.replace(/,/g, ".");
+      const email = key.replace(/,/g,".");
       const row = document.createElement("div");
-      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
-      row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
-
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.75rem .9rem;border:1px solid rgba(255,255,255,.08);border-radius:6px;background:rgba(255,255,255,.03);";
+      row.innerHTML = `<div><div style="color:#fff;font-size:.85rem;">${email}</div><div style="color:#888;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role||"admin"}</div></div>`;
       const del = document.createElement("button");
-      del.type = "button";
-      del.className = "admin-btn danger";
-      del.style.width = "auto";
-      del.textContent = "Supprimer";
+      del.className = "admin-btn danger"; del.style.width="auto"; del.textContent="Supprimer";
       del.addEventListener("click", async () => {
-        if (currentUserRole !== "superadmin") return;
+        if (currentUserRole!=="superadmin") return;
         if (!confirm(`Supprimer ${email} ?`)) return;
-        try {
-          await remove(dbRef(rtdb, `admins/${key}`));
-          setAccountsNotice("Compte supprimé.", "admin-notice success");
-          await loadAccounts();
-        } catch (err) {
-          setAccountsNotice("Erreur : " + err.message, "admin-notice error");
-        }
+        try { await remove(dbRef(rtdb,`admins/${key}`)); setAccNotice("Compte supprimé.","admin-notice success"); await loadAccounts(); }
+        catch(err) { setAccNotice("Erreur : "+err.message,"admin-notice error"); }
       });
-
-      row.appendChild(del);
-      accountsList.appendChild(row);
+      row.appendChild(del); accountsList.appendChild(row);
     });
-  } catch (err) {
-    accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : ' + err.message + "</p>";
-  }
+  } catch(err) { accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : '+err.message+"</p>"; }
 }
-
-onAuthStateChanged(auth, async user => {
-  if (user) {
-    showAvatar(user);
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-
-    const emailKey = user.email.replace(/\./g, ",");
-    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
-    if (snap.exists()) {
-      currentUserRole = snap.val().role;
-      adminBtn.classList.add("visible");
-      siteTextsBtn.classList.add("visible");
-      if (currentUserRole === "superadmin") {
-        accountsBtn.classList.add("visible");
-      } else {
-        accountsBtn.classList.remove("visible");
-      }
-    } else {
-      currentUserRole = null;
-      adminBtn.classList.remove("visible");
-      siteTextsBtn.classList.remove("visible");
-      accountsBtn.classList.remove("visible");
-      adminPanel.classList.remove("open");
-      siteTextsPanel.classList.remove("open");
-      accountsModal.classList.remove("active");
-    }
-  } else {
-    hideAvatar();
-    currentUserRole = null;
-    loginBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-    adminBtn.classList.remove("visible");
-    siteTextsBtn.classList.remove("visible");
-    accountsBtn.classList.remove("visible");
-    adminPanel.classList.remove("open");
-    siteTextsPanel.classList.remove("open");
-    accountsModal.classList.remove("active");
-  }
-});
-
-loginBtn.addEventListener("click", async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch {
-    try { await signInWithRedirect(auth, provider); } catch { alert("Connexion impossible. Autorise les popups ou utilise la redirection."); }
-  }
-});
-
-logoutBtn.addEventListener("click", () => signOut(auth));
-
-const formationsContent = document.getElementById("formations-content");
-const q = query(collection(db, "formations"), orderBy("ordre"));
-
-onSnapshot(q, snapshot => {
-  formationsContent.innerHTML = "";
-  if (snapshot.empty) {
-    formationsContent.innerHTML = '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune formation pour l’instant.</p>';
-    return;
-  }
-
-  snapshot.forEach(docSnap => {
-    const data = docSnap.data();
-    const wrap = document.createElement("div");
-    wrap.className = "formation-block holo-card";
-
-    let html = "";
-    const titleText = data.title || "Formations";
-    const titleIcon = titleText.trim().startsWith("📌") ? "" : "📌 ";
-    html += `<h4>${titleIcon}${titleText}</h4>`;
-
-    if (data.note) {
-      html += `<p class="formations-note">${data.note}</p>`;
-    }
-
-    const items = Array.isArray(data.items) ? data.items : [];
-    if (items.length) {
-      html += "<ul>";
-      items.forEach(item => {
-        html += `<li>${item}</li>`;
-      });
-      html += "</ul>";
-    }
-
-    if (data.extra) {
-      html += `<div class="formations-extra">${data.extra}</div>`;
-    }
-
-    wrap.innerHTML = html;
-    formationsContent.appendChild(wrap);
-  });
-}, err => {
-  formationsContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
-});
-
-/* ---------------- Site-wide editable texts (nav, section header, reminder, footer) ---------------- */
-
-const SITE_TEXTS_DOC = doc(db, "site_settings", "formations_page");
-
-function renderNavLinks(links) {
-  navLinksWrap.innerHTML = "";
-  links.forEach(link => {
-    const a = document.createElement("a");
-    a.href = link.href || "#";
-    a.textContent = link.label || "";
-    if (link.href === CURRENT_PAGE) a.classList.add("active");
-    navLinksWrap.appendChild(a);
-  });
-}
-
-function renderNavLinksEditor(links) {
-  navLinksEditor.innerHTML = "";
-  links.forEach((link, idx) => {
-    const row = document.createElement("div");
-    row.className = "nav-link-row";
-    row.innerHTML = `
-      <input type="text" class="nav-link-label" placeholder="Libellé" value="${(link.label || "").replace(/"/g, '&quot;')}">
-      <input type="text" class="nav-link-href" placeholder="page.html" value="${(link.href || "").replace(/"/g, '&quot;')}">
-      <button type="button" class="remove-link-btn" title="Supprimer">&times;</button>
-    `;
-    row.querySelector(".remove-link-btn").addEventListener("click", () => {
-      row.remove();
-    });
-    navLinksEditor.appendChild(row);
-  });
-}
-
-function getNavLinksFromEditor() {
-  const rows = navLinksEditor.querySelectorAll(".nav-link-row");
-  const links = [];
-  rows.forEach(row => {
-    const label = row.querySelector(".nav-link-label").value.trim();
-    const href = row.querySelector(".nav-link-href").value.trim();
-    if (label && href) links.push({ label, href });
-  });
-  return links;
-}
-
-addNavLinkBtn.addEventListener("click", () => {
-  const rows = navLinksEditor.querySelectorAll(".nav-link-row");
-  const current = Array.from(rows).map(row => ({
-    label: row.querySelector(".nav-link-label").value,
-    href: row.querySelector(".nav-link-href").value
-  }));
-  current.push({ label: "", href: "" });
-  renderNavLinksEditor(current);
-});
-
-function applySiteTexts(data) {
-  const brand = data.brand || "408TH CORPS COSMIQUE";
-  const sectionNumber = data.sectionNumber || "04";
-  const sectionTitle = data.sectionTitle || "Formations Militaires";
-  const reminder = data.reminder || "N'oubliez pas de demander à passer vos formations !";
-  const footer = data.footer || "408TH CORPS COSMIQUE — USAGE INTERNE UNIQUEMENT";
-  const links = Array.isArray(data.navLinks) && data.navLinks.length ? data.navLinks : DEFAULT_NAV_LINKS;
-
-  navBrandText.textContent = brand;
-  sectionNumberEl.textContent = sectionNumber;
-  sectionTitleEl.textContent = sectionTitle;
-  reminderTextEl.textContent = reminder;
-  footerTextEl.textContent = footer;
-  document.title = brand ? `${brand} - Formations` : document.title;
-  renderNavLinks(links);
-
-  // Sync edit form fields (only if panel isn't actively being edited mid-typing, harmless to overwrite on snapshot)
-  stBrand.value = brand;
-  stSectionNumber.value = sectionNumber;
-  stSectionTitle.value = sectionTitle;
-  stReminder.value = reminder;
-  stFooter.value = footer;
-  renderNavLinksEditor(links);
-}
-
-// Live default render before Firestore responds, so page isn't empty
-applySiteTexts({});
-
-onSnapshot(SITE_TEXTS_DOC, snap => {
-  if (snap.exists()) {
-    applySiteTexts(snap.data());
-  }
-}, err => {
-  console.error("Erreur chargement textes du site :", err.message);
-});
-
-siteTextsBtn.addEventListener("click", () => {
-  if (!currentUserRole) return;
-  siteTextsPanel.classList.toggle("open");
-});
-
-siteTextsForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  if (!currentUserRole) {
-    siteTextsNotice.textContent = "Non autorisé.";
-    siteTextsNotice.className = "admin-notice error";
-    return;
-  }
-
-  const payload = {
-    brand: stBrand.value.trim(),
-    sectionNumber: stSectionNumber.value.trim(),
-    sectionTitle: stSectionTitle.value.trim(),
-    reminder: stReminder.value.trim(),
-    footer: stFooter.value.trim(),
-    navLinks: getNavLinksFromEditor()
-  };
-
-  try {
-    await setDoc(SITE_TEXTS_DOC, payload, { merge: true });
-    siteTextsNotice.textContent = "Textes du site mis à jour !";
-    siteTextsNotice.className = "admin-notice success";
-  } catch (err) {
-    siteTextsNotice.textContent = "Erreur : " + err.message;
-    siteTextsNotice.className = "admin-notice error";
-  }
-});
-
-/* ---------------- Accounts modal ---------------- */
 
 accountsBtn.addEventListener("click", async () => {
-  if (currentUserRole !== "superadmin") return;
-  accountsModal.classList.add("active");
-  setAccountsNotice("");
-  await loadAccounts();
+  if (currentUserRole!=="superadmin") return;
+  accountsModal.classList.add("active"); setAccNotice(""); await loadAccounts();
 });
-
-closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
-accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
-
+closeAccModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if(e.target===accountsModal) accountsModal.classList.remove("active"); });
 addAccountForm.addEventListener("submit", async e => {
   e.preventDefault();
-  if (currentUserRole !== "superadmin") return;
-  const email = newAccountEmail.value.trim().toLowerCase();
+  if (currentUserRole!=="superadmin") return;
+  const email = newAccEmail.value.trim().toLowerCase();
   if (!email) return;
   try {
-    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
-    setAccountsNotice("Compte ajouté.", "admin-notice success");
-    newAccountEmail.value = "";
-    await loadAccounts();
-  } catch (err) {
-    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
-  }
+    await set(dbRef(rtdb,`admins/${emailToKey(email)}`),{email,role:newAccRole.value});
+    setAccNotice("Compte ajouté.","admin-notice success");
+    newAccEmail.value=""; await loadAccounts();
+  } catch(err) { setAccNotice("Erreur : "+err.message,"admin-notice error"); }
 });
 
-/* ---------------- Formations admin panel ---------------- */
+/* Firestore schema (collection "formations"):
+   { number, title, ordre, type, cols, subtitle, note, items[], extra } */
+const formationsContent = document.getElementById("formations-content");
 
-const adminForm = document.getElementById("admin-form");
-const editDocIdInp = document.getElementById("edit-doc-id");
-const submitBtn = document.getElementById("admin-submit-btn");
-const cancelEditBtn = document.getElementById("cancel-edit-btn");
-const adminNotice = document.getElementById("admin-notice");
-const aNumber = document.getElementById("a-number");
-const aTitle = document.getElementById("a-title");
-const aOrdre = document.getElementById("a-ordre");
-const aType = document.getElementById("a-type");
-const aNote = document.getElementById("a-note");
-const aItems = document.getElementById("a-items");
+function renderSection(docId, data) {
+  const type     = data.type  || "list";
+  const items    = Array.isArray(data.items) ? data.items : [];
+  const cols     = data.cols  || "";
+  const subtitle = data.subtitle || "";
+  const note     = data.note  || "";
+  const extra    = data.extra || "";
 
-function getFormData() {
-  return {
-    number: aNumber.value.trim(),
-    title: aTitle.value.trim(),
-    ordre: parseInt(aOrdre.value || Date.now(), 10),
-    type: aType.value,
-    subtitle: "",
-    cols: "",
-    note: aNote.value.trim(),
-    items: aItems.value.split("\n").map(v => v.trim()).filter(Boolean)
-  };
+  let innerHtml = "";
+
+  if (subtitle) innerHtml += `<div class="form-subtitle">${subtitle}</div>`;
+
+  if (note) innerHtml += `<div class="form-note">${note}</div>`;
+
+  if (type === "table" || (type === "mixed" && cols)) {
+    const headers = cols.split("|").map(h=>h.trim());
+    innerHtml += `<div class="form-table-wrap"><table class="form-table"><thead><tr>
+      ${headers.map(h=>`<th>${h}</th>`).join("")}
+    </tr></thead><tbody>
+      ${items.map(item => {
+        const cells = item.split("|").map(c=>c.trim());
+        return `<tr>${cells.map(c=>`<td>${c}</td>`).join("")}</tr>`;
+      }).join("")}
+    </tbody></table></div>`;
+  } else if (items.length) {
+    innerHtml += `<ul class="form-list">
+      ${items.map(item => `<li>${item}</li>`).join("")}
+    </ul>`;
+  }
+
+  if (extra) innerHtml += `<div class="formations-extra" style="margin-top:0.8rem;color:#9ca3af;font-size:0.9em;font-style:italic;">${extra}</div>`;
+
+  const titleText = data.title || "Formation";
+  const titleIcon = titleText.trim().startsWith("📌") ? "" : "📌 ";
+
+  return `
+  <div class="form-section" data-id="${docId}">
+    <div class="form-section-header">
+      <div class="form-number">${data.number || "00"}</div>
+      <h3 class="form-title">${titleIcon}${titleText}</h3>
+    </div>
+    ${innerHtml}
+    <div class="form-section-admin-bar" id="admin-bar-${docId}">
+      <button class="btn-edit-sec" data-id="${docId}">✎ Modifier</button>
+      <button class="btn-del-sec" data-id="${docId}">✕ Supprimer</button>
+    </div>
+  </div>`;
 }
 
-function fillForm(data, docId) {
-  editDocIdInp.value = docId;
-  aNumber.value = data.number || "04";
-  aTitle.value = data.title || "Formations Militaires";
-  aOrdre.value = data.ordre || 1;
-  aType.value = data.type || "list";
-  aNote.value = data.note || "";
-  aItems.value = Array.isArray(data.items) ? data.items.join("\n") : "";
-  submitBtn.textContent = "Enregistrer les modifications";
-  cancelEditBtn.style.display = "block";
-  adminPanel.classList.add("open");
+function refreshAdminBars() {
+  document.querySelectorAll(".form-section-admin-bar").forEach(bar => {
+    if (currentUserRole) bar.classList.add("visible");
+    else bar.classList.remove("visible");
+  });
 }
 
-function resetForm() {
-  adminForm.reset();
-  aNumber.value = "04";
-  aTitle.value = "Formations Militaires";
-  aOrdre.value = "1";
-  aType.value = "list";
-  aNote.value = "N'oubliez pas de demander à passer vos formations !";
-  aItems.value = "";
-  editDocIdInp.value = "";
-  submitBtn.textContent = "Enregistrer";
-  cancelEditBtn.style.display = "none";
-  adminNotice.textContent = "";
-  adminNotice.className = "admin-notice";
+const q = query(collection(db,"formations"), orderBy("ordre"));
+let allDocsCache = {};
+
+onSnapshot(q, snapshot => {
+  allDocsCache = {};
+  formationsContent.innerHTML = "";
+  if (snapshot.empty) {
+    formationsContent.innerHTML = '<p style="color:#555;text-align:center;padding:3rem;font-size:.85rem;">Aucune formation pour l\'instant.</p>';
+    rebuildSectionList([]);
+    return;
+  }
+  const docs = [];
+  snapshot.forEach(d => { allDocsCache[d.id] = d.data(); docs.push({id:d.id, data:d.data()}); });
+  docs.forEach(({id,data}) => formationsContent.insertAdjacentHTML("beforeend", renderSection(id,data)));
+  refreshAdminBars();
+  bindSectionAdminBars();
+  rebuildSectionList(docs);
+}, err => {
+  formationsContent.innerHTML = `<p style="color:#e74c3c;text-align:center;padding:3rem;">Erreur Firestore : ${err.message}</p>`;
+});
+
+function bindSectionAdminBars() {
+  document.querySelectorAll(".btn-edit-sec").forEach(btn => {
+    btn.addEventListener("click", () => { if(currentUserRole) openFormForEdit(btn.dataset.id); });
+  });
+  document.querySelectorAll(".btn-del-sec").forEach(btn => {
+    btn.addEventListener("click", () => { if(currentUserRole) deleteSection(btn.dataset.id); });
+  });
 }
+
+async function deleteSection(docId) {
+  const data = allDocsCache[docId] || {};
+  if (!confirm(`Supprimer la formation "${data.title||docId}" ?`)) return;
+  try { await deleteDoc(doc(db,"formations",docId)); }
+  catch(err) { alert("Erreur : "+err.message); }
+}
+
+function rebuildSectionList(docs) {
+  if (!sectionListEl) return;
+  if (!docs.length) { sectionListEl.innerHTML = '<p style="color:#555;font-size:.78rem;">Aucune formation.</p>'; return; }
+  sectionListEl.innerHTML = "";
+  docs.forEach(({id,data}) => {
+    const tab = document.createElement("div");
+    tab.className = "section-tab"; tab.dataset.id = id;
+    tab.innerHTML = `
+      <div class="section-tab-left">
+        <span class="section-tab-num">${data.number||"00"}</span>
+        <span class="section-tab-title">${data.title||""}</span>
+      </div>
+      <div class="section-tab-actions">
+        <button class="edit-section" title="Modifier">✎</button>
+        <button class="del-section" title="Supprimer">✕</button>
+      </div>`;
+    tab.querySelector(".edit-section").addEventListener("click", e => { e.stopPropagation(); openFormForEdit(id); });
+    tab.querySelector(".del-section").addEventListener("click", e => { e.stopPropagation(); deleteSection(id); });
+    tab.addEventListener("click", () => {
+      const el = document.querySelector(`.form-section[data-id="${id}"]`);
+      if (el) el.scrollIntoView({behavior:"smooth",block:"center"});
+    });
+    sectionListEl.appendChild(tab);
+  });
+}
+
+function createItemRow(value = "") {
+  const row = document.createElement("div");
+  row.className = "item-row";
+  row.innerHTML = `
+    <textarea placeholder="Texte de l'élément (HTML ok). Pour tableau : col1|col2|col3">${value}</textarea>
+    <div class="item-controls">
+      <button type="button" class="move-btn" title="Monter">↑</button>
+      <button type="button" class="move-btn" title="Descendre">↓</button>
+      <button type="button" class="del-item-btn" title="Supprimer">✕</button>
+    </div>`;
+  row.querySelector(".del-item-btn").addEventListener("click", () => row.remove());
+  row.querySelector('[title="Monter"]').addEventListener("click", () => {
+    const prev = row.previousElementSibling;
+    if (prev && prev.classList.contains("item-row")) itemsBuilder.insertBefore(row, prev);
+  });
+  row.querySelector('[title="Descendre"]').addEventListener("click", () => {
+    const next = row.nextElementSibling;
+    if (next && next.classList.contains("item-row")) itemsBuilder.insertBefore(next, row);
+  });
+  return row;
+}
+
+addItemBtn.addEventListener("click", () => itemsBuilder.appendChild(createItemRow()));
+
+aType.addEventListener("change", () => {
+  tableColsWrap.style.display = (aType.value === "table" || aType.value === "mixed") ? "block" : "none";
+});
 
 adminBtn.addEventListener("click", () => {
   if (!currentUserRole) return;
   adminPanel.classList.toggle("open");
+  if (adminPanel.classList.contains("open")) showSectionList();
 });
+
+function showSectionList() {
+  sectionListWrap.style.display = "block";
+  sectionFormWrap.style.display = "none";
+  editingDocId = null;
+}
+
+function showSectionForm() {
+  sectionListWrap.style.display = "none";
+  sectionFormWrap.style.display = "block";
+}
+
+newSectionBtn.addEventListener("click", () => {
+  resetForm();
+  formModeLabel.textContent = "Nouvelle formation";
+  showSectionForm();
+});
+
+cancelEditBtn.addEventListener("click", () => {
+  resetForm();
+  showSectionList();
+});
+
+function getFormData() {
+  const items = Array.from(itemsBuilder.querySelectorAll(".item-row textarea"))
+                     .map(t => t.value.trim())
+                     .filter(Boolean);
+  return {
+    number  : aNumber.value.trim(),
+    title   : aTitle.value.trim(),
+    ordre   : parseInt(aOrdre.value || Date.now(), 10),
+    type    : aType.value,
+    cols    : aCols.value.trim(),
+    subtitle: aSubtitle.value.trim(),
+    note    : aNote.value.trim(),
+    extra   : aExtra.value.trim(),
+    items
+  };
+}
+
+function fillForm(data, docId) {
+  editingDocId = docId;
+  editDocIdInp.value = docId;
+  aNumber.value   = data.number   || "";
+  aTitle.value    = data.title    || "";
+  aOrdre.value    = data.ordre    || 1;
+  aType.value     = data.type     || "list";
+  aCols.value     = data.cols     || "";
+  aSubtitle.value = data.subtitle || "";
+  aNote.value     = data.note     || "";
+  aExtra.value    = data.extra    || "";
+  tableColsWrap.style.display = (data.type==="table"||data.type==="mixed") ? "block" : "none";
+  itemsBuilder.innerHTML = "";
+  (data.items||[]).forEach(item => itemsBuilder.appendChild(createItemRow(item)));
+  submitBtn.textContent = "Enregistrer les modifications";
+  formModeLabel.textContent = `Modifier : ${data.title||""}`;
+}
+
+function resetForm() {
+  adminForm.reset();
+  editingDocId = null;
+  editDocIdInp.value = "";
+  itemsBuilder.innerHTML = "";
+  tableColsWrap.style.display = "none";
+  adminNotice.textContent = "";
+  adminNotice.className = "admin-notice";
+  submitBtn.textContent = "Enregistrer la formation";
+  formModeLabel.textContent = "Nouvelle formation";
+}
+
+async function openFormForEdit(docId) {
+  const data = allDocsCache[docId];
+  if (!data) {
+    const snap = await getDoc(doc(db,"formations",docId));
+    if (!snap.exists()) return;
+    fillForm(snap.data(), docId);
+  } else {
+    fillForm(data, docId);
+  }
+  showSectionForm();
+  adminPanel.classList.add("open");
+  adminPanel.scrollTop = 0;
+}
 
 adminForm.addEventListener("submit", async e => {
   e.preventDefault();
-  if (!currentUserRole) {
-    adminNotice.textContent = "Non autorisé.";
-    adminNotice.className = "admin-notice error";
-    return;
-  }
-
-  const data = getFormData();
-  const docId = editDocIdInp.value;
-
+  if (!currentUserRole) { adminNotice.textContent="Non autorisé."; adminNotice.className="admin-notice error"; return; }
+  const data   = getFormData();
+  const docId  = editDocIdInp.value;
   try {
     if (docId) {
-      await updateDoc(doc(db, "formations", docId), data);
-      adminNotice.textContent = "Formations mises à jour !";
+      await updateDoc(doc(db,"formations",docId), data);
+      adminNotice.textContent = "Formation mise à jour !";
     } else {
-      await addDoc(collection(db, "formations"), data);
-      adminNotice.textContent = "Formations enregistrées !";
+      await addDoc(collection(db,"formations"), data);
+      adminNotice.textContent = "Formation ajoutée !";
     }
     adminNotice.className = "admin-notice success";
     resetForm();
-  } catch (err) {
-    adminNotice.textContent = "Erreur : " + err.message;
-    adminNotice.className = "admin-notice error";
+    showSectionList();
+  } catch(err) {
+    adminNotice.textContent = "Erreur : "+err.message;
+    adminNotice.className   = "admin-notice error";
   }
 });
-
-cancelEditBtn.addEventListener("click", resetForm);
 </script>
 </body>
 </html>
