@@ -385,7 +385,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, doc, getDoc, setDoc }
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -570,7 +570,11 @@ function defaultState() {
 
 function normalizeState(data) {
   if (!data) return defaultState();
-  const cols = Array.isArray(data.cols) ? data.cols.slice() : (typeof data.cols === "string" ? data.cols.split("|").map(s=>s.trim()).filter(Boolean) : defaultState().cols);
+  const cols = Array.isArray(data.cols)
+    ? data.cols.slice()
+    : (typeof data.cols === "string" && data.cols.trim()
+        ? data.cols.split("|").map(s => s.trim()).filter(Boolean)
+        : defaultState().cols);
   let rows;
   if (Array.isArray(data.rows)) {
     rows = data.rows.map(r => Array.isArray(r) ? r.slice() : String(r).split("|").map(s=>s.trim()));
@@ -597,7 +601,21 @@ function normalizeState(data) {
 async function loadPromoDoc() {
   try {
     const snap = await getDoc(DOC_REF);
-    liveState = snap.exists() ? normalizeState(snap.data()) : defaultState();
+    if (snap.exists()) {
+      liveState = normalizeState(snap.data());
+    } else {
+      // Fallback: migrate from the old "promotions" collection (multiple docs)
+      const colSnap = await getDocs(collection(db, "promotions"));
+      if (!colSnap.empty) {
+        let docs = [];
+        colSnap.forEach(d => docs.push(d.data()));
+        // pick the doc with lowest "ordre" (or first one) as the source
+        docs.sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0));
+        liveState = normalizeState(docs[0]);
+      } else {
+        liveState = defaultState();
+      }
+    }
   } catch (err) {
     promoContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
     return;
