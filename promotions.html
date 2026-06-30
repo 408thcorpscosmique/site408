@@ -52,8 +52,8 @@
     .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
     .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
 
-    #admin-toggle-btn, #accounts-btn {
-      position: fixed; right: 1.5rem; z-index: 999;
+    #admin-toggle-btn {
+      position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 999;
       background: rgba(10,20,40,0.95); border-radius: 6px;
       font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
       cursor: pointer; padding: 0.6rem 1.1rem;
@@ -61,57 +61,184 @@
       box-shadow: 0 0 18px rgba(123,0,255,0.3);
       transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
     }
-    #admin-toggle-btn { bottom: 1.5rem; }
-    #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
+    #accounts-btn {
+      position: fixed; right: 1.5rem; bottom: 5.6rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border-radius: 6px;
+      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; padding: 0.6rem 1.1rem;
+      border: 1px solid #00ff88; color: #c8cdd6;
+      box-shadow: 0 0 18px rgba(0,255,136,0.18);
+      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
+    }
     #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
     #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
     #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
 
-    #admin-panel {
-      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
-      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-      border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
-      width: 420px; max-height: 80vh; overflow-y: auto;
-      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
+    /* ===== Edit mode banner ===== */
+    #edit-mode-banner {
+      display: none; position: sticky; top: 0; z-index: 60;
+      background: rgba(123,0,255,0.18); border-bottom: 1px solid rgba(123,0,255,0.4);
+      color: #e2d4ff; font-size: 0.78rem; letter-spacing: 0.5px;
+      padding: 0.55rem 1.2rem; text-align: center;
     }
-    #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
-    @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-    #admin-panel h3 {
-      color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
-      font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
-      border-bottom: 1px solid rgba(123,0,255,0.3);
-    }
-    #admin-panel h4 {
-      color: #aaa; text-transform: uppercase; letter-spacing: 1.5px;
-      font-size: 0.75rem; margin: 1rem 0 0.5rem; padding-top: 0.75rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
-    .admin-form label {
-      font-size: 0.72rem; color: #888; text-transform: uppercase;
-      letter-spacing: 1px; margin-bottom: -0.3rem;
-    }
-    .admin-form input, .admin-form select, .admin-form textarea {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
-      font-size: 0.82rem; font-family: inherit; width: 100%;
-      transition: border-color 0.2s; box-sizing: border-box;
-    }
-    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: #7B00FF; }
-    .admin-form textarea { resize: vertical; min-height: 80px; }
-    .admin-btn {
-      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
-      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
-    }
-    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
-    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
-    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
-    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
-    .admin-notice.success { color: #00ff88; }
-    .admin-notice.error { color: #e74c3c; }
+    #edit-mode-banner.active { display: block; }
+    #edit-mode-banner strong { color: #fff; }
 
+    /* ===== Table ===== */
+    .content { padding: 2rem 0 4rem; }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .section-number { font-size: 3rem; font-weight: 900; color: rgba(123,0,255,0.18); line-height: 1; font-family: monospace; }
+    .section-title-input {
+      background: transparent; border: none; outline: none;
+      color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.4rem;
+      font-family: inherit; width: auto; min-width: 50px; padding: 0;
+    }
+    .section-title-input:disabled { pointer-events: none; }
+    .section-title-input:not(:disabled) {
+      border-bottom: 1px dashed rgba(123,0,255,0.5); cursor: text;
+    }
+    .section-title-input:not(:disabled):focus { border-bottom: 1px solid #7B00FF; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(123,0,255,0.6), transparent); }
+
+    .promo-section { margin: 0 auto; max-width: 1100px; padding: 0 1.25rem; }
+
+    .promo-table-wrap { overflow-x: auto; }
+    table.promo-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #c8cdd6;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(123,0,255,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .promo-table thead th {
+      background: rgba(123,0,255,0.18);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.78rem;
+      padding: 0.7rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+      position: relative;
+    }
+    .promo-table tbody td {
+      padding: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.92rem;
+      vertical-align: middle;
+    }
+    .promo-table tbody tr:hover td { background: rgba(123,0,255,0.06); }
+
+    .cell-input {
+      width: 100%; box-sizing: border-box; background: transparent; border: none;
+      color: #c8cdd6; font-family: inherit; font-size: 0.92rem;
+      padding: 0.85rem 1rem; resize: none;
+    }
+    .cell-input:focus {
+      outline: none; background: rgba(123,0,255,0.1);
+      box-shadow: inset 0 0 0 1px rgba(123,0,255,0.5);
+    }
+    .cell-input:disabled { cursor: default; }
+
+    .th-input {
+      width: 100%; box-sizing: border-box; background: transparent; border: none;
+      color: #fff; text-transform: uppercase; letter-spacing: 1px; font-size: 0.78rem;
+      font-family: inherit; font-weight: 700; padding: 0;
+    }
+    .th-input:focus { outline: none; }
+    .th-input:disabled { pointer-events: none; }
+
+    .th-cell-inner { display: flex; align-items: center; gap: 0.4rem; }
+    .col-del-btn {
+      flex-shrink: 0; width: 18px; height: 18px; border-radius: 3px;
+      border: 1px solid rgba(231,76,60,0.5); background: rgba(231,76,60,0.1);
+      color: #e74c3c; font-size: 0.7rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .col-del-btn:hover { background: rgba(231,76,60,0.4); color: #fff; }
+
+    .row-actions-cell {
+      width: 36px; text-align: center; padding: 0 !important;
+      background: rgba(255,255,255,0.015);
+    }
+    .row-del-btn {
+      width: 24px; height: 24px; border-radius: 4px;
+      border: 1px solid rgba(231,76,60,0.4); background: transparent;
+      color: #b06060; font-size: 0.85rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto;
+      transition: all 0.15s;
+    }
+    .row-del-btn:hover { background: rgba(231,76,60,0.3); color: #fff; }
+
+    .add-col-th {
+      width: 42px; padding: 0 !important; text-align: center; background: rgba(123,0,255,0.1) !important;
+    }
+    .add-col-btn {
+      width: 26px; height: 26px; border-radius: 5px; margin: 0 auto;
+      border: 1px solid rgba(123,0,255,0.5); background: rgba(123,0,255,0.15);
+      color: #c8cdd6; font-size: 1rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .add-col-btn:hover { background: rgba(123,0,255,0.4); color: #fff; }
+
+    .add-row-bar {
+      margin-top: 0.6rem; display: flex; justify-content: center;
+    }
+    .add-row-btn {
+      padding: 0.45rem 1.1rem; border-radius: 5px; font-size: 0.75rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: 1px dashed rgba(123,0,255,0.5); background: rgba(123,0,255,0.08);
+      color: #a080d0; transition: all 0.15s;
+    }
+    .add-row-btn:hover { background: rgba(123,0,255,0.25); color: #fff; border-style: solid; }
+
+    .promo-note {
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid #ffb400;
+      background: rgba(255,180,0,0.08);
+      color: #e9c56a;
+      border-radius: 4px;
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+    .note-input {
+      width: 100%; box-sizing: border-box; background: transparent; border: none;
+      color: #e9c56a; font-family: inherit; font-size: 0.92rem; line-height: 1.65;
+      resize: vertical; min-height: 2.5rem;
+    }
+    .note-input:focus { outline: none; }
+    .note-input:disabled { cursor: default; }
+    .promo-note.empty-hidden { display: none; }
+
+    .edit-toolbar {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+      margin: 1rem 0 1.4rem; padding: 0.8rem 1rem;
+      background: rgba(123,0,255,0.08); border: 1px solid rgba(123,0,255,0.25);
+      border-radius: 6px;
+    }
+    .edit-toolbar-btn {
+      padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.72rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: 1px solid #7B00FF; background: rgba(123,0,255,0.15);
+      color: #c8cdd6; transition: all 0.15s; font-family: inherit;
+    }
+    .edit-toolbar-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .edit-toolbar-btn.save { border-color: #00ff88; background: rgba(0,255,136,0.12); color: #b6ffd9; }
+    .edit-toolbar-btn.save:hover { background: rgba(0,255,136,0.3); color: #fff; }
+    .edit-toolbar-btn.cancel { border-color: #888; background: transparent; color: #999; }
+    .edit-toolbar-btn.cancel:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .edit-toolbar-status { font-size: 0.72rem; color: #888; margin-left: auto; }
+    .edit-toolbar-status.success { color: #00ff88; }
+    .edit-toolbar-status.error { color: #e74c3c; }
+
+    footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
+
+    /* ===== Accounts modal (kept) ===== */
     .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
       backdrop-filter: blur(6px); z-index: 1000; align-items: center;
@@ -135,56 +262,26 @@
     .close-modal:hover { color: #fff; border-color: #7B00FF; background: rgba(255,255,255,0.05); }
     .modal-title { color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.2rem; margin: 0 0 0.3rem; }
     .modal-role { color: #7B00FF; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; margin: 0 0 1.2rem; }
-
-    .content { padding: 2rem 0 4rem; }
-    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-    .section-number { font-size: 3rem; font-weight: 900; color: rgba(123,0,255,0.18); line-height: 1; font-family: monospace; }
-    .section-title { margin: 0; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.4rem; }
-    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(123,0,255,0.6), transparent); }
-
-    .promo-section {
-      margin: 0 auto; max-width: 1100px;
-      padding: 0 1.25rem;
+    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-form label { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: -0.3rem; }
+    .admin-form input, .admin-form select {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
+      font-size: 0.82rem; font-family: inherit; width: 100%; box-sizing: border-box;
     }
-
-    .promo-table-wrap { overflow-x: auto; }
-    table.promo-table {
-      width: 100%;
-      border-collapse: collapse;
-      color: #c8cdd6;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(123,0,255,0.15);
-      border-radius: 8px;
-      overflow: hidden;
+    .admin-form input:focus, .admin-form select:focus { outline: none; border-color: #7B00FF; }
+    .admin-btn {
+      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
+      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
     }
-    .promo-table thead th {
-      background: rgba(123,0,255,0.18);
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.78rem;
-      padding: 0.9rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(123,0,255,0.25);
-    }
-    .promo-table tbody td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.92rem;
-    }
-    .promo-table tbody tr:hover td { background: rgba(123,0,255,0.06); }
-    .promo-note {
-      margin-top: 1.25rem;
-      padding: 1rem 1.1rem;
-      border-left: 3px solid #ffb400;
-      background: rgba(255,180,0,0.08);
-      color: #e9c56a;
-      border-radius: 4px;
-      line-height: 1.65;
-      font-size: 0.92rem;
-    }
-
-    footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
+    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
+    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
+    .admin-notice.success { color: #00ff88; }
+    .admin-notice.error { color: #e74c3c; }
   </style>
 </head>
 <body>
@@ -213,16 +310,28 @@
   </div>
 </nav>
 
+<div id="edit-mode-banner"><strong>Mode édition activé</strong> — clique sur n'importe quelle cellule, titre ou note pour la modifier. N'oublie pas d'enregistrer.</div>
+
 <section class="content">
   <div class="promo-section">
     <div class="section-header reveal">
       <div class="section-number">05</div>
-      <h2 class="section-title">Délais de Promotion</h2>
+      <input type="text" class="section-title-input" id="section-title-input" value="Délais de Promotion" disabled>
       <div class="section-line"></div>
+    </div>
+
+    <div id="edit-toolbar" class="edit-toolbar" style="display:none;">
+      <button type="button" class="edit-toolbar-btn save" id="save-btn">💾 Enregistrer</button>
+      <button type="button" class="edit-toolbar-btn cancel" id="cancel-btn">Annuler</button>
+      <span class="edit-toolbar-status" id="edit-status"></span>
     </div>
 
     <div id="promo-content">
       <p style="color:#555;text-align:center;padding:2rem 1rem;">Chargement des promotions</p>
+    </div>
+
+    <div class="add-row-bar" id="add-row-bar" style="display:none;">
+      <button type="button" class="add-row-btn" id="add-row-btn">+ Ajouter une ligne</button>
     </div>
   </div>
 </section>
@@ -232,7 +341,7 @@
     <circle cx="12" cy="12" r="3"></circle>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
   </svg>
-  Admin
+  <span id="admin-toggle-label">Modifier</span>
 </button>
 
 <button id="accounts-btn">
@@ -244,32 +353,6 @@
   </svg>
   Comptes
 </button>
-
-<div id="admin-panel">
-  <h3>⚙ Panneau Admin — Promotions</h3>
-  <form class="admin-form" id="admin-form" autocomplete="off">
-    <input type="hidden" id="edit-doc-id" value="">
-    <label>Numéro</label>
-    <input type="text" id="a-number" value="05" required>
-    <label>Titre</label>
-    <input type="text" id="a-title" value="Délais de Promotion" required>
-    <label>Ordre d'affichage</label>
-    <input type="number" id="a-ordre" value="1" min="0">
-    <label>Type</label>
-    <select id="a-type">
-      <option value="table">Tableau</option>
-    </select>
-    <label>Colonnes (séparées par |)</label>
-    <input type="text" id="a-cols" value="Promotion|Jours requis|Missions / Commandements" required>
-    <label>Note</label>
-    <textarea id="a-note" placeholder="Avertissement"></textarea>
-    <label>Lignes du tableau</label>
-    <textarea id="a-items" placeholder="Une ligne par entrée : col1|col2|col3" style="min-height:180px;"></textarea>
-    <button type="submit" class="admin-btn" id="admin-submit-btn">Enregistrer</button>
-    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">Annuler la modification</button>
-  </form>
-  <div class="admin-notice" id="admin-notice"></div>
-</div>
 
 <div id="accounts-modal" class="modal-overlay">
   <div class="modal-content" style="max-width:760px;">
@@ -302,7 +385,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc }
+import { getFirestore, collection, doc, getDoc, setDoc }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -327,7 +410,14 @@ const rtdb = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
 let currentUserRole = null;
-let currentDocId = null;
+let isEditing = false;
+
+// Working state — the single flexible table:
+// { title: string, cols: string[], rows: string[][], note: string }
+let liveState = null;     // last state synced from Firestore (read-only baseline)
+let draftState = null;    // local editable copy while isEditing === true
+
+const DOC_REF = doc(db, "promotions", "main");
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -336,7 +426,7 @@ const avatarImg = document.getElementById("authAvatarImg");
 const avatarFall = document.getElementById("authAvatarFallback");
 const usernameEl = document.getElementById("authUsername");
 const adminBtn = document.getElementById("admin-toggle-btn");
-const adminPanel = document.getElementById("admin-panel");
+const adminToggleLabel = document.getElementById("admin-toggle-label");
 const accountsBtn = document.getElementById("accounts-btn");
 const accountsModal = document.getElementById("accounts-modal");
 const closeAccountsModal = document.getElementById("close-accounts-modal");
@@ -345,6 +435,15 @@ const addAccountForm = document.getElementById("add-account-form");
 const newAccountEmail = document.getElementById("new-account-email");
 const newAccountRole = document.getElementById("new-account-role");
 const accountsNotice = document.getElementById("accounts-notice");
+const editBanner = document.getElementById("edit-mode-banner");
+const editToolbar = document.getElementById("edit-toolbar");
+const editStatus = document.getElementById("edit-status");
+const saveBtn = document.getElementById("save-btn");
+const cancelBtn = document.getElementById("cancel-btn");
+const sectionTitleInput = document.getElementById("section-title-input");
+const promoContent = document.getElementById("promo-content");
+const addRowBar = document.getElementById("add-row-bar");
+const addRowBtn = document.getElementById("add-row-btn");
 
 function showAvatar(user) {
   avatarWrap.classList.add("visible");
@@ -387,14 +486,12 @@ async function loadAccounts() {
       accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
       return;
     }
-
     accountsList.innerHTML = "";
     Object.entries(snap.val()).forEach(([key, data]) => {
       const email = key.replace(/,/g, ".");
       const row = document.createElement("div");
       row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
       row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
-
       const del = document.createElement("button");
       del.type = "button";
       del.className = "admin-btn danger";
@@ -411,7 +508,6 @@ async function loadAccounts() {
           setAccountsNotice("Erreur : " + err.message, "admin-notice error");
         }
       });
-
       row.appendChild(del);
       accountsList.appendChild(row);
     });
@@ -425,22 +521,18 @@ onAuthStateChanged(auth, async user => {
     showAvatar(user);
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
-
     const emailKey = user.email.replace(/\./g, ",");
     const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
     if (snap.exists()) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
-      if (currentUserRole === "superadmin") {
-        accountsBtn.classList.add("visible");
-      } else {
-        accountsBtn.classList.remove("visible");
-      }
+      if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
+      else accountsBtn.classList.remove("visible");
     } else {
       currentUserRole = null;
       adminBtn.classList.remove("visible");
       accountsBtn.classList.remove("visible");
-      adminPanel.classList.remove("open");
+      exitEditMode(false);
       accountsModal.classList.remove("active");
     }
   } else {
@@ -450,7 +542,7 @@ onAuthStateChanged(auth, async user => {
     logoutBtn.style.display = "none";
     adminBtn.classList.remove("visible");
     accountsBtn.classList.remove("visible");
-    adminPanel.classList.remove("open");
+    exitEditMode(false);
     accountsModal.classList.remove("active");
   }
 });
@@ -459,111 +551,265 @@ loginBtn.addEventListener("click", async () => {
   try {
     await signInWithPopup(auth, provider);
   } catch (err) {
-    try {
-      await signInWithRedirect(auth, provider);
-    } catch (e) {
-      alert("Connexion impossible. Autorise les popups ou utilise la redirection.");
-    }
+    try { await signInWithRedirect(auth, provider); }
+    catch (e) { alert("Connexion impossible. Autorise les popups ou utilise la redirection."); }
   }
 });
 
 logoutBtn.addEventListener("click", () => signOut(auth));
 
-const promoContent = document.getElementById("promo-content");
-const q = query(collection(db, "promotions"), orderBy("ordre"));
-
-onSnapshot(q, snapshot => {
-  promoContent.innerHTML = "";
-  if (snapshot.empty) {
-    promoContent.innerHTML = '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune promotion pour l’instant.</p>';
-    return;
-  }
-
-  snapshot.forEach(docSnap => {
-    const data = docSnap.data();
-    const cols = (data.cols || "").split("|").map(s => s.trim()).filter(Boolean);
-    const items = Array.isArray(data.items) ? data.items : [];
-
-    let html = "";
-    html += `<div class="promo-table-wrap"><table class="promo-table"><thead><tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
-    items.forEach(item => {
-      const cells = String(item).split("|");
-      html += `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join("")}</tr>`;
-    });
-    html += `</tbody></table></div>`;
-
-    if (data.note) {
-      html += `<div class="promo-note">${data.note}</div>`;
-    }
-
-    const section = document.createElement("div");
-    section.innerHTML = html;
-    promoContent.appendChild(section);
-  });
-}, err => {
-  promoContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
-});
-
-const adminForm = document.getElementById("admin-form");
-const editDocIdInp = document.getElementById("edit-doc-id");
-const submitBtn = document.getElementById("admin-submit-btn");
-const cancelEditBtn = document.getElementById("cancel-edit-btn");
-const adminNotice = document.getElementById("admin-notice");
-const aNumber = document.getElementById("a-number");
-const aTitle = document.getElementById("a-title");
-const aOrdre = document.getElementById("a-ordre");
-const aType = document.getElementById("a-type");
-const aCols = document.getElementById("a-cols");
-const aNote = document.getElementById("a-note");
-const aItems = document.getElementById("a-items");
-
-function getFormData() {
+// ---------- Data loading ----------
+function defaultState() {
   return {
-    number: aNumber.value.trim(),
-    title: aTitle.value.trim(),
-    ordre: parseInt(aOrdre.value || Date.now(), 10),
-    type: aType.value,
-    cols: aCols.value.trim(),
-    note: aNote.value.trim(),
-    items: aItems.value.split("\n").map(v => v.trim()).filter(Boolean)
+    title: "Délais de Promotion",
+    cols: ["Promotion", "Jours requis", "Missions / Commandements"],
+    rows: [],
+    note: ""
   };
 }
 
-function fillForm(data, docId) {
-  editDocIdInp.value = docId;
-  aNumber.value = data.number || "05";
-  aTitle.value = data.title || "Délais de Promotion";
-  aOrdre.value = data.ordre || 1;
-  aType.value = data.type || "table";
-  aCols.value = data.cols || "Promotion|Jours requis|Missions / Commandements";
-  aNote.value = data.note || "";
-  aItems.value = Array.isArray(data.items) ? data.items.join("\n") : "";
-  submitBtn.textContent = "Enregistrer les modifications";
-  cancelEditBtn.style.display = "block";
-  adminPanel.classList.add("open");
+function normalizeState(data) {
+  if (!data) return defaultState();
+  const cols = Array.isArray(data.cols) ? data.cols.slice() : (typeof data.cols === "string" ? data.cols.split("|").map(s=>s.trim()).filter(Boolean) : defaultState().cols);
+  let rows;
+  if (Array.isArray(data.rows)) {
+    rows = data.rows.map(r => Array.isArray(r) ? r.slice() : String(r).split("|").map(s=>s.trim()));
+  } else if (Array.isArray(data.items)) {
+    // legacy format: items as "a|b|c" strings
+    rows = data.items.map(item => String(item).split("|").map(s => s.trim()));
+  } else {
+    rows = [];
+  }
+  // pad/truncate rows to match cols length
+  rows = rows.map(r => {
+    const copy = r.slice(0, cols.length);
+    while (copy.length < cols.length) copy.push("");
+    return copy;
+  });
+  return {
+    title: data.title || defaultState().title,
+    cols,
+    rows,
+    note: data.note || ""
+  };
 }
 
-function resetForm() {
-  adminForm.reset();
-  aNumber.value = "05";
-  aTitle.value = "Délais de Promotion";
-  aOrdre.value = "1";
-  aType.value = "table";
-  aCols.value = "Promotion|Jours requis|Missions / Commandements";
-  aNote.value = "";
-  aItems.value = "";
-  editDocIdInp.value = "";
-  submitBtn.textContent = "Enregistrer";
-  cancelEditBtn.style.display = "none";
-  adminNotice.textContent = "";
-  adminNotice.className = "admin-notice";
+async function loadPromoDoc() {
+  try {
+    const snap = await getDoc(DOC_REF);
+    liveState = snap.exists() ? normalizeState(snap.data()) : defaultState();
+  } catch (err) {
+    promoContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
+    return;
+  }
+  renderTable();
+}
+
+// ---------- Rendering ----------
+function activeState() {
+  return isEditing ? draftState : liveState;
+}
+
+function escapeHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = s == null ? "" : String(s);
+  return d.innerHTML;
+}
+
+function renderTable() {
+  const state = activeState();
+  if (!state) return;
+
+  sectionTitleInput.value = state.title;
+  sectionTitleInput.disabled = !isEditing;
+
+  if (!isEditing && state.rows.length === 0 && !state.cols.length) {
+    promoContent.innerHTML = '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune promotion pour l’instant.</p>';
+    addRowBar.style.display = "none";
+    return;
+  }
+
+  let html = '<div class="promo-table-wrap"><table class="promo-table"><thead><tr>';
+  state.cols.forEach((col, ci) => {
+    html += `<th data-col="${ci}">
+      <div class="th-cell-inner">
+        <input type="text" class="th-input" data-role="col-header" data-col="${ci}" value="${escapeHtml(col)}" ${isEditing ? '' : 'disabled'}>
+        ${isEditing && state.cols.length > 1 ? `<button type="button" class="col-del-btn" data-role="del-col" data-col="${ci}" title="Supprimer la colonne">×</button>` : ''}
+      </div>
+    </th>`;
+  });
+  if (isEditing) {
+    html += `<th class="add-col-th"><button type="button" class="add-col-btn" id="add-col-btn" title="Ajouter une colonne">+</button></th>`;
+  }
+  html += '</tr></thead><tbody>';
+
+  state.rows.forEach((row, ri) => {
+    html += `<tr data-row="${ri}">`;
+    row.forEach((cell, ci) => {
+      html += `<td><textarea rows="1" class="cell-input" data-role="cell" data-row="${ri}" data-col="${ci}" ${isEditing ? '' : 'disabled'}>${escapeHtml(cell)}</textarea></td>`;
+    });
+    if (isEditing) {
+      html += `<td class="row-actions-cell"><button type="button" class="row-del-btn" data-role="del-row" data-row="${ri}" title="Supprimer la ligne">×</button></td>`;
+    }
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  promoContent.innerHTML = html;
+
+  // note
+  const noteWrap = document.createElement("div");
+  if (isEditing) {
+    noteWrap.className = "promo-note";
+    noteWrap.innerHTML = `<textarea class="note-input" id="note-input" placeholder="Note / avertissement (laisser vide pour ne rien afficher)">${escapeHtml(state.note)}</textarea>`;
+    promoContent.appendChild(noteWrap);
+  } else if (state.note) {
+    noteWrap.className = "promo-note";
+    noteWrap.textContent = state.note;
+    promoContent.appendChild(noteWrap);
+  }
+
+  addRowBar.style.display = isEditing ? "flex" : "none";
+
+  attachCellListeners();
+  autosizeAllTextareas();
+}
+
+function autosizeAllTextareas() {
+  promoContent.querySelectorAll("textarea.cell-input, textarea.note-input").forEach(autosize);
+}
+function autosize(el) {
+  el.style.height = "auto";
+  el.style.height = (el.scrollHeight) + "px";
+}
+
+function attachCellListeners() {
+  if (!isEditing) return;
+
+  promoContent.querySelectorAll('[data-role="col-header"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      const ci = parseInt(inp.dataset.col, 10);
+      draftState.cols[ci] = inp.value;
+    });
+  });
+
+  promoContent.querySelectorAll('[data-role="del-col"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const ci = parseInt(btn.dataset.col, 10);
+      draftState.cols.splice(ci, 1);
+      draftState.rows.forEach(r => r.splice(ci, 1));
+      renderTable();
+    });
+  });
+
+  const addColBtn = document.getElementById("add-col-btn");
+  if (addColBtn) {
+    addColBtn.addEventListener("click", () => {
+      draftState.cols.push("Nouvelle colonne");
+      draftState.rows.forEach(r => r.push(""));
+      renderTable();
+    });
+  }
+
+  promoContent.querySelectorAll('[data-role="cell"]').forEach(ta => {
+    ta.addEventListener("input", () => {
+      const ri = parseInt(ta.dataset.row, 10);
+      const ci = parseInt(ta.dataset.col, 10);
+      draftState.rows[ri][ci] = ta.value;
+      autosize(ta);
+    });
+  });
+
+  promoContent.querySelectorAll('[data-role="del-row"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const ri = parseInt(btn.dataset.row, 10);
+      draftState.rows.splice(ri, 1);
+      renderTable();
+    });
+  });
+
+  const noteInput = document.getElementById("note-input");
+  if (noteInput) {
+    noteInput.addEventListener("input", () => {
+      draftState.note = noteInput.value;
+      autosize(noteInput);
+    });
+  }
+}
+
+addRowBtn.addEventListener("click", () => {
+  if (!isEditing) return;
+  draftState.rows.push(draftState.cols.map(() => ""));
+  renderTable();
+});
+
+sectionTitleInput.addEventListener("input", () => {
+  if (!isEditing) return;
+  draftState.title = sectionTitleInput.value;
+});
+
+// ---------- Edit mode controls ----------
+function enterEditMode() {
+  if (!currentUserRole) return;
+  draftState = JSON.parse(JSON.stringify(liveState));
+  isEditing = true;
+  editBanner.classList.add("active");
+  editToolbar.style.display = "flex";
+  editStatus.textContent = "";
+  editStatus.className = "edit-toolbar-status";
+  adminToggleLabel.textContent = "Quitter";
+  renderTable();
+}
+
+function exitEditMode(rerender = true) {
+  isEditing = false;
+  draftState = null;
+  editBanner.classList.remove("active");
+  editToolbar.style.display = "none";
+  adminToggleLabel.textContent = "Modifier";
+  if (rerender) renderTable();
 }
 
 adminBtn.addEventListener("click", () => {
   if (!currentUserRole) return;
-  adminPanel.classList.toggle("open");
+  if (isEditing) {
+    if (confirm("Quitter le mode édition sans enregistrer ?")) exitEditMode();
+  } else {
+    enterEditMode();
+  }
 });
 
+cancelBtn.addEventListener("click", () => {
+  if (confirm("Annuler les modifications non enregistrées ?")) exitEditMode();
+});
+
+saveBtn.addEventListener("click", async () => {
+  if (!currentUserRole || !draftState) return;
+  // Clean: trim trailing fully-empty rows is optional; keep as-is for user control.
+  const payload = {
+    title: draftState.title.trim() || "Délais de Promotion",
+    cols: draftState.cols.map(c => c.trim() || "Colonne"),
+    rows: draftState.rows.map(r => r.map(c => c)),
+    note: draftState.note
+  };
+  saveBtn.disabled = true;
+  editStatus.textContent = "Enregistrement...";
+  editStatus.className = "edit-toolbar-status";
+  try {
+    await setDoc(DOC_REF, payload);
+    liveState = normalizeState(payload);
+    editStatus.textContent = "Enregistré !";
+    editStatus.className = "edit-toolbar-status success";
+    setTimeout(() => exitEditMode(), 500);
+  } catch (err) {
+    editStatus.textContent = "Erreur : " + err.message;
+    editStatus.className = "edit-toolbar-status error";
+  } finally {
+    saveBtn.disabled = false;
+  }
+});
+
+// ---------- Accounts modal ----------
 accountsBtn.addEventListener("click", async () => {
   if (currentUserRole !== "superadmin") return;
   accountsModal.classList.add("active");
@@ -589,34 +835,8 @@ addAccountForm.addEventListener("submit", async e => {
   }
 });
 
-adminForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  if (!currentUserRole) {
-    adminNotice.textContent = "Non autorisé.";
-    adminNotice.className = "admin-notice error";
-    return;
-  }
-
-  const data = getFormData();
-  const docId = editDocIdInp.value;
-
-  try {
-    if (docId) {
-      await updateDoc(doc(db, "promotions", docId), data);
-      adminNotice.textContent = "Promotions mises à jour !";
-    } else {
-      await addDoc(collection(db, "promotions"), data);
-      adminNotice.textContent = "Promotions enregistrées !";
-    }
-    adminNotice.className = "admin-notice success";
-    resetForm();
-  } catch (err) {
-    adminNotice.textContent = "Erreur : " + err.message;
-    adminNotice.className = "admin-notice error";
-  }
-});
-
-cancelEditBtn.addEventListener("click", resetForm);
+// ---------- init ----------
+loadPromoDoc();
 </script>
 </body>
 </html>
