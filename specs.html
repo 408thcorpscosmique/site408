@@ -5,7 +5,287 @@
   <title>408th Corps Cosmique - Spécialisations</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="Logo_408th.png">
-  <link rel="stylesheet" href="style.css">
+  <meta property="og:title" content="408th Corps Cosmique">
+  <meta property="og:description" content="Consultez les spécialisations du 408th Corps Cosmique">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/specs.html">
+  <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
+  <meta name="theme-color" content="#7B00FF">
+  <style>
+    #auth-bar {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 1rem 0.5rem 1.2rem;
+      background: rgba(10,20,40,0.85);
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+      justify-content: flex-end;
+      backdrop-filter: blur(6px);
+      position: relative;
+      z-index: 50;
+    }
+    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
+    .auth-user-wrap.visible { display: flex; }
+    .auth-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; object-fit: cover;
+    }
+    .auth-avatar-fallback {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
+      color: #7B00FF; font-size: 0.65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-transform: uppercase;
+    }
+    .auth-username {
+      font-size: 0.68rem; color: #666;
+      max-width: 110px; letter-spacing: 0.5px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .auth-btn {
+      padding: 0.3rem 0.9rem; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; border: 1px solid;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .auth-btn-login { background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0; }
+    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
+    .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
+    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+
+    #admin-toggle-btn {
+      position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border-radius: 6px;
+      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; padding: 0.6rem 1.1rem;
+      border: 1px solid #7B00FF; color: #c8cdd6;
+      box-shadow: 0 0 18px rgba(123,0,255,0.3);
+      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
+    }
+    #accounts-btn {
+      position: fixed; right: 1.5rem; bottom: 5.6rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border-radius: 6px;
+      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; padding: 0.6rem 1.1rem;
+      border: 1px solid #00ff88; color: #c8cdd6;
+      box-shadow: 0 0 18px rgba(0,255,136,0.18);
+      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
+    }
+    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
+    #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
+    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+
+    /* ===== Edit mode banner ===== */
+    #edit-mode-banner {
+      display: none; position: sticky; top: 0; z-index: 60;
+      background: rgba(123,0,255,0.18); border-bottom: 1px solid rgba(123,0,255,0.4);
+      color: #e2d4ff; font-size: 0.78rem; letter-spacing: 0.5px;
+      padding: 0.55rem 1.2rem; text-align: center;
+    }
+    #edit-mode-banner.active { display: block; }
+    #edit-mode-banner strong { color: #fff; }
+
+    .content { padding: 2rem 0 4rem; }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .section-number { font-size: 3rem; font-weight: 900; color: rgba(123,0,255,0.18); line-height: 1; font-family: monospace; }
+    .section-title { color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.4rem; margin: 0; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(123,0,255,0.6), transparent); }
+
+    .specs-section { margin: 0 auto; max-width: 1100px; padding: 0 1.25rem; }
+
+    .edit-toolbar {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+      margin: 1rem 0 1.4rem; padding: 0.8rem 1rem;
+      background: rgba(123,0,255,0.08); border: 1px solid rgba(123,0,255,0.25);
+      border-radius: 6px;
+    }
+    .edit-toolbar-btn {
+      padding: 0.4rem 0.9rem; border-radius: 4px; font-size: 0.72rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: 1px solid #7B00FF; background: rgba(123,0,255,0.15);
+      color: #c8cdd6; transition: all 0.15s; font-family: inherit;
+    }
+    .edit-toolbar-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .edit-toolbar-btn.save { border-color: #00ff88; background: rgba(0,255,136,0.12); color: #b6ffd9; }
+    .edit-toolbar-btn.save:hover { background: rgba(0,255,136,0.3); color: #fff; }
+    .edit-toolbar-btn.cancel { border-color: #888; background: transparent; color: #999; }
+    .edit-toolbar-btn.cancel:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .edit-toolbar-status { font-size: 0.72rem; color: #888; margin-left: auto; }
+    .edit-toolbar-status.success { color: #00ff88; }
+    .edit-toolbar-status.error { color: #e74c3c; }
+
+    /* ===== Spec card ===== */
+    .spec-card {
+      margin-bottom: 3rem; border-radius: 8px; padding: 1.75rem;
+      border: 1px solid; background: rgba(255,255,255,0.02);
+      transition: box-shadow 0.2s;
+    }
+    .spec-card-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; border-bottom: 1px solid; padding-bottom: 0.6rem; margin-bottom: 1rem;
+    }
+    .spec-title-input {
+      background: transparent; border: none; outline: none;
+      font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px;
+      font-family: inherit; font-weight: 700; width: 100%; padding: 0;
+    }
+    .spec-title-input:not(:disabled) { border-bottom: 1px dashed rgba(255,255,255,0.3); cursor: text; }
+    .spec-title-input:disabled { pointer-events: none; }
+
+    .spec-subtitle-input {
+      background: transparent; border: none; outline: none;
+      color: #d1d5db; font-style: italic; font-family: inherit;
+      font-size: 0.95rem; width: 100%; padding: 0; margin-top: 0.4rem;
+    }
+    .spec-subtitle-input:not(:disabled) { border-bottom: 1px dashed rgba(255,255,255,0.2); cursor: text; }
+    .spec-subtitle-input:disabled { pointer-events: none; }
+
+    .spec-meta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-top: 0.6rem; }
+    .spec-meta-field { display: flex; flex-direction: column; gap: 0.2rem; }
+    .spec-meta-field label { font-size: 0.62rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+    .spec-meta-input {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.3rem 0.5rem;
+      font-size: 0.78rem; font-family: inherit; width: 90px;
+    }
+    .spec-color-input { width: 50px; height: 28px; padding: 2px; cursor: pointer; }
+    .spec-meta-input:disabled, .spec-color-input:disabled { opacity: 0.6; pointer-events: none; }
+
+    .spec-card-del {
+      flex-shrink: 0; padding: 0.35rem 0.7rem; border-radius: 4px;
+      border: 1px solid rgba(231,76,60,0.5); background: rgba(231,76,60,0.1);
+      color: #e74c3c; font-size: 0.72rem; cursor: pointer; text-transform: uppercase;
+      letter-spacing: 1px; white-space: nowrap;
+    }
+    .spec-card-del:hover { background: rgba(231,76,60,0.35); color: #fff; }
+
+    .spec-block { margin-bottom: 1.5rem; }
+    .spec-blocks-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .spec-blocks-row .spec-block { flex: 1; min-width: 250px; }
+    .spec-block-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .spec-block-label-input {
+      background: transparent; border: none; outline: none;
+      font-size: 0.9rem; text-transform: uppercase; font-weight: 700;
+      font-family: inherit; padding: 0; width: 100%;
+    }
+    .spec-block-label-input:not(:disabled) { border-bottom: 1px dashed rgba(255,255,255,0.2); cursor: text; }
+    .spec-block-label-input:disabled { pointer-events: none; }
+
+    .spec-block-del {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 4px;
+      border: 1px solid rgba(231,76,60,0.5); background: rgba(231,76,60,0.1);
+      color: #e74c3c; font-size: 0.75rem; cursor: pointer; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .spec-block-del:hover { background: rgba(231,76,60,0.4); color: #fff; }
+
+    .spec-block-textarea {
+      width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+      color: #d1d5db; font-family: inherit; font-size: 0.92rem; line-height: 1.6;
+      padding: 0.7rem 0.9rem; resize: vertical; min-height: 4.5rem;
+    }
+    .spec-block-textarea:focus { outline: none; box-shadow: inset 0 0 0 1px rgba(123,0,255,0.5); }
+
+    .spec-block-display {
+      color: #d1d5db; line-height: 1.6; font-size: 0.92rem;
+      white-space: normal; overflow: visible;
+    }
+
+    .spec-block-hint { font-size: 0.7rem; color: #777; margin: 0.3rem 0 0; }
+
+    .spec-add-block-bar { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .spec-add-block-btn {
+      padding: 0.4rem 0.9rem; border-radius: 5px; font-size: 0.72rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: 1px dashed rgba(123,0,255,0.5); background: rgba(123,0,255,0.08);
+      color: #a080d0; transition: all 0.15s; font-family: inherit;
+    }
+    .spec-add-block-btn:hover { background: rgba(123,0,255,0.25); color: #fff; border-style: solid; }
+
+    .spec-tags-input {
+      width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+      color: #d1d5db; font-family: inherit; font-size: 0.88rem;
+      padding: 0.6rem 0.9rem;
+    }
+    .spec-tags-input:focus { outline: none; box-shadow: inset 0 0 0 1px rgba(123,0,255,0.5); }
+    .spec-tags-input:disabled { background: transparent; border-color: transparent; padding: 0; cursor: default; }
+
+    .spec-tags-display { display: flex; flex-wrap: wrap; gap: 10px; }
+    .spec-tag {
+      background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px;
+      color: #fff; font-size: 0.9rem; border: 1px solid; display: inline-block;
+    }
+
+    .spec-note {
+      margin-top: 1.25rem; padding: 1rem 1.1rem; border-left: 3px solid #ffb400;
+      background: rgba(255,180,0,0.08); color: #e9c56a; border-radius: 4px;
+      line-height: 1.65; font-size: 0.92rem;
+    }
+    .spec-note-input {
+      width: 100%; box-sizing: border-box; background: transparent; border: none;
+      color: #e9c56a; font-family: inherit; font-size: 0.92rem; line-height: 1.65;
+      resize: vertical; min-height: 2.5rem;
+    }
+    .spec-note-input:focus { outline: none; }
+    .spec-note-input:disabled { cursor: default; }
+
+    .add-spec-bar { margin-top: 0.6rem; display: flex; justify-content: center; }
+    .add-spec-btn {
+      padding: 0.55rem 1.3rem; border-radius: 5px; font-size: 0.78rem;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: 1px dashed rgba(123,0,255,0.5); background: rgba(123,0,255,0.08);
+      color: #a080d0; transition: all 0.15s; font-family: inherit;
+    }
+    .add-spec-btn:hover { background: rgba(123,0,255,0.25); color: #fff; border-style: solid; }
+
+    footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
+
+    /* ===== Accounts modal ===== */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px); z-index: 1000; align-items: center;
+      justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
+    @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .modal-content {
+      position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF; border-radius: 6px; padding: 2rem; max-width: 760px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px rgba(123,0,255,0.2);
+    }
+    .close-modal {
+      position: absolute; top: 1rem; right: 1rem; background: none;
+      border: 1px solid rgba(255,255,255,0.15); color: #aaa;
+      font-size: 1.3rem; line-height: 1; width: 2rem; height: 2rem;
+      border-radius: 4px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .close-modal:hover { color: #fff; border-color: #7B00FF; background: rgba(255,255,255,0.05); }
+    .modal-title { color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.2rem; margin: 0 0 0.3rem; }
+    .modal-role { color: #7B00FF; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; margin: 0 0 1.2rem; }
+    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-form label { font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: -0.3rem; }
+    .admin-form input, .admin-form select {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
+      font-size: 0.82rem; font-family: inherit; width: 100%; box-sizing: border-box;
+    }
+    .admin-form input:focus, .admin-form select:focus { outline: none; border-color: #7B00FF; }
+    .admin-btn {
+      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
+      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
+    }
+    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
+    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
+    .admin-notice.success { color: #00ff88; }
+    .admin-notice.error { color: #e74c3c; }
+  </style>
 </head>
 <body>
 <canvas id="stars-canvas"></canvas>
@@ -21,131 +301,689 @@
   <a href="formations.html">Formations</a>
   <a href="specs.html" class="active">Spécialisations</a>
   <a href="escouades.html">Escouades</a>
+
+  <div class="nav-auth" id="navAuth">
+    <div class="auth-user-wrap" id="authUserWrap">
+      <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none">
+      <div class="auth-avatar-fallback" id="authAvatarFallback" style="display:none"></div>
+      <span class="auth-username" id="authUsername"></span>
+    </div>
+    <button class="auth-btn auth-btn-login" id="loginBtn">🔒 Connexion</button>
+    <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none">Déconnexion</button>
+  </div>
 </nav>
 
-<div class="content">
-  <section id="specs">
+<div id="edit-mode-banner"><strong>Mode édition activé</strong> — clique sur n'importe quel titre, champ ou bloc pour le modifier. N'oublie pas d'enregistrer.</div>
+
+<section class="content">
+  <div class="specs-section">
     <div class="section-header reveal">
       <div class="section-number">06</div>
       <h2 class="section-title">Spécialisations d'Élite</h2>
       <div class="section-line"></div>
     </div>
 
-    <!-- ==============================================
-         ARC ROGUE (Thème Orange)
-         ============================================== -->
-    <div class="holo-card reveal" style="margin-bottom: 3rem; border-color: rgba(255, 140, 0, 0.4); box-shadow: 0 0 15px rgba(255, 140, 0, 0.05);">
-      <h3 style="color: #ff8c00; border-bottom: 1px solid rgba(255, 140, 0, 0.3); padding-bottom: 0.5rem; margin-top: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 2px;">
-        ARC Rogue
-      </h3>
-      <p style="color: #d1d5db; font-style: italic; margin-bottom: 1.5rem;">Hommes compétents du 408th (Unités d'Élite)</p>
-
-      <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-        <div style="flex: 1; min-width: 250px;">
-          <h4 style="color: #ff8c00; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">📋 Prérequis</h4>
-          <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem; margin-top: 0;">
-            <li>Être <strong>SGT</strong> minimum.</li>
-            <li>Avoir <strong>2 médailles</strong>.</li>
-            <li>Ne pas être BRS ou ARC Alpha.</li>
-            <li>Avoir l'accord du CMDM en radio RP 408th.</li>
-          </ul>
-        </div>
-        
-        <div style="flex: 1; min-width: 250px;">
-          <h4 style="color: #ff8c00; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">⚠️ Places Disponibles</h4>
-          <p style="color: #d1d5db; background: rgba(255, 140, 0, 0.1); padding: 1rem; border-radius: 4px; border-left: 3px solid #ff8c00; margin-top: 0;">
-            Il ne peut y avoir que <strong>3 ARC Rogue</strong> au sein du 408th Corps Cosmique.
-          </p>
-        </div>
-      </div>
-
-      <h4 style="color: #ff8c00; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">⭐ Avantages</h4>
-      <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem; margin-top: 0;">
-        <li>Vous représentez le régiment sur la flotte : vous devez être un exemple et être irréprochable.</li>
-        <li>Participation autorisée aux missions ARC Rogue avec les Alpha (lorsqu'il y en a).</li>
-        <li>Possibilité d'obtenir la médaille de l'ARC Rogue.</li>
-      </ul>
+    <div id="edit-toolbar" class="edit-toolbar" style="display:none;">
+      <button type="button" class="edit-toolbar-btn save" id="save-btn">💾 Enregistrer</button>
+      <button type="button" class="edit-toolbar-btn cancel" id="cancel-btn">Annuler</button>
+      <span class="edit-toolbar-status" id="edit-status"></span>
     </div>
 
-    <!-- ==============================================
-         RC RÉGIMENTAIRE (Thème Vert)
-         ============================================== -->
-    <div class="holo-card reveal" style="margin-bottom: 2rem; border-color: rgba(0, 255, 100, 0.4); box-shadow: 0 0 15px rgba(0, 255, 100, 0.05);">
-      <h3 style="color: #00ff64; border-bottom: 1px solid rgba(0, 255, 100, 0.3); padding-bottom: 0.5rem; margin-top: 0; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 2px;">
-        RC Régimentaire
-      </h3>
-      <p style="color: #d1d5db; font-style: italic; margin-bottom: 1.5rem;">Hommes compétents du 408th (Unités d'Élite)</p>
-
-      <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-        <div style="flex: 1; min-width: 250px;">
-          <h4 style="color: #00ff64; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">📋 Prérequis</h4>
-          <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem; margin-top: 0;">
-            <li>Être <strong>ADJ</strong> minimum.</li>
-            <li>Avoir <strong>2 médailles</strong>.</li>
-            <li>Ne pas être BRS.</li>
-            <li>Avoir l'accord du CMDM en radio RP 408th.</li>
-          </ul>
-        </div>
-        
-        <div style="flex: 1; min-width: 250px;">
-          <h4 style="color: #00ff64; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">⚠️ Place Disponible</h4>
-          <p style="color: #d1d5db; background: rgba(0, 255, 100, 0.1); padding: 1rem; border-radius: 4px; border-left: 3px solid #00ff64; margin-top: 0;">
-            Il ne peut y avoir que <strong>1 RC Régimentaire</strong> au sein du 408th Corps Cosmique.
-          </p>
-        </div>
-      </div>
-
-      <h4 style="color: #00ff64; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">⭐ Avantages & Statistiques</h4>
-      <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem; margin-top: 0; margin-bottom: 1.5rem;">
-        <li>Vous représentez le régiment sur la flotte : vous devez être un exemple et être irréprochable.</li>
-        <li>Participation autorisée aux missions RC Régimentaires avec les RC (le cas échéant).</li>
-        <li><strong>Statistiques améliorées :</strong> 250 HP et 300 Armor.</li>
-        <li>Accès via votre F4 à la <strong>Katarn Armor</strong>, qui vous protège grandement des explosions.</li>
-        <li>Possibilité de recevoir la médaille de l'Aihwa.</li>
-      </ul>
-
-      <h4 style="color: #00ff64; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">⚔️ Armement Fourni</h4>
-      <p style="color: #9ca3af; font-size: 0.85rem; margin-top: 0;"><em>Cliquez sur les équipements pour consulter la base de données Holonet.</em></p>
-      
-      <!-- Liste des armes (liens cliquables) -->
-      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0.5rem;">
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-dc17m.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px; color: #fff; font-size: 0.9rem; border: 1px solid rgba(0, 255, 100, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(0, 255, 100, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">DC-17M</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-dc15x.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px; color: #fff; font-size: 0.9rem; border: 1px solid rgba(0, 255, 100, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(0, 255, 100, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">DC-15x</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-mortier-clone.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px; color: #fff; font-size: 0.9rem; border: 1px solid rgba(0, 255, 100, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(0, 255, 100, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Mortier</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-lancemissiles-rps6.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px; color: #fff; font-size: 0.9rem; border: 1px solid rgba(0, 255, 100, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(0, 255, 100, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Smart Launcher</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/technologie-grappin-magnetique.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 4px; color: #fff; font-size: 0.9rem; border: 1px solid rgba(0, 255, 100, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(0, 255, 100, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Grappin</a>
-      </div>
-
-      <!-- Grenades (Liens cliquables) -->
-      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-detonateur.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,50,50,0.15); padding: 6px 14px; border-radius: 4px; color: #ffcccc; font-size: 0.9rem; border: 1px solid rgba(255, 50, 50, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255, 50, 50, 0.3)'" onmouseout="this.style.background='rgba(255,50,50,0.15)'">Thermal Grenade</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-detonateur-flash.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,50,50,0.15); padding: 6px 14px; border-radius: 4px; color: #ffcccc; font-size: 0.9rem; border: 1px solid rgba(255, 50, 50, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255, 50, 50, 0.3)'" onmouseout="this.style.background='rgba(255,50,50,0.15)'">Flash Grenade</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-grenade-proton.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,50,50,0.15); padding: 6px 14px; border-radius: 4px; color: #ffcccc; font-size: 0.9rem; border: 1px solid rgba(255, 50, 50, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255, 50, 50, 0.3)'" onmouseout="this.style.background='rgba(255,50,50,0.15)'">Impact Grenade</a>
-        <a href="https://www.starwars-holonet.com/encyclopedie/arme-0033x.html" target="_blank" rel="noopener noreferrer" style="background: rgba(255,50,50,0.15); padding: 6px 14px; border-radius: 4px; color: #ffcccc; font-size: 0.9rem; border: 1px solid rgba(255, 50, 50, 0.4); text-decoration: none; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255, 50, 50, 0.3)'" onmouseout="this.style.background='rgba(255,50,50,0.15)'">Incendiary Grenade</a>
-        <span style="background: rgba(255,50,50,0.15); padding: 6px 14px; border-radius: 4px; color: #ffcccc; font-size: 0.9rem; border: 1px solid rgba(255, 50, 50, 0.4);">Smoke Grenade</span>
-      </div>
-
-      <p style="margin-top: 2rem; color: #9ca3af; font-size: 0.95rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-        <em>📝 <strong>Informations RC Régimentaire :</strong> Il est vivement recommandé d'apprendre certains mots et expressions en <strong>Mando'a</strong> pour une meilleure immersion RP.</em>
-      </p>
-
-      <!-- Section Lore & Docs -->
-      <div style="margin-top: 1.5rem; background: rgba(0, 255, 100, 0.05); padding: 1rem; border-radius: 4px; border: 1px solid rgba(0, 255, 100, 0.2);">
-        <h4 style="color: #00ff64; margin-top: 0; margin-bottom: 0.8rem; text-transform: uppercase; font-size: 0.9rem;">📚 Documentation & Lore</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
-          <li><a href="https://docs.google.com/document/d/1jZyvM6_41LpfA97Q0kO0lNASCiQ_A8EK2-pS4_IsqSM/edit?tab=t.0#heading=h.xjbnk7uh28gl" target="_blank" style="color: #00ff64; text-decoration: none;">▶ GDOC RC Régimentaire</a></li>
-          <li><a href="https://www.starwars-holonet.com/encyclopedie/technologie-katarn.html" target="_blank" style="color: #00ff64; text-decoration: none;">▶ Informations Armure Katarn</a></li>
-          <li><a href="https://www.starwars-holonet.com/encyclopedie/organisation-esc-delta.html" target="_blank" style="color: #00ff64; text-decoration: none;">▶ Histoire de l'Escouade Delta</a></li>
-          <li><a href="https://www.starwars-holonet.com/encyclopedie/organisation-mandaloriens.html" target="_blank" style="color: #00ff64; text-decoration: none;">▶ Culture Mandalorienne</a></li>
-        </ul>
-      </div>
-
+    <div id="specs-content">
+      <p style="color:#555;text-align:center;padding:2rem 1rem;">Chargement des spécialisations</p>
     </div>
 
-  </section>
+    <div class="add-spec-bar" id="add-spec-bar" style="display:none;">
+      <button type="button" class="add-spec-btn" id="add-spec-btn">+ Ajouter une spécialisation</button>
+    </div>
+  </div>
+</section>
+
+<button id="admin-toggle-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
+  </svg>
+  <span id="admin-toggle-label">Modifier</span>
+</button>
+
+<button id="accounts-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+  Comptes
+</button>
+
+<div id="accounts-modal" class="modal-overlay">
+  <div class="modal-content" style="max-width:760px;">
+    <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
+    <div class="modal-header">
+      <h2 class="modal-title">Gestion des comptes</h2>
+      <h4 class="modal-role">Superadmin uniquement</h4>
+    </div>
+
+    <div id="accounts-list" style="display:grid; gap:0.75rem; margin-bottom:1rem;"></div>
+
+    <form id="add-account-form" class="admin-form">
+      <label>Email</label>
+      <input type="email" id="new-account-email" placeholder="admin@mail.com" required>
+      <label>Rôle</label>
+      <select id="new-account-role">
+        <option value="admin">admin</option>
+        <option value="superadmin">superadmin</option>
+      </select>
+      <button type="submit" class="admin-btn">Ajouter / mettre à jour</button>
+    </form>
+
+    <div id="accounts-notice" class="admin-notice"></div>
+  </div>
 </div>
 
 <footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+
 <script src="script.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref as dbRef, get, child, set, remove }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
+  authDomain: "thsite-3fe39.firebaseapp.com",
+  databaseURL: "https://thsite-3fe39-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "thsite-3fe39",
+  storageBucket: "thsite-3fe39.firebasestorage.app",
+  messagingSenderId: "974675357380",
+  appId: "1:974675357380:web:836fbaae3fb66034e6a391",
+  measurementId: "G-Y95QVRY8WK"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const rtdb = getDatabase(app);
+const provider = new GoogleAuthProvider();
+
+let currentUserRole = null;
+let isEditing = false;
+
+// Each spec card:
+// {
+//   id: string (firestore doc id, generated client-side if new),
+//   title: string,
+//   subtitle: string,
+//   color: string (hex, e.g. "#ff8c00"),
+//   number: string,
+//   ordre: number,
+//   note: string,
+//   blocks: [ { label: string, text: string, type: "text" | "tags" } ... ]
+// }
+let liveSpecs = [];     // baseline synced from Firestore
+let draftSpecs = null;  // editable copy while isEditing === true
+
+const SPECS_COLLECTION = "specs";
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const avatarWrap = document.getElementById("authUserWrap");
+const avatarImg = document.getElementById("authAvatarImg");
+const avatarFall = document.getElementById("authAvatarFallback");
+const usernameEl = document.getElementById("authUsername");
+const adminBtn = document.getElementById("admin-toggle-btn");
+const adminToggleLabel = document.getElementById("admin-toggle-label");
+const accountsBtn = document.getElementById("accounts-btn");
+const accountsModal = document.getElementById("accounts-modal");
+const closeAccountsModal = document.getElementById("close-accounts-modal");
+const accountsList = document.getElementById("accounts-list");
+const addAccountForm = document.getElementById("add-account-form");
+const newAccountEmail = document.getElementById("new-account-email");
+const newAccountRole = document.getElementById("new-account-role");
+const accountsNotice = document.getElementById("accounts-notice");
+const editBanner = document.getElementById("edit-mode-banner");
+const editToolbar = document.getElementById("edit-toolbar");
+const editStatus = document.getElementById("edit-status");
+const saveBtn = document.getElementById("save-btn");
+const cancelBtn = document.getElementById("cancel-btn");
+const specsContent = document.getElementById("specs-content");
+const addSpecBar = document.getElementById("add-spec-bar");
+const addSpecBtn = document.getElementById("add-spec-btn");
+
+function showAvatar(user) {
+  avatarWrap.classList.add("visible");
+  const name = user.displayName || user.email.split("@")[0];
+  usernameEl.textContent = name;
+  if (user.photoURL) {
+    avatarImg.src = user.photoURL;
+    avatarImg.alt = name;
+    avatarImg.style.display = "block";
+    avatarFall.style.display = "none";
+  } else {
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    avatarFall.textContent = initials;
+    avatarFall.style.display = "flex";
+    avatarImg.style.display = "none";
+  }
+}
+
+function hideAvatar() {
+  avatarWrap.classList.remove("visible");
+  avatarImg.style.display = "none";
+  avatarFall.style.display = "none";
+  usernameEl.textContent = "";
+}
+
+function emailToKey(email) {
+  return email.trim().toLowerCase().replace(/\./g, ",");
+}
+
+function setAccountsNotice(msg, cls = "admin-notice") {
+  accountsNotice.textContent = msg;
+  accountsNotice.className = cls;
+}
+
+async function loadAccounts() {
+  accountsList.innerHTML = '<p style="color:#888;margin:0;">Chargement...</p>';
+  try {
+    const snap = await get(child(dbRef(rtdb), "admins"));
+    if (!snap.exists()) {
+      accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
+      return;
+    }
+    accountsList.innerHTML = "";
+    Object.entries(snap.val()).forEach(([key, data]) => {
+      const email = key.replace(/,/g, ".");
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
+      row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "admin-btn danger";
+      del.style.width = "auto";
+      del.textContent = "Supprimer";
+      del.addEventListener("click", async () => {
+        if (currentUserRole !== "superadmin") return;
+        if (!confirm(`Supprimer ${email} ?`)) return;
+        try {
+          await remove(dbRef(rtdb, `admins/${key}`));
+          setAccountsNotice("Compte supprimé.", "admin-notice success");
+          await loadAccounts();
+        } catch (err) {
+          setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+        }
+      });
+      row.appendChild(del);
+      accountsList.appendChild(row);
+    });
+  } catch (err) {
+    accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : ' + err.message + "</p>";
+  }
+}
+
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    showAvatar(user);
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    const emailKey = user.email.replace(/\./g, ",");
+    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
+    if (snap.exists()) {
+      currentUserRole = snap.val().role;
+      adminBtn.classList.add("visible");
+      if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
+      else accountsBtn.classList.remove("visible");
+    } else {
+      currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      accountsBtn.classList.remove("visible");
+      exitEditMode(false);
+      accountsModal.classList.remove("active");
+    }
+  } else {
+    hideAvatar();
+    currentUserRole = null;
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    accountsBtn.classList.remove("visible");
+    exitEditMode(false);
+    accountsModal.classList.remove("active");
+  }
+});
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    try { await signInWithRedirect(auth, provider); }
+    catch (e) { alert("Connexion impossible. Autorise les popups ou utilise la redirection."); }
+  }
+});
+
+logoutBtn.addEventListener("click", () => signOut(auth));
+
+// ---------- Data model helpers ----------
+function genId() {
+  return "spec_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+}
+
+function defaultSpec(ordre) {
+  return {
+    id: genId(),
+    title: "Nouvelle Spécialisation",
+    subtitle: "",
+    color: "#7B00FF",
+    number: "00",
+    ordre: ordre,
+    note: "",
+    blocks: [
+      { label: "Prérequis", text: "", type: "text" },
+      { label: "Avantages", text: "", type: "text" }
+    ]
+  };
+}
+
+// Normalize a Firestore doc (matching the existing "formations"-style schema:
+// title, subtitle, number, ordre, note, cols, info, info1, info2, ..., type)
+// into our internal { blocks: [...] } structure, while staying flexible for
+// any future fields the editor adds.
+function normalizeSpecDoc(id, data) {
+  const blocks = [];
+  // info / info0 -> first block (Prérequis by default, but keep stored label if present)
+  const infoKeys = Object.keys(data)
+    .filter(k => /^info\d*$/.test(k))
+    .sort((a, b) => {
+      const na = a === "info" ? -1 : parseInt(a.replace("info", ""), 10);
+      const nb = b === "info" ? -1 : parseInt(b.replace("info", ""), 10);
+      return na - nb;
+    });
+
+  const labelMap = Array.isArray(data.blockLabels) ? data.blockLabels : null;
+
+  infoKeys.forEach((k, idx) => {
+    const defaultLabels = ["Prérequis", "Avantages", "Armement", "Détails"];
+    blocks.push({
+      key: k,
+      label: (labelMap && labelMap[idx]) || defaultLabels[idx] || `Bloc ${idx + 1}`,
+      text: data[k] || "",
+      type: idx === 2 ? "tags" : "text"
+    });
+  });
+
+  if (blocks.length === 0) {
+    blocks.push({ key: "info", label: "Prérequis", text: "", type: "text" });
+    blocks.push({ key: "info1", label: "Avantages", text: "", type: "text" });
+  }
+
+  return {
+    id,
+    title: data.title || "Spécialisation",
+    subtitle: data.subtitle || "",
+    color: data.color || "#7B00FF",
+    number: data.number || "00",
+    ordre: typeof data.ordre === "number" ? data.ordre : 0,
+    note: data.note || "",
+    blocks,
+    type: data.type || "spec"
+  };
+}
+
+function specToPayload(spec) {
+  const payload = {
+    title: spec.title.trim() || "Spécialisation",
+    subtitle: spec.subtitle || "",
+    color: spec.color || "#7B00FF",
+    number: spec.number || "00",
+    ordre: typeof spec.ordre === "number" ? spec.ordre : parseInt(spec.ordre, 10) || 0,
+    note: spec.note || "",
+    type: "spec",
+    cols: ""
+  };
+  const blockLabels = [];
+  spec.blocks.forEach((b, idx) => {
+    const key = idx === 0 ? "info" : "info" + idx;
+    payload[key] = b.text || "";
+    blockLabels.push(b.label || "");
+  });
+  payload.blockLabels = blockLabels;
+  return payload;
+}
+
+async function loadSpecsDocs() {
+  try {
+    const colSnap = await getDocs(collection(db, SPECS_COLLECTION));
+    const list = [];
+    colSnap.forEach(d => list.push(normalizeSpecDoc(d.id, d.data())));
+    list.sort((a, b) => (a.ordre ?? 0) - (b.ordre ?? 0));
+    liveSpecs = list;
+  } catch (err) {
+    specsContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
+    return;
+  }
+  renderSpecs();
+}
+
+// ---------- Rendering ----------
+function activeSpecs() {
+  return isEditing ? draftSpecs : liveSpecs;
+}
+
+function escapeHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = s == null ? "" : String(s);
+  return d.innerHTML;
+}
+
+// Render block text for read-only display: escape everything, then turn
+// newlines into line breaks and allow a small safe subset of formatting
+// tags (<strong>, <b>, <em>, <i>) that may already be stored in older docs.
+function formatBlockText(text) {
+  let escaped = escapeHtml(text);
+  escaped = escaped
+    .replace(/&lt;(\/?)(strong|b|em|i)&gt;/gi, "<$1$2>")
+    .replace(/\n/g, "<br>")
+    .replace(/-\s?(?=\S)/g, m => m); // keep leading dashes as-is, just visual
+  return escaped;
+}
+
+function hexToRgba(hex, alpha) {
+  let c = (hex || "#7B00FF").replace("#", "");
+  if (c.length === 3) c = c.split("").map(ch => ch + ch).join("");
+  const num = parseInt(c, 16);
+  if (isNaN(num)) return `rgba(123,0,255,${alpha})`;
+  const r = (num >> 16) & 255, g = (num >> 8) & 255, b = num & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function renderSpecs() {
+  const specs = activeSpecs();
+
+  if (!specs || specs.length === 0) {
+    specsContent.innerHTML = isEditing
+      ? '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune spécialisation. Ajoutes-en une ci-dessous.</p>'
+      : '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune spécialisation pour l’instant.</p>';
+    addSpecBar.style.display = isEditing ? "flex" : "none";
+    return;
+  }
+
+  let html = "";
+  specs.forEach((spec, si) => {
+    const color = spec.color || "#7B00FF";
+    html += `<div class="spec-card" data-spec="${si}" style="border-color:${hexToRgba(color, 0.4)}; box-shadow:0 0 15px ${hexToRgba(color, 0.05)};">`;
+
+    html += `<div class="spec-card-head" style="border-color:${hexToRgba(color, 0.3)};">`;
+    html += `<div style="flex:1; min-width:0;">`;
+    html += `<input type="text" class="spec-title-input" data-role="spec-title" data-spec="${si}" style="color:${color};" value="${escapeHtml(spec.title)}" ${isEditing ? '' : 'disabled'}>`;
+    html += `<input type="text" class="spec-subtitle-input" data-role="spec-subtitle" data-spec="${si}" value="${escapeHtml(spec.subtitle)}" placeholder="Sous-titre" ${isEditing ? '' : 'disabled'}>`;
+
+    if (isEditing) {
+      html += `<div class="spec-meta-row">
+        <div class="spec-meta-field"><label>Couleur</label><input type="color" class="spec-color-input" data-role="spec-color" data-spec="${si}" value="${color}"></div>
+        <div class="spec-meta-field"><label>Numéro</label><input type="text" class="spec-meta-input" data-role="spec-number" data-spec="${si}" value="${escapeHtml(spec.number)}"></div>
+        <div class="spec-meta-field"><label>Ordre</label><input type="number" class="spec-meta-input" data-role="spec-ordre" data-spec="${si}" value="${spec.ordre}"></div>
+      </div>`;
+    }
+    html += `</div>`;
+    if (isEditing) {
+      html += `<button type="button" class="spec-card-del" data-role="del-spec" data-spec="${si}" title="Supprimer cette spécialisation">🗑 Supprimer</button>`;
+    }
+    html += `</div>`; // head
+
+    // blocks — laid out in a responsive flex row, like the original two-column design
+    html += `<div class="spec-blocks-row">`;
+    spec.blocks.forEach((block, bi) => {
+      html += `<div class="spec-block" data-block="${bi}">`;
+      html += `<div class="spec-block-head">`;
+      html += `<input type="text" class="spec-block-label-input" style="color:${color};" data-role="block-label" data-spec="${si}" data-block="${bi}" value="${escapeHtml(block.label)}" ${isEditing ? '' : 'disabled'}>`;
+      if (isEditing && spec.blocks.length > 1) {
+        html += `<button type="button" class="spec-block-del" data-role="del-block" data-spec="${si}" data-block="${bi}" title="Supprimer ce bloc">×</button>`;
+      }
+      html += `</div>`;
+
+      if (block.type === "tags") {
+        if (isEditing) {
+          html += `<input type="text" class="spec-tags-input" data-role="block-text" data-spec="${si}" data-block="${bi}" value="${escapeHtml(block.text)}" placeholder="Items séparés par des virgules (ex: DC-17M, DC-15x, Mortier)">`;
+          html += `<p class="spec-block-hint">Séparez chaque item par une virgule — affiché sous forme d'étiquettes.</p>`;
+        } else {
+          const items = (block.text || "").split(",").map(s => s.trim()).filter(Boolean);
+          if (items.length) {
+            html += `<div class="spec-tags-display">`;
+            items.forEach(it => {
+              html += `<span class="spec-tag" style="border-color:${hexToRgba(color, 0.4)};">${escapeHtml(it)}</span>`;
+            });
+            html += `</div>`;
+          }
+        }
+      } else if (isEditing) {
+        html += `<textarea class="spec-block-textarea" rows="3" data-role="block-text" data-spec="${si}" data-block="${bi}" placeholder="Texte du bloc...">${escapeHtml(block.text)}</textarea>`;
+      } else {
+        html += `<div class="spec-block-display">${formatBlockText(block.text)}</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`; // spec-blocks-row
+
+    if (isEditing) {
+      html += `<div class="spec-add-block-bar">
+        <button type="button" class="spec-add-block-btn" data-role="add-block-text" data-spec="${si}">+ Bloc texte</button>
+        <button type="button" class="spec-add-block-btn" data-role="add-block-tags" data-spec="${si}">+ Bloc étiquettes</button>
+      </div>`;
+    }
+
+    // note
+    if (isEditing) {
+      html += `<div class="spec-note"><textarea class="spec-note-input" data-role="spec-note" data-spec="${si}" placeholder="Note (laisser vide pour ne rien afficher)">${escapeHtml(spec.note)}</textarea></div>`;
+    } else if (spec.note) {
+      html += `<div class="spec-note">${escapeHtml(spec.note)}</div>`;
+    }
+
+    html += `</div>`; // card
+  });
+
+  specsContent.innerHTML = html;
+  addSpecBar.style.display = isEditing ? "flex" : "none";
+
+  attachListeners();
+  if (isEditing) autosizeAllTextareas();
+}
+
+function autosizeAllTextareas() {
+  specsContent.querySelectorAll("textarea.spec-block-textarea, textarea.spec-note-input").forEach(autosize);
+}
+function autosize(el) {
+  el.style.height = "auto";
+  el.style.height = (el.scrollHeight) + "px";
+}
+
+function attachListeners() {
+  if (!isEditing) return;
+
+  specsContent.querySelectorAll('[data-role="spec-title"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].title = inp.value;
+    });
+  });
+  specsContent.querySelectorAll('[data-role="spec-subtitle"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].subtitle = inp.value;
+    });
+  });
+  specsContent.querySelectorAll('[data-role="spec-color"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].color = inp.value;
+      renderSpecs();
+    });
+  });
+  specsContent.querySelectorAll('[data-role="spec-number"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].number = inp.value;
+    });
+  });
+  specsContent.querySelectorAll('[data-role="spec-ordre"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      draftSpecs[parseInt(inp.dataset.spec, 10)].ordre = parseInt(inp.value, 10) || 0;
+    });
+  });
+  specsContent.querySelectorAll('[data-role="spec-note"]').forEach(ta => {
+    ta.addEventListener("input", () => {
+      draftSpecs[parseInt(ta.dataset.spec, 10)].note = ta.value;
+      autosize(ta);
+    });
+  });
+
+  specsContent.querySelectorAll('[data-role="del-spec"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const si = parseInt(btn.dataset.spec, 10);
+      if (!confirm(`Supprimer la spécialisation "${draftSpecs[si].title}" ?`)) return;
+      draftSpecs.splice(si, 1);
+      renderSpecs();
+    });
+  });
+
+  specsContent.querySelectorAll('[data-role="block-label"]').forEach(inp => {
+    inp.addEventListener("input", () => {
+      const si = parseInt(inp.dataset.spec, 10), bi = parseInt(inp.dataset.block, 10);
+      draftSpecs[si].blocks[bi].label = inp.value;
+    });
+  });
+  specsContent.querySelectorAll('[data-role="block-text"]').forEach(el => {
+    el.addEventListener("input", () => {
+      const si = parseInt(el.dataset.spec, 10), bi = parseInt(el.dataset.block, 10);
+      draftSpecs[si].blocks[bi].text = el.value;
+      if (el.tagName === "TEXTAREA") autosize(el);
+    });
+  });
+  specsContent.querySelectorAll('[data-role="del-block"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const si = parseInt(btn.dataset.spec, 10), bi = parseInt(btn.dataset.block, 10);
+      draftSpecs[si].blocks.splice(bi, 1);
+      renderSpecs();
+    });
+  });
+  specsContent.querySelectorAll('[data-role="add-block-text"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const si = parseInt(btn.dataset.spec, 10);
+      draftSpecs[si].blocks.push({ label: "Nouveau bloc", text: "", type: "text" });
+      renderSpecs();
+    });
+  });
+  specsContent.querySelectorAll('[data-role="add-block-tags"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const si = parseInt(btn.dataset.spec, 10);
+      draftSpecs[si].blocks.push({ label: "Items", text: "", type: "tags" });
+      renderSpecs();
+    });
+  });
+}
+
+addSpecBtn.addEventListener("click", () => {
+  if (!isEditing) return;
+  const maxOrdre = draftSpecs.reduce((m, s) => Math.max(m, s.ordre || 0), 0);
+  draftSpecs.push(defaultSpec(maxOrdre + 1));
+  renderSpecs();
+});
+
+// ---------- Edit mode controls ----------
+function enterEditMode() {
+  if (!currentUserRole) return;
+  draftSpecs = JSON.parse(JSON.stringify(liveSpecs));
+  isEditing = true;
+  editBanner.classList.add("active");
+  editToolbar.style.display = "flex";
+  editStatus.textContent = "";
+  editStatus.className = "edit-toolbar-status";
+  adminToggleLabel.textContent = "Quitter";
+  renderSpecs();
+}
+
+function exitEditMode(rerender = true) {
+  isEditing = false;
+  draftSpecs = null;
+  editBanner.classList.remove("active");
+  editToolbar.style.display = "none";
+  adminToggleLabel.textContent = "Modifier";
+  if (rerender) renderSpecs();
+}
+
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  if (isEditing) {
+    if (confirm("Quitter le mode édition sans enregistrer ?")) exitEditMode();
+  } else {
+    enterEditMode();
+  }
+});
+
+cancelBtn.addEventListener("click", () => {
+  if (confirm("Annuler les modifications non enregistrées ?")) exitEditMode();
+});
+
+saveBtn.addEventListener("click", async () => {
+  if (!currentUserRole || !draftSpecs) return;
+  saveBtn.disabled = true;
+  editStatus.textContent = "Enregistrement...";
+  editStatus.className = "edit-toolbar-status";
+  try {
+    const keepIds = new Set(draftSpecs.map(s => s.id));
+    // delete removed docs
+    const existingIds = liveSpecs.map(s => s.id);
+    for (const id of existingIds) {
+      if (!keepIds.has(id)) {
+        await deleteDoc(doc(db, SPECS_COLLECTION, id));
+      }
+    }
+    // write/update all current specs
+    for (const spec of draftSpecs) {
+      const payload = specToPayload(spec);
+      await setDoc(doc(db, SPECS_COLLECTION, spec.id), payload);
+    }
+    await loadSpecsDocs();
+    editStatus.textContent = "Enregistré !";
+    editStatus.className = "edit-toolbar-status success";
+    setTimeout(() => exitEditMode(), 500);
+  } catch (err) {
+    editStatus.textContent = "Erreur : " + err.message;
+    editStatus.className = "edit-toolbar-status error";
+  } finally {
+    saveBtn.disabled = false;
+  }
+});
+
+// ---------- Accounts modal ----------
+accountsBtn.addEventListener("click", async () => {
+  if (currentUserRole !== "superadmin") return;
+  accountsModal.classList.add("active");
+  setAccountsNotice("");
+  await loadAccounts();
+});
+
+closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
+
+addAccountForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentUserRole !== "superadmin") return;
+  const email = newAccountEmail.value.trim().toLowerCase();
+  if (!email) return;
+  try {
+    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
+    setAccountsNotice("Compte ajouté.", "admin-notice success");
+    newAccountEmail.value = "";
+    await loadAccounts();
+  } catch (err) {
+    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+  }
+});
+
+// ---------- init ----------
+loadSpecsDocs();
+</script>
 </body>
 </html>
