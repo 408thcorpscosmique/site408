@@ -5,7 +5,187 @@
   <title>408th Corps Cosmique - Promotions</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="Logo_408th.png">
-  <link rel="stylesheet" href="style.css">
+  <meta property="og:title" content="408th Corps Cosmique">
+  <meta property="og:description" content="Consultez les délais de promotion du 408th Corps Cosmique">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/promotions.html">
+  <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
+  <meta name="theme-color" content="#7B00FF">
+  <style>
+    #auth-bar {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 1rem 0.5rem 1.2rem;
+      background: rgba(10,20,40,0.85);
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+      justify-content: flex-end;
+      backdrop-filter: blur(6px);
+      position: relative;
+      z-index: 50;
+    }
+    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
+    .auth-user-wrap.visible { display: flex; }
+    .auth-avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; object-fit: cover;
+    }
+    .auth-avatar-fallback {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
+      color: #7B00FF; font-size: 0.65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-transform: uppercase;
+    }
+    .auth-username {
+      font-size: 0.68rem; color: #666;
+      max-width: 110px; letter-spacing: 0.5px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .auth-btn {
+      padding: 0.3rem 0.9rem; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; border: 1px solid;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .auth-btn-login { background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0; }
+    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
+    .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
+    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+
+    #admin-toggle-btn, #accounts-btn {
+      position: fixed; right: 1.5rem; z-index: 999;
+      background: rgba(10,20,40,0.95); border-radius: 6px;
+      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; padding: 0.6rem 1.1rem;
+      border: 1px solid #7B00FF; color: #c8cdd6;
+      box-shadow: 0 0 18px rgba(123,0,255,0.3);
+      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
+    }
+    #admin-toggle-btn { bottom: 1.5rem; }
+    #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
+    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
+    #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
+    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+
+    #admin-panel {
+      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
+      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
+      width: 420px; max-height: 80vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
+    }
+    #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
+    @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    #admin-panel h3 {
+      color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
+      font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(123,0,255,0.3);
+    }
+    #admin-panel h4 {
+      color: #aaa; text-transform: uppercase; letter-spacing: 1.5px;
+      font-size: 0.75rem; margin: 1rem 0 0.5rem; padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .admin-form label {
+      font-size: 0.72rem; color: #888; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: -0.3rem;
+    }
+    .admin-form input, .admin-form select, .admin-form textarea {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
+      font-size: 0.82rem; font-family: inherit; width: 100%;
+      transition: border-color 0.2s; box-sizing: border-box;
+    }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: #7B00FF; }
+    .admin-form textarea { resize: vertical; min-height: 80px; }
+    .admin-btn {
+      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
+      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
+    }
+    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
+    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
+    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
+    .admin-notice.success { color: #00ff88; }
+    .admin-notice.error { color: #e74c3c; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px); z-index: 1000; align-items: center;
+      justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
+    @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+    .modal-content {
+      position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #7B00FF; border-radius: 6px; padding: 2rem; max-width: 760px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px rgba(123,0,255,0.2);
+    }
+    .close-modal {
+      position: absolute; top: 1rem; right: 1rem; background: none;
+      border: 1px solid rgba(255,255,255,0.15); color: #aaa;
+      font-size: 1.3rem; line-height: 1; width: 2rem; height: 2rem;
+      border-radius: 4px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .close-modal:hover { color: #fff; border-color: #7B00FF; background: rgba(255,255,255,0.05); }
+    .modal-title { color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.2rem; margin: 0 0 0.3rem; }
+    .modal-role { color: #7B00FF; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; margin: 0 0 1.2rem; }
+
+    .content { padding: 2rem 0 4rem; }
+    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .section-number { font-size: 3rem; font-weight: 900; color: rgba(123,0,255,0.18); line-height: 1; font-family: monospace; }
+    .section-title { margin: 0; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-size: 1.4rem; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(123,0,255,0.6), transparent); }
+
+    .promo-section {
+      margin: 0 auto; max-width: 1100px;
+      padding: 0 1.25rem;
+    }
+
+    .promo-table-wrap { overflow-x: auto; }
+    table.promo-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #c8cdd6;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(123,0,255,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .promo-table thead th {
+      background: rgba(123,0,255,0.18);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.78rem;
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(123,0,255,0.25);
+    }
+    .promo-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.92rem;
+    }
+    .promo-table tbody tr:hover td { background: rgba(123,0,255,0.06); }
+    .promo-note {
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid #ffb400;
+      background: rgba(255,180,0,0.08);
+      color: #e9c56a;
+      border-radius: 4px;
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
+  </style>
 </head>
 <body>
 <canvas id="stars-canvas"></canvas>
@@ -21,52 +201,422 @@
   <a href="formations.html">Formations</a>
   <a href="specs.html">Spécialisations</a>
   <a href="escouades.html">Escouades</a>
+
+  <div class="nav-auth" id="navAuth">
+    <div class="auth-user-wrap" id="authUserWrap">
+      <img class="auth-avatar" id="authAvatarImg" src="" alt="" style="display:none">
+      <div class="auth-avatar-fallback" id="authAvatarFallback" style="display:none"></div>
+      <span class="auth-username" id="authUsername"></span>
+    </div>
+    <button class="auth-btn auth-btn-login" id="loginBtn">🔒 Connexion</button>
+    <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none">Déconnexion</button>
+  </div>
 </nav>
 
-<div class="content">
-  <section id="promotions">
+<section class="content">
+  <div class="promo-section">
     <div class="section-header reveal">
       <div class="section-number">05</div>
       <h2 class="section-title">Délais de Promotion</h2>
       <div class="section-line"></div>
-    </div> 
-    
-    <div class="table-wrap reveal"> 
-      <table class="promo-table"> 
-        <thead>
-          <tr><th>Promotion</th><th>Jours requis</th><th>Missions / Commandements</th></tr>
-        </thead> 
-        <tbody> 
-          <tr><td><span class="grade-badge">CT</span><span class="arrow">&#8594;</span><span class="grade-badge">CPL</span></td><td>4 jours</td><td>2 missions</td></tr> 
-          <tr><td><span class="grade-badge">CPL</span><span class="arrow">&#8594;</span><span class="grade-badge">CPL-C</span></td><td>5 jours</td><td>3 missions</td></tr> 
-          <tr><td><span class="grade-badge">CPL-C</span><span class="arrow">&#8594;</span><span class="grade-badge">SGT</span></td><td>7 jours</td><td>5 missions</td></tr> 
-          <tr><td><span class="grade-badge">SGT</span><span class="arrow">&#8594;</span><span class="grade-badge">SGT-C</span></td><td>10 jours</td><td>7 missions</td></tr> 
-          <tr><td><span class="grade-badge">SGT-C</span><span class="arrow">&#8594;</span><span class="grade-badge">ADJ</span></td><td>13 jours</td><td>8 missions</td></tr> 
-          <tr><td><span class="grade-badge">ADJ</span><span class="arrow">&#8594;</span><span class="grade-badge">ADJ-C</span></td><td>15 jours</td><td>9 missions</td></tr> 
-          <tr><td><span class="grade-badge">ADJ-C</span><span class="arrow">&#8594;</span><span class="grade-badge">2nd LTN</span></td><td>17 jours</td><td>11 missions</td></tr> 
-          <tr><td><span class="grade-badge">2nd LTN</span><span class="arrow">&#8594;</span><span class="grade-badge">LTN</span></td><td>17 jours</td><td>12 missions</td></tr> 
-          <tr><td><span class="grade-badge">LTN</span><span class="arrow">&#8594;</span><span class="grade-badge">2nd CPT</span></td><td>20 jours min.</td><td>&mdash;</td></tr> 
-          <tr><td><span class="grade-badge">2nd CPT</span><span class="arrow">&#8594;</span><span class="grade-badge">CPT</span></td><td>20 jours</td><td>1,5 commandement</td></tr> 
-          <tr><td><span class="grade-badge">CPT</span><span class="arrow">&#8594;</span><span class="grade-badge">MJR</span></td><td>22 jours</td><td>3 commandements</td></tr> 
-          <tr><td><span class="grade-badge">MJR</span><span class="arrow">&#8594;</span><span class="grade-badge">VCMD</span></td><td>30 jours</td><td>5 commandements</td></tr> 
-          <tr><td><span class="grade-badge">VCMD</span><span class="arrow">&#8594;</span><span class="grade-badge">CMD</span></td><td>30&#8211;35 jours</td><td>8 commandements</td></tr> 
-        </tbody> 
-      </table> 
-    </div> 
-
-    <!-- MESSAGE D'AVERTISSEMENT -->
-    <div class="holo-card reveal" style="border-color: rgba(255,0,0,0.6); margin-top: 2rem; background: rgba(50,0,0,0.2);">
-      <p style="color: #ff3333; text-align: center; font-weight: bold; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
-        ⚠️ Avertissement : Toute demande de promotion entraînera un blocage immédiat de celle-ci (De 1 semaine ou plus !). ⚠️
-      </p>
     </div>
 
-  </section>
+    <div id="promo-content">
+      <p style="color:#555;text-align:center;padding:2rem 1rem;">Chargement des promotions</p>
+    </div>
+  </div>
+</section>
+
+<button id="admin-toggle-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
+  </svg>
+  Admin
+</button>
+
+<button id="accounts-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+  Comptes
+</button>
+
+<div id="admin-panel">
+  <h3>⚙ Panneau Admin — Promotions</h3>
+  <form class="admin-form" id="admin-form" autocomplete="off">
+    <input type="hidden" id="edit-doc-id" value="">
+    <label>Numéro</label>
+    <input type="text" id="a-number" value="05" required>
+    <label>Titre</label>
+    <input type="text" id="a-title" value="Délais de Promotion" required>
+    <label>Ordre d'affichage</label>
+    <input type="number" id="a-ordre" value="1" min="0">
+    <label>Type</label>
+    <select id="a-type">
+      <option value="table">Tableau</option>
+    </select>
+    <label>Colonnes (séparées par |)</label>
+    <input type="text" id="a-cols" value="Promotion|Jours requis|Missions / Commandements" required>
+    <label>Note</label>
+    <textarea id="a-note" placeholder="Avertissement"></textarea>
+    <label>Lignes du tableau</label>
+    <textarea id="a-items" placeholder="Une ligne par entrée : col1|col2|col3" style="min-height:180px;"></textarea>
+    <button type="submit" class="admin-btn" id="admin-submit-btn">Enregistrer</button>
+    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">Annuler la modification</button>
+  </form>
+  <div class="admin-notice" id="admin-notice"></div>
 </div>
 
-<footer>
-  <p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p>
-</footer>
+<div id="accounts-modal" class="modal-overlay">
+  <div class="modal-content" style="max-width:760px;">
+    <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
+    <div class="modal-header">
+      <h2 class="modal-title">Gestion des comptes</h2>
+      <h4 class="modal-role">Superadmin uniquement</h4>
+    </div>
+
+    <div id="accounts-list" style="display:grid; gap:0.75rem; margin-bottom:1rem;"></div>
+
+    <form id="add-account-form" class="admin-form">
+      <label>Email</label>
+      <input type="email" id="new-account-email" placeholder="admin@mail.com" required>
+      <label>Rôle</label>
+      <select id="new-account-role">
+        <option value="admin">admin</option>
+        <option value="superadmin">superadmin</option>
+      </select>
+      <button type="submit" class="admin-btn">Ajouter / mettre à jour</button>
+    </form>
+
+    <div id="accounts-notice" class="admin-notice"></div>
+  </div>
+</div>
+
+<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+
 <script src="script.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref as dbRef, get, child, set, remove }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
+  authDomain: "thsite-3fe39.firebaseapp.com",
+  databaseURL: "https://thsite-3fe39-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "thsite-3fe39",
+  storageBucket: "thsite-3fe39.firebasestorage.app",
+  messagingSenderId: "974675357380",
+  appId: "1:974675357380:web:836fbaae3fb66034e6a391",
+  measurementId: "G-Y95QVRY8WK"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const rtdb = getDatabase(app);
+const provider = new GoogleAuthProvider();
+
+let currentUserRole = null;
+let currentDocId = null;
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const avatarWrap = document.getElementById("authUserWrap");
+const avatarImg = document.getElementById("authAvatarImg");
+const avatarFall = document.getElementById("authAvatarFallback");
+const usernameEl = document.getElementById("authUsername");
+const adminBtn = document.getElementById("admin-toggle-btn");
+const adminPanel = document.getElementById("admin-panel");
+const accountsBtn = document.getElementById("accounts-btn");
+const accountsModal = document.getElementById("accounts-modal");
+const closeAccountsModal = document.getElementById("close-accounts-modal");
+const accountsList = document.getElementById("accounts-list");
+const addAccountForm = document.getElementById("add-account-form");
+const newAccountEmail = document.getElementById("new-account-email");
+const newAccountRole = document.getElementById("new-account-role");
+const accountsNotice = document.getElementById("accounts-notice");
+
+function showAvatar(user) {
+  avatarWrap.classList.add("visible");
+  const name = user.displayName || user.email.split("@")[0];
+  usernameEl.textContent = name;
+  if (user.photoURL) {
+    avatarImg.src = user.photoURL;
+    avatarImg.alt = name;
+    avatarImg.style.display = "block";
+    avatarFall.style.display = "none";
+  } else {
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    avatarFall.textContent = initials;
+    avatarFall.style.display = "flex";
+    avatarImg.style.display = "none";
+  }
+}
+
+function hideAvatar() {
+  avatarWrap.classList.remove("visible");
+  avatarImg.style.display = "none";
+  avatarFall.style.display = "none";
+  usernameEl.textContent = "";
+}
+
+function emailToKey(email) {
+  return email.trim().toLowerCase().replace(/\./g, ",");
+}
+
+function setAccountsNotice(msg, cls = "admin-notice") {
+  accountsNotice.textContent = msg;
+  accountsNotice.className = cls;
+}
+
+async function loadAccounts() {
+  accountsList.innerHTML = '<p style="color:#888;margin:0;">Chargement...</p>';
+  try {
+    const snap = await get(child(dbRef(rtdb), "admins"));
+    if (!snap.exists()) {
+      accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
+      return;
+    }
+
+    accountsList.innerHTML = "";
+    Object.entries(snap.val()).forEach(([key, data]) => {
+      const email = key.replace(/,/g, ".");
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
+      row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "admin-btn danger";
+      del.style.width = "auto";
+      del.textContent = "Supprimer";
+      del.addEventListener("click", async () => {
+        if (currentUserRole !== "superadmin") return;
+        if (!confirm(`Supprimer ${email} ?`)) return;
+        try {
+          await remove(dbRef(rtdb, `admins/${key}`));
+          setAccountsNotice("Compte supprimé.", "admin-notice success");
+          await loadAccounts();
+        } catch (err) {
+          setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+        }
+      });
+
+      row.appendChild(del);
+      accountsList.appendChild(row);
+    });
+  } catch (err) {
+    accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : ' + err.message + "</p>";
+  }
+}
+
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    showAvatar(user);
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+
+    const emailKey = user.email.replace(/\./g, ",");
+    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
+    if (snap.exists()) {
+      currentUserRole = snap.val().role;
+      adminBtn.classList.add("visible");
+      if (currentUserRole === "superadmin") {
+        accountsBtn.classList.add("visible");
+      } else {
+        accountsBtn.classList.remove("visible");
+      }
+    } else {
+      currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      accountsBtn.classList.remove("visible");
+      adminPanel.classList.remove("open");
+      accountsModal.classList.remove("active");
+    }
+  } else {
+    hideAvatar();
+    currentUserRole = null;
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    accountsBtn.classList.remove("visible");
+    adminPanel.classList.remove("open");
+    accountsModal.classList.remove("active");
+  }
+});
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    try {
+      await signInWithRedirect(auth, provider);
+    } catch (e) {
+      alert("Connexion impossible. Autorise les popups ou utilise la redirection.");
+    }
+  }
+});
+
+logoutBtn.addEventListener("click", () => signOut(auth));
+
+const promoContent = document.getElementById("promo-content");
+const q = query(collection(db, "promotions"), orderBy("ordre"));
+
+onSnapshot(q, snapshot => {
+  promoContent.innerHTML = "";
+  if (snapshot.empty) {
+    promoContent.innerHTML = '<p style="color:#555;text-align:center;padding:2rem 1rem;">Aucune promotion pour l’instant.</p>';
+    return;
+  }
+
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const cols = (data.cols || "").split("|").map(s => s.trim()).filter(Boolean);
+    const items = Array.isArray(data.items) ? data.items : [];
+
+    let html = "";
+    html += `<div class="promo-table-wrap"><table class="promo-table"><thead><tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
+    items.forEach(item => {
+      const cells = String(item).split("|");
+      html += `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join("")}</tr>`;
+    });
+    html += `</tbody></table></div>`;
+
+    if (data.note) {
+      html += `<div class="promo-note">${data.note}</div>`;
+    }
+
+    const section = document.createElement("div");
+    section.innerHTML = html;
+    promoContent.appendChild(section);
+  });
+}, err => {
+  promoContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
+});
+
+const adminForm = document.getElementById("admin-form");
+const editDocIdInp = document.getElementById("edit-doc-id");
+const submitBtn = document.getElementById("admin-submit-btn");
+const cancelEditBtn = document.getElementById("cancel-edit-btn");
+const adminNotice = document.getElementById("admin-notice");
+const aNumber = document.getElementById("a-number");
+const aTitle = document.getElementById("a-title");
+const aOrdre = document.getElementById("a-ordre");
+const aType = document.getElementById("a-type");
+const aCols = document.getElementById("a-cols");
+const aNote = document.getElementById("a-note");
+const aItems = document.getElementById("a-items");
+
+function getFormData() {
+  return {
+    number: aNumber.value.trim(),
+    title: aTitle.value.trim(),
+    ordre: parseInt(aOrdre.value || Date.now(), 10),
+    type: aType.value,
+    cols: aCols.value.trim(),
+    note: aNote.value.trim(),
+    items: aItems.value.split("\n").map(v => v.trim()).filter(Boolean)
+  };
+}
+
+function fillForm(data, docId) {
+  editDocIdInp.value = docId;
+  aNumber.value = data.number || "05";
+  aTitle.value = data.title || "Délais de Promotion";
+  aOrdre.value = data.ordre || 1;
+  aType.value = data.type || "table";
+  aCols.value = data.cols || "Promotion|Jours requis|Missions / Commandements";
+  aNote.value = data.note || "";
+  aItems.value = Array.isArray(data.items) ? data.items.join("\n") : "";
+  submitBtn.textContent = "Enregistrer les modifications";
+  cancelEditBtn.style.display = "block";
+  adminPanel.classList.add("open");
+}
+
+function resetForm() {
+  adminForm.reset();
+  aNumber.value = "05";
+  aTitle.value = "Délais de Promotion";
+  aOrdre.value = "1";
+  aType.value = "table";
+  aCols.value = "Promotion|Jours requis|Missions / Commandements";
+  aNote.value = "";
+  aItems.value = "";
+  editDocIdInp.value = "";
+  submitBtn.textContent = "Enregistrer";
+  cancelEditBtn.style.display = "none";
+  adminNotice.textContent = "";
+  adminNotice.className = "admin-notice";
+}
+
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  adminPanel.classList.toggle("open");
+});
+
+accountsBtn.addEventListener("click", async () => {
+  if (currentUserRole !== "superadmin") return;
+  accountsModal.classList.add("active");
+  setAccountsNotice("");
+  await loadAccounts();
+});
+
+closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
+
+addAccountForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentUserRole !== "superadmin") return;
+  const email = newAccountEmail.value.trim().toLowerCase();
+  if (!email) return;
+  try {
+    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
+    setAccountsNotice("Compte ajouté.", "admin-notice success");
+    newAccountEmail.value = "";
+    await loadAccounts();
+  } catch (err) {
+    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+  }
+});
+
+adminForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) {
+    adminNotice.textContent = "Non autorisé.";
+    adminNotice.className = "admin-notice error";
+    return;
+  }
+
+  const data = getFormData();
+  const docId = editDocIdInp.value;
+
+  try {
+    if (docId) {
+      await updateDoc(doc(db, "promotions", docId), data);
+      adminNotice.textContent = "Promotions mises à jour !";
+    } else {
+      await addDoc(collection(db, "promotions"), data);
+      adminNotice.textContent = "Promotions enregistrées !";
+    }
+    adminNotice.className = "admin-notice success";
+    resetForm();
+  } catch (err) {
+    adminNotice.textContent = "Erreur : " + err.message;
+    adminNotice.className = "admin-notice error";
+  }
+});
+
+cancelEditBtn.addEventListener("click", resetForm);
+</script>
 </body>
 </html>
