@@ -577,7 +577,20 @@ function normalizeState(data) {
         : defaultState().cols);
   let rows;
   if (Array.isArray(data.rows)) {
-    rows = data.rows.map(r => Array.isArray(r) ? r.slice() : String(r).split("|").map(s=>s.trim()));
+    rows = data.rows.map(r => {
+      if (Array.isArray(r)) return r.slice();
+      if (r && typeof r === "object") {
+        // stored as {c0:"...", c1:"...", ...}
+        const arr = [];
+        let i = 0;
+        while (Object.prototype.hasOwnProperty.call(r, "c" + i)) {
+          arr.push(r["c" + i]);
+          i++;
+        }
+        return arr;
+      }
+      return String(r).split("|").map(s => s.trim());
+    });
   } else if (Array.isArray(data.items)) {
     // legacy format: items as "a|b|c" strings
     rows = data.items.map(item => String(item).split("|").map(s => s.trim()));
@@ -803,11 +816,18 @@ cancelBtn.addEventListener("click", () => {
 
 saveBtn.addEventListener("click", async () => {
   if (!currentUserRole || !draftState) return;
-  // Clean: trim trailing fully-empty rows is optional; keep as-is for user control.
+  const cleanCols = draftState.cols.map(c => c.trim() || "Colonne");
+  // Firestore doesn't support nested arrays, so rows are stored as
+  // an array of objects: { c0: "...", c1: "...", c2: "..." }
+  const rowsForStorage = draftState.rows.map(r => {
+    const obj = {};
+    cleanCols.forEach((_, i) => { obj["c" + i] = r[i] != null ? r[i] : ""; });
+    return obj;
+  });
   const payload = {
     title: draftState.title.trim() || "Délais de Promotion",
-    cols: draftState.cols.map(c => c.trim() || "Colonne"),
-    rows: draftState.rows.map(r => r.map(c => c)),
+    cols: cleanCols,
+    rows: rowsForStorage,
     note: draftState.note
   };
   saveBtn.disabled = true;
