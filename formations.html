@@ -52,7 +52,7 @@
     .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
     .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
 
-    #admin-toggle-btn, #accounts-btn {
+    #admin-toggle-btn, #accounts-btn, #site-texts-btn {
       position: fixed; right: 1.5rem; z-index: 999;
       background: rgba(10,20,40,0.95); border-radius: 6px;
       font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
@@ -63,9 +63,11 @@
     }
     #admin-toggle-btn { bottom: 1.5rem; }
     #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
-    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
+    #site-texts-btn { bottom: 9.7rem; border-color: #ffb800; box-shadow: 0 0 18px rgba(255,184,0,0.18); }
+    #admin-toggle-btn.visible, #accounts-btn.visible, #site-texts-btn.visible { display: flex; }
     #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
     #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+    #site-texts-btn:hover { background: rgba(255,184,0,0.15); color: #fff; }
 
     #admin-panel {
       display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
@@ -76,7 +78,7 @@
     }
     #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
     @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-    #admin-panel h3 {
+    #admin-panel h3, #site-texts-panel h3 {
       color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
       font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
       border-bottom: 1px solid rgba(123,0,255,0.3);
@@ -224,6 +226,34 @@
     }
 
     footer { text-align: center; padding: 1rem 0 2rem; color: #666; font-size: 0.8rem; }
+
+    /* --- Site texts panel --- */
+    #site-texts-panel {
+      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
+      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
+      border: 1px solid #ffb800; border-radius: 8px; padding: 1.5rem;
+      width: 460px; max-height: 80vh; overflow-y: auto;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(255,184,0,0.15);
+    }
+    #site-texts-panel.open { display: block; animation: panelIn 0.2s ease; }
+    #site-texts-panel h3 { color: #ffb800; border-bottom-color: rgba(255,184,0,0.3); }
+    #site-texts-panel .admin-btn { border-color: #ffb800; }
+    #site-texts-panel .admin-btn:hover { background: rgba(255,184,0,0.25); }
+    .nav-link-row {
+      display: flex; gap: 0.4rem; align-items: center;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem;
+    }
+    .nav-link-row input { flex: 1; }
+    .nav-link-row .remove-link-btn {
+      background: rgba(231,76,60,0.15); border: 1px solid #e74c3c; color: #e74c3c;
+      border-radius: 4px; width: 1.8rem; height: 1.8rem; flex-shrink: 0;
+      cursor: pointer; font-size: 0.9rem; line-height: 1;
+    }
+    .nav-link-row .remove-link-btn:hover { background: rgba(231,76,60,0.3); color: #fff; }
+    .site-texts-divider {
+      border: none; border-top: 1px solid rgba(255,184,0,0.25); margin: 1rem 0;
+    }
   </style>
 </head>
 <body>
@@ -232,14 +262,9 @@
 <nav>
   <div class="nav-logo">
     <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
-    <span class="nav-brand">408TH CORPS COSMIQUE</span>
+    <span class="nav-brand" id="navBrandText">408TH CORPS COSMIQUE</span>
   </div>
-  <a href="index.html">Accueil</a>
-  <a href="discipline.html">Règlement</a>
-  <a href="promotions.html">Promotions</a>
-  <a href="formations.html" class="active">Formations</a>
-  <a href="specs.html">Spécialisations</a>
-  <a href="escouades.html">Escouades</a>
+  <div id="navLinksWrap"></div>
 
   <div class="nav-auth" id="navAuth">
     <div class="auth-user-wrap" id="authUserWrap">
@@ -255,13 +280,13 @@
 <section class="content">
   <div class="formations-wrap">
     <div class="section-header reveal">
-      <div class="section-number">04</div>
-      <h2 class="section-title">Formations Militaires</h2>
+      <div class="section-number" id="sectionNumber">04</div>
+      <h2 class="section-title" id="sectionTitle">Formations Militaires</h2>
       <div class="section-line"></div>
     </div>
 
     <div class="formations-reminder holo-card">
-      <p>N'oubliez pas de demander à passer vos formations !</p>
+      <p id="reminderText">N'oubliez pas de demander à passer vos formations !</p>
     </div>
 
     <div id="formations-content">
@@ -276,6 +301,15 @@
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
   </svg>
   Admin
+</button>
+
+<button id="site-texts-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M4 7V4h16v3"></path>
+    <path d="M9 20h6"></path>
+    <path d="M12 4v16"></path>
+  </svg>
+  Textes du site
 </button>
 
 <button id="accounts-btn">
@@ -312,6 +346,35 @@
   <div class="admin-notice" id="admin-notice"></div>
 </div>
 
+<div id="site-texts-panel">
+  <h3>✎ Textes du site (global)</h3>
+  <form class="admin-form" id="site-texts-form" autocomplete="off">
+    <label>Nom de marque (navigation)</label>
+    <input type="text" id="st-brand" value="408TH CORPS COSMIQUE" required>
+
+    <label>Numéro de section (cette page)</label>
+    <input type="text" id="st-section-number" value="04">
+
+    <label>Titre de section (cette page)</label>
+    <input type="text" id="st-section-title" value="Formations Militaires">
+
+    <label>Texte du bandeau rappel</label>
+    <textarea id="st-reminder" placeholder="N'oubliez pas de demander à passer vos formations !"></textarea>
+
+    <label>Texte du footer</label>
+    <input type="text" id="st-footer" value="408TH CORPS COSMIQUE — USAGE INTERNE UNIQUEMENT">
+
+    <hr class="site-texts-divider">
+    <label>Liens de navigation</label>
+    <div id="nav-links-editor"></div>
+    <button type="button" class="admin-btn" id="add-nav-link-btn" style="background:rgba(255,184,0,0.1);">+ Ajouter un lien</button>
+
+    <hr class="site-texts-divider">
+    <button type="submit" class="admin-btn">Enregistrer les textes</button>
+  </form>
+  <div class="admin-notice" id="site-texts-notice"></div>
+</div>
+
 <div id="accounts-modal" class="modal-overlay">
   <div class="modal-content" style="max-width:760px;">
     <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
@@ -337,13 +400,13 @@
   </div>
 </div>
 
-<footer><p>408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
+<footer><p id="footerText">408TH CORPS COSMIQUE &mdash; USAGE INTERNE UNIQUEMENT</p></footer>
 
 <script src="script.js"></script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc }
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc, setDoc }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -369,6 +432,17 @@ const provider = new GoogleAuthProvider();
 
 let currentUserRole = null;
 
+// Default nav links, used until Firestore overrides them
+const DEFAULT_NAV_LINKS = [
+  { label: "Accueil", href: "index.html" },
+  { label: "Règlement", href: "discipline.html" },
+  { label: "Promotions", href: "promotions.html" },
+  { label: "Formations", href: "formations.html" },
+  { label: "Spécialisations", href: "specs.html" },
+  { label: "Escouades", href: "escouades.html" }
+];
+const CURRENT_PAGE = "formations.html";
+
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const avatarWrap = document.getElementById("authUserWrap");
@@ -385,6 +459,24 @@ const addAccountForm = document.getElementById("add-account-form");
 const newAccountEmail = document.getElementById("new-account-email");
 const newAccountRole = document.getElementById("new-account-role");
 const accountsNotice = document.getElementById("accounts-notice");
+
+const siteTextsBtn = document.getElementById("site-texts-btn");
+const siteTextsPanel = document.getElementById("site-texts-panel");
+const siteTextsForm = document.getElementById("site-texts-form");
+const siteTextsNotice = document.getElementById("site-texts-notice");
+const stBrand = document.getElementById("st-brand");
+const stSectionNumber = document.getElementById("st-section-number");
+const stSectionTitle = document.getElementById("st-section-title");
+const stReminder = document.getElementById("st-reminder");
+const stFooter = document.getElementById("st-footer");
+const navLinksEditor = document.getElementById("nav-links-editor");
+const addNavLinkBtn = document.getElementById("add-nav-link-btn");
+const navLinksWrap = document.getElementById("navLinksWrap");
+const navBrandText = document.getElementById("navBrandText");
+const sectionNumberEl = document.getElementById("sectionNumber");
+const sectionTitleEl = document.getElementById("sectionTitle");
+const reminderTextEl = document.getElementById("reminderText");
+const footerTextEl = document.getElementById("footerText");
 
 function showAvatar(user) {
   avatarWrap.classList.add("visible");
@@ -471,6 +563,7 @@ onAuthStateChanged(auth, async user => {
     if (snap.exists()) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
+      siteTextsBtn.classList.add("visible");
       if (currentUserRole === "superadmin") {
         accountsBtn.classList.add("visible");
       } else {
@@ -479,8 +572,10 @@ onAuthStateChanged(auth, async user => {
     } else {
       currentUserRole = null;
       adminBtn.classList.remove("visible");
+      siteTextsBtn.classList.remove("visible");
       accountsBtn.classList.remove("visible");
       adminPanel.classList.remove("open");
+      siteTextsPanel.classList.remove("open");
       accountsModal.classList.remove("active");
     }
   } else {
@@ -489,8 +584,10 @@ onAuthStateChanged(auth, async user => {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
     adminBtn.classList.remove("visible");
+    siteTextsBtn.classList.remove("visible");
     accountsBtn.classList.remove("visible");
     adminPanel.classList.remove("open");
+    siteTextsPanel.classList.remove("open");
     accountsModal.classList.remove("active");
   }
 });
@@ -549,6 +646,156 @@ onSnapshot(q, snapshot => {
   formationsContent.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem 1rem;">Erreur : ' + err.message + '</p>';
 });
 
+/* ---------------- Site-wide editable texts (nav, section header, reminder, footer) ---------------- */
+
+const SITE_TEXTS_DOC = doc(db, "site_settings", "formations_page");
+
+function renderNavLinks(links) {
+  navLinksWrap.innerHTML = "";
+  links.forEach(link => {
+    const a = document.createElement("a");
+    a.href = link.href || "#";
+    a.textContent = link.label || "";
+    if (link.href === CURRENT_PAGE) a.classList.add("active");
+    navLinksWrap.appendChild(a);
+  });
+}
+
+function renderNavLinksEditor(links) {
+  navLinksEditor.innerHTML = "";
+  links.forEach((link, idx) => {
+    const row = document.createElement("div");
+    row.className = "nav-link-row";
+    row.innerHTML = `
+      <input type="text" class="nav-link-label" placeholder="Libellé" value="${(link.label || "").replace(/"/g, '&quot;')}">
+      <input type="text" class="nav-link-href" placeholder="page.html" value="${(link.href || "").replace(/"/g, '&quot;')}">
+      <button type="button" class="remove-link-btn" title="Supprimer">&times;</button>
+    `;
+    row.querySelector(".remove-link-btn").addEventListener("click", () => {
+      row.remove();
+    });
+    navLinksEditor.appendChild(row);
+  });
+}
+
+function getNavLinksFromEditor() {
+  const rows = navLinksEditor.querySelectorAll(".nav-link-row");
+  const links = [];
+  rows.forEach(row => {
+    const label = row.querySelector(".nav-link-label").value.trim();
+    const href = row.querySelector(".nav-link-href").value.trim();
+    if (label && href) links.push({ label, href });
+  });
+  return links;
+}
+
+addNavLinkBtn.addEventListener("click", () => {
+  const rows = navLinksEditor.querySelectorAll(".nav-link-row");
+  const current = Array.from(rows).map(row => ({
+    label: row.querySelector(".nav-link-label").value,
+    href: row.querySelector(".nav-link-href").value
+  }));
+  current.push({ label: "", href: "" });
+  renderNavLinksEditor(current);
+});
+
+function applySiteTexts(data) {
+  const brand = data.brand || "408TH CORPS COSMIQUE";
+  const sectionNumber = data.sectionNumber || "04";
+  const sectionTitle = data.sectionTitle || "Formations Militaires";
+  const reminder = data.reminder || "N'oubliez pas de demander à passer vos formations !";
+  const footer = data.footer || "408TH CORPS COSMIQUE — USAGE INTERNE UNIQUEMENT";
+  const links = Array.isArray(data.navLinks) && data.navLinks.length ? data.navLinks : DEFAULT_NAV_LINKS;
+
+  navBrandText.textContent = brand;
+  sectionNumberEl.textContent = sectionNumber;
+  sectionTitleEl.textContent = sectionTitle;
+  reminderTextEl.textContent = reminder;
+  footerTextEl.textContent = footer;
+  document.title = brand ? `${brand} - Formations` : document.title;
+  renderNavLinks(links);
+
+  // Sync edit form fields (only if panel isn't actively being edited mid-typing, harmless to overwrite on snapshot)
+  stBrand.value = brand;
+  stSectionNumber.value = sectionNumber;
+  stSectionTitle.value = sectionTitle;
+  stReminder.value = reminder;
+  stFooter.value = footer;
+  renderNavLinksEditor(links);
+}
+
+// Live default render before Firestore responds, so page isn't empty
+applySiteTexts({});
+
+onSnapshot(SITE_TEXTS_DOC, snap => {
+  if (snap.exists()) {
+    applySiteTexts(snap.data());
+  }
+}, err => {
+  console.error("Erreur chargement textes du site :", err.message);
+});
+
+siteTextsBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  siteTextsPanel.classList.toggle("open");
+});
+
+siteTextsForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) {
+    siteTextsNotice.textContent = "Non autorisé.";
+    siteTextsNotice.className = "admin-notice error";
+    return;
+  }
+
+  const payload = {
+    brand: stBrand.value.trim(),
+    sectionNumber: stSectionNumber.value.trim(),
+    sectionTitle: stSectionTitle.value.trim(),
+    reminder: stReminder.value.trim(),
+    footer: stFooter.value.trim(),
+    navLinks: getNavLinksFromEditor()
+  };
+
+  try {
+    await setDoc(SITE_TEXTS_DOC, payload, { merge: true });
+    siteTextsNotice.textContent = "Textes du site mis à jour !";
+    siteTextsNotice.className = "admin-notice success";
+  } catch (err) {
+    siteTextsNotice.textContent = "Erreur : " + err.message;
+    siteTextsNotice.className = "admin-notice error";
+  }
+});
+
+/* ---------------- Accounts modal ---------------- */
+
+accountsBtn.addEventListener("click", async () => {
+  if (currentUserRole !== "superadmin") return;
+  accountsModal.classList.add("active");
+  setAccountsNotice("");
+  await loadAccounts();
+});
+
+closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
+
+addAccountForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentUserRole !== "superadmin") return;
+  const email = newAccountEmail.value.trim().toLowerCase();
+  if (!email) return;
+  try {
+    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
+    setAccountsNotice("Compte ajouté.", "admin-notice success");
+    newAccountEmail.value = "";
+    await loadAccounts();
+  } catch (err) {
+    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
+  }
+});
+
+/* ---------------- Formations admin panel ---------------- */
+
 const adminForm = document.getElementById("admin-form");
 const editDocIdInp = document.getElementById("edit-doc-id");
 const submitBtn = document.getElementById("admin-submit-btn");
@@ -605,31 +852,6 @@ function resetForm() {
 adminBtn.addEventListener("click", () => {
   if (!currentUserRole) return;
   adminPanel.classList.toggle("open");
-});
-
-accountsBtn.addEventListener("click", async () => {
-  if (currentUserRole !== "superadmin") return;
-  accountsModal.classList.add("active");
-  setAccountsNotice("");
-  await loadAccounts();
-});
-
-closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
-accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
-
-addAccountForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  if (currentUserRole !== "superadmin") return;
-  const email = newAccountEmail.value.trim().toLowerCase();
-  if (!email) return;
-  try {
-    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
-    setAccountsNotice("Compte ajouté.", "admin-notice success");
-    newAccountEmail.value = "";
-    await loadAccounts();
-  } catch (err) {
-    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
-  }
 });
 
 adminForm.addEventListener("submit", async e => {
