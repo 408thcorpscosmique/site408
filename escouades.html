@@ -2,238 +2,288 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>408th Corps Cosmique - Escouades</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="Logo_408th.png">
   <meta property="og:title" content="408th Corps Cosmique">
   <meta property="og:description" content="Accédez ici aux escouades du 408th Corps Cosmique">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/">
+  <meta property="og:url" content="https://408thcorpscosmique.github.io/site408/escouades.html">
   <meta property="og:image" content="https://408thcorpscosmique.github.io/site408/Logo_408th.png">
   <meta name="theme-color" content="#7B00FF">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem('corps408_ui_prefs_v1');
+        var p = raw ? JSON.parse(raw) : {};
+        var theme = p.theme || 'dark';
+        if (theme === 'auto') {
+          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        if (p.primary) document.documentElement.style.setProperty('--c-primary', p.primary);
+        if (p.secondary) document.documentElement.style.setProperty('--c-secondary', p.secondary);
+      } catch (e) {}
+    })();
+  </script>
+
   <style>
-    .category-title {
-      text-align: center; color: #fff; margin-top: 3rem; margin-bottom: 2rem;
-      text-transform: uppercase; letter-spacing: 3px; font-size: 1.8rem;
-      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    :root{
+      --c-primary:#7B00FF; --c-primary-rgb:123,0,255;
+      --c-secondary:#00d4ff; --c-secondary-rgb:0,212,255;
+      --c-success:#00ff88; --c-danger:#ff4d5e; --c-warning:#ffb020;
+      --bg-void:#05070d; --bg-surface:#0b1120; --bg-elevated:#111a2d; --bg-elevated-2:#16203a;
+      --text-primary:#eef1f8; --text-secondary:#9aa3ba; --text-muted:#5b637a;
+      --border-subtle: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.16);
+      --font-display:'Rajdhani', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'JetBrains Mono', monospace;
+      --font-size-base:16px; --radius-sm:6px; --radius-md:12px; --radius-lg:20px;
+      --transition-speed:0.25s; --transition-fast:0.15s; --dash-sidebar-width:230px; --header-density:1;
+      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.22); --shadow-card:0 14px 38px -18px rgba(0,0,0,0.65);
     }
-    .category-separator {
-      width: 50px; height: 3px; background: var(--modal-color, #00ffff);
-      margin: 0 auto 3rem auto; box-shadow: 0 0 10px var(--modal-color, #00ffff);
+    [data-theme="light"]{
+      --bg-void:#eef0f7; --bg-surface:#ffffff; --bg-elevated:#ffffff; --bg-elevated-2:#f5f2fc;
+      --text-primary:#161a26; --text-secondary:#4d5673; --text-muted:#838ca6;
+      --border-subtle: rgba(20,20,50,0.09); --border-strong: rgba(20,20,50,0.18);
+      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.10); --shadow-card:0 14px 38px -20px rgba(30,30,60,0.25);
     }
+    [data-animations="off"] *{ transition-duration:0s !important; animation-duration:0.001s !important; }
+    @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001s !important; transition-duration:0.001s !important; } }
+    *{ box-sizing:border-box; }
+    html{ font-size:var(--font-size-base); scroll-behavior:smooth; }
+    body{ background:var(--bg-void); color:var(--text-primary); font-family:var(--font-body); transition:background var(--transition-speed) ease, color var(--transition-speed) ease; }
+    ::selection{ background:rgba(var(--c-primary-rgb),0.35); color:#fff; }
+    ::-webkit-scrollbar{ width:10px; height:10px; }
+    ::-webkit-scrollbar-track{ background:transparent; }
+    ::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:10px; }
+    ::-webkit-scrollbar-thumb:hover{ background:var(--c-primary); }
+    :focus-visible{ outline:2px solid var(--c-secondary); outline-offset:2px; border-radius:4px; }
+    #stars-canvas{ position:fixed; inset:0; z-index:0; opacity:.8; pointer-events:none; }
+    body::before{ content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image: linear-gradient(rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px); background-size:48px 48px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%); opacity:.5; }
+    body::after{ content:''; position:fixed; top:-20%; left:50%; transform:translateX(-50%); width:1100px; height:700px; z-index:0; pointer-events:none; background:radial-gradient(ellipse at center, rgba(var(--c-primary-rgb),0.16), transparent 65%); filter:blur(10px); }
+    nav{ position:sticky; top:0; z-index:200; display:flex; align-items:center; gap:1.6rem; padding:calc(0.9rem * var(--header-density)) 2rem; background:color-mix(in srgb, var(--bg-surface) 78%, transparent); backdrop-filter:blur(16px) saturate(140%); border-bottom:1px solid var(--border-subtle); }
+    .nav-logo{ display:flex; align-items:center; gap:.65rem; margin-right:.5rem; }
+    .logo-img{ width:34px; height:34px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(var(--c-primary-rgb),.55)); }
+    .nav-brand{ font-family:var(--font-display); font-weight:700; letter-spacing:2.5px; font-size:.92rem; color:var(--text-primary); text-transform:uppercase; background:linear-gradient(90deg, var(--text-primary), var(--c-secondary)); -webkit-background-clip:text; background-clip:text; }
+    nav a{ position:relative; color:var(--text-secondary); text-decoration:none; font-size:.82rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; padding:.4rem .15rem; transition:color var(--transition-fast); }
+    nav a::after{ content:''; position:absolute; left:0; right:100%; bottom:-2px; height:2px; background:linear-gradient(90deg, var(--c-primary), var(--c-secondary)); transition:right var(--transition-speed) ease; border-radius:2px; }
+    nav a:hover{ color:var(--text-primary); }
+    nav a:hover::after, nav a.active::after{ right:0; }
+    nav a.active{ color:#fff; }
+    .nav-auth{ margin-left:auto; display:flex; align-items:center; gap:.6rem; }
+    .auth-user-wrap{ display:none; align-items:center; gap:.55rem; padding:.3rem .7rem .3rem .3rem; border-radius:99px; background:var(--bg-elevated); border:1px solid var(--border-subtle); }
+    .auth-user-wrap.visible{ display:flex; }
+    .auth-avatar{ width:28px; height:28px; border-radius:50%; border:2px solid var(--c-primary); object-fit:cover; }
+    .auth-avatar-fallback{ width:28px; height:28px; border-radius:50%; border:2px solid var(--c-primary); background:rgba(var(--c-primary-rgb),.2); color:var(--c-secondary); font-size:.62rem; font-weight:700; display:flex; align-items:center; justify-content:center; text-transform:uppercase; }
+    .auth-username{ font-size:.74rem; color:var(--text-secondary); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .auth-btn{ padding:.5rem 1.1rem; border-radius:99px; font-size:.72rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; cursor:pointer; border:1px solid; transition:all var(--transition-fast); font-family:inherit; }
+    .auth-btn-login{ background:linear-gradient(135deg, var(--c-primary), var(--c-secondary)); border-color:transparent; color:#fff; box-shadow:0 6px 18px -6px rgba(var(--c-primary-rgb),.6); }
+    .auth-btn-login:hover{ filter:brightness(1.12); transform:translateY(-1px); }
+    .auth-btn-logout{ background:transparent; border-color:var(--border-strong); color:var(--text-secondary); }
+    .auth-btn-logout:hover{ border-color:var(--c-danger); color:var(--c-danger); }
+    .content{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 1.5rem 6rem; }
+    .section-header{ display:flex; align-items:center; gap:1.4rem; margin:3.5rem 0 2.5rem; position:relative; }
+    .section-number{ font-family:var(--font-mono); font-size:.95rem; font-weight:600; color:var(--c-secondary); letter-spacing:3px; padding:.3rem .6rem; border:1px solid rgba(var(--c-secondary-rgb),.35); border-radius:99px; background:rgba(var(--c-secondary-rgb),.07); }
+    .section-title{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:clamp(1.5rem, 3vw, 2.2rem); margin:0; color:var(--text-primary); }
+    .section-line{ flex:1; height:1px; background:linear-gradient(90deg, var(--border-strong), transparent); }
+    .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.visible, .reveal.active, .reveal.in-view{ opacity:1; transform:none; }
+    .surface-card{ background:linear-gradient(155deg, var(--bg-elevated) 0%, var(--bg-surface) 100%); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); transition:border-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed); }
+    html[data-card-style="outlined"] .surface-card{ background:transparent; border:1px solid rgba(var(--c-primary-rgb),.45); box-shadow:none; }
+    html[data-card-style="flat"] .surface-card{ background:var(--bg-elevated); border:1px solid transparent; box-shadow:none; }
+    html[data-card-style="neon"] .surface-card{ background:var(--bg-surface); border:1px solid rgba(var(--c-primary-rgb),.6); box-shadow:0 0 0 1px rgba(var(--c-primary-rgb),.15), 0 0 32px rgba(var(--c-primary-rgb),.28); }
 
-    #auth-bar {
-      display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.5rem 1rem 0.5rem 1.2rem;
-      background: rgba(10,20,40,0.85);
-      border-bottom: 1px solid rgba(123,0,255,0.25);
-      justify-content: flex-end;
-      backdrop-filter: blur(6px);
-      position: relative;
-      z-index: 50;
-    }
-    .auth-user-wrap { display: none; align-items: center; gap: 0.5rem; }
-    .auth-user-wrap.visible { display: flex; }
-    .auth-avatar {
-      width: 30px; height: 30px; border-radius: 50%;
-      border: 2px solid #7B00FF; object-fit: cover;
-    }
-    .auth-avatar-fallback {
-      width: 30px; height: 30px; border-radius: 50%;
-      border: 2px solid #7B00FF; background: rgba(123,0,255,0.2);
-      color: #7B00FF; font-size: 0.65rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      text-transform: uppercase;
-    }
-    .auth-username {
-      font-size: 0.68rem; color: #666;
-      max-width: 110px; letter-spacing: 0.5px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .auth-btn {
-      padding: 0.3rem 0.9rem; border-radius: 4px;
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      cursor: pointer; border: 1px solid;
-      transition: all 0.2s; font-family: inherit;
-    }
-    .auth-btn-login { background: transparent; border-color: rgba(123,0,255,0.5); color: #a080d0; }
-    .auth-btn-login:hover { background: rgba(123,0,255,0.2); border-color: #7B00FF; color: #fff; }
-    .auth-btn-logout { background: transparent; border-color: rgba(231,76,60,0.4); color: #b06060; }
-    .auth-btn-logout:hover { background: rgba(231,76,60,0.18); border-color: #e74c3c; color: #fff; }
+    /* ── Catégories & grille d'escouades ── */
+    .category-block{ margin-top:3.6rem; }
+    .category-block:first-of-type{ margin-top:0; }
+    .category-header{ display:flex; align-items:center; gap:1rem; margin-bottom:1.6rem; }
+    .category-dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; box-shadow:0 0 12px currentColor; }
+    .category-title{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:1.15rem; margin:0; color:var(--text-primary); }
+    .category-count{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); border:1px solid var(--border-subtle); border-radius:99px; padding:.2rem .6rem; }
+    .category-line{ flex:1; height:1px; background:linear-gradient(90deg, var(--border-strong), transparent); }
+    .escouades-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(255px, 1fr)); gap:1.3rem; }
+    .escouade-card{ position:relative; overflow:hidden; cursor:pointer; display:flex; flex-direction:column; }
+    .escouade-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--card-accent, var(--c-primary)); opacity:.85; z-index:2; }
+    .escouade-card:hover{ border-color:color-mix(in srgb, var(--card-accent, var(--c-primary)) 55%, var(--border-subtle)); transform:translateY(-4px); box-shadow:0 20px 40px -18px rgba(0,0,0,.7), 0 0 0 1px color-mix(in srgb, var(--card-accent, var(--c-primary)) 25%, transparent); }
+    .card-img-container{ position:relative; height:150px; overflow:hidden; }
+    .card-img-placeholder{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background-size:cover; background-position:center; }
+    .card-img-placeholder span{ font-family:var(--font-display); font-size:1.3rem; font-weight:700; letter-spacing:4px; opacity:.35; text-transform:uppercase; }
+    .card-info{ padding:1.1rem 1.25rem 1.25rem; display:flex; flex-direction:column; gap:.25rem; flex:1; }
+    .card-info h3{ margin:0; font-family:var(--font-display); font-size:1.05rem; letter-spacing:1.2px; text-transform:uppercase; color:var(--card-accent, var(--text-primary)); }
+    .card-info p{ margin:0; font-size:.82rem; color:var(--text-secondary); line-height:1.5; }
+    .card-admin-bar{ position:absolute; top:.6rem; right:.6rem; z-index:3; display:none; gap:.35rem; }
+    .escouade-card:hover .card-admin-bar.visible{ display:flex; }
+    .card-admin-bar button{ width:28px; height:28px; border-radius:50%; border:1px solid var(--border-strong); background:rgba(5,7,13,.75); color:var(--text-primary); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.75rem; backdrop-filter:blur(4px); transition:all .15s; }
+    .card-admin-bar .card-edit-btn:hover{ border-color:var(--c-primary); color:var(--c-secondary); }
+    .card-admin-bar .card-del-btn:hover{ border-color:var(--c-danger); color:var(--c-danger); }
+    .escouades-empty{ color:var(--text-muted); text-align:center; padding:3rem; font-size:.85rem; grid-column:1/-1; }
+    .disc-loading{ text-align:center; padding:5rem 1rem; color:var(--text-muted); font-size:.85rem; letter-spacing:2px; text-transform:uppercase; grid-column:1/-1; }
+    .disc-loading::after{ content:''; display:block; width:34px; height:34px; margin:1.1rem auto 0; border:2px solid rgba(var(--c-primary-rgb),.25); border-top-color:var(--c-primary); border-radius:50%; animation:spin .8s linear infinite; }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
 
-    #admin-toggle-btn, #accounts-btn {
-      position: fixed; right: 1.5rem; z-index: 999;
-      background: rgba(10,20,40,0.95); border-radius: 6px;
-      font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; padding: 0.6rem 1.1rem;
-      border: 1px solid #7B00FF; color: #c8cdd6;
-      box-shadow: 0 0 18px rgba(123,0,255,0.3);
-      transition: all 0.2s; display: none; align-items: center; gap: 0.5rem;
-    }
-    #admin-toggle-btn { bottom: 1.5rem; }
-    #accounts-btn { bottom: 5.6rem; border-color: #00ff88; box-shadow: 0 0 18px rgba(0,255,136,0.18); }
-    #admin-toggle-btn.visible, #accounts-btn.visible { display: flex; }
-    #admin-toggle-btn:hover { background: rgba(123,0,255,0.2); color: #fff; box-shadow: 0 0 28px rgba(123,0,255,0.5); }
-    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+    /* ── Modale de détail escouade ── */
+    .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center; padding:1rem; }
+    .modal-overlay.active{ display:flex; animation:modalFadeIn .2s ease; }
+    @keyframes modalFadeIn{ from{ opacity:0; transform:scale(.96);} to{opacity:1; transform:scale(1);} }
+    .modal-content{ position:relative; background:linear-gradient(150deg, var(--bg-elevated) 0%, var(--bg-surface) 100%); border:1px solid color-mix(in srgb, var(--modal-color, var(--c-primary)) 45%, var(--border-subtle)); box-shadow:0 30px 60px -20px rgba(0,0,0,.7), 0 0 40px -10px color-mix(in srgb, var(--modal-color, var(--c-primary)) 30%, transparent); border-radius:var(--radius-lg); padding:0 0 2.1rem; max-width:560px; width:100%; max-height:90vh; overflow-y:auto; }
+    .modal-content.generic{ padding:2.1rem; max-width:760px; }
+    .modal-content::before{ content:''; display:block; position:sticky; top:0; height:3px; background:var(--modal-color, var(--c-primary)); box-shadow:0 0 12px var(--modal-color, var(--c-primary)); z-index:2; }
+    .modal-content.generic::before{ display:none; }
+    .close-modal{ position:absolute; top:1rem; right:1rem; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-size:1.2rem; line-height:1; width:2.1rem; height:2.1rem; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; z-index:3; }
+    .close-modal:hover{ color:#fff; border-color:var(--c-primary); transform:rotate(90deg); }
+    .modal-header{ padding:1.4rem 2rem 0; }
+    .modal-content.generic .modal-header{ padding:0; margin-bottom:1.3rem; }
+    .modal-title{ font-family:var(--font-display); color:#fff; text-transform:uppercase; letter-spacing:3px; font-size:1.2rem; margin:0 0 .3rem; padding-right:2rem; }
+    .modal-role{ color:var(--modal-color, var(--c-secondary)); text-transform:uppercase; letter-spacing:1.5px; font-size:.78rem; font-weight:700; margin:0 0 1.3rem; }
+    .modal-img-container{ position:relative; width:100%; height:210px; overflow:hidden; margin-top:1.2rem; }
+    .modal-img-fallback{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; font-family:var(--font-display); font-size:2.2rem; font-weight:700; letter-spacing:6px; color:var(--modal-color, var(--c-primary)); opacity:.3; background:repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.02) 10px, rgba(255,255,255,.02) 20px); }
+    #modal-img{ display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+    .modal-body{ padding:1.4rem 2rem 0; }
+    .modal-desc{ color:var(--text-secondary); line-height:1.7; font-size:.92rem; margin:0 0 1.2rem; }
+    .recrutement-row{ font-size:.84rem; color:var(--text-secondary); margin-bottom:.5rem; letter-spacing:.3px; }
+    .recrutement-row strong{ color:var(--modal-color, var(--c-secondary)); font-weight:700; text-transform:uppercase; }
+    .modal-spec-btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1.2rem; border:1px solid var(--modal-color, var(--c-primary)); border-radius:var(--radius-sm); color:var(--modal-color, var(--c-secondary)); text-decoration:none; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:color-mix(in srgb, var(--modal-color, var(--c-primary)) 8%, transparent); transition:all .2s; margin-top:.6rem; }
+    .modal-spec-btn:hover{ background:color-mix(in srgb, var(--modal-color, var(--c-primary)) 20%, transparent); box-shadow:0 0 14px color-mix(in srgb, var(--modal-color, var(--c-primary)) 30%, transparent); color:#fff; }
+    .modal-admin-actions{ display:none; gap:.6rem; margin-top:1.4rem; padding-top:1.1rem; border-top:1px solid var(--border-subtle); }
+    .modal-admin-actions.visible{ display:flex; }
+    .modal-admin-actions button{ flex:1; }
+    .modal-role-badge{ display:inline-block; margin-top:.5rem; font-family:var(--font-mono); font-size:.68rem; letter-spacing:1px; text-transform:uppercase; padding:.25rem .6rem; border-radius:99px; border:1px solid var(--border-subtle); color:var(--text-muted); }
 
-    #admin-panel {
-      display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 998;
-      background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-      border: 1px solid #7B00FF; border-radius: 8px; padding: 1.5rem;
-      width: 360px; max-height: 75vh; overflow-y: auto;
-      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(123,0,255,0.2);
-    }
-    #admin-panel.open { display: block; animation: panelIn 0.2s ease; }
-    @keyframes panelIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    /* ── Boutons flottants admin ── */
+    .admin-btn{ margin-top:.4rem; padding:.65rem 1rem; border-radius:var(--radius-sm); font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border:1px solid rgba(var(--c-primary-rgb),.4); background:rgba(var(--c-primary-rgb),.15); color:var(--text-primary); transition:all var(--transition-fast); width:100%; }
+    .admin-btn:hover{ background:rgba(var(--c-primary-rgb),.32); color:#fff; }
+    .admin-btn.danger{ border-color:rgba(255,77,94,.4); background:rgba(255,77,94,.1); color:var(--c-danger); }
+    .admin-btn.danger:hover{ background:rgba(255,77,94,.26); color:#fff; }
+    .admin-btn.secondary{ border-color:rgba(0,255,136,.4); background:rgba(0,255,136,.08); color:var(--c-success); }
+    .admin-btn.secondary:hover{ background:rgba(0,255,136,.2); color:#fff; }
+    .admin-notice{ font-size:.74rem; color:var(--text-muted); text-align:center; margin-top:.6rem; }
+    .admin-notice.success{ color:var(--c-success); }
+    .admin-notice.error{ color:var(--c-danger); }
+    .admin-form{ display:flex; flex-direction:column; gap:.65rem; }
+    .admin-form label{ font-size:.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:-.3rem; font-weight:600; }
+    .admin-form input, .admin-form select, .admin-form textarea{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); color:var(--text-primary); padding:.6rem .8rem; font-size:.85rem; font-family:inherit; width:100%; transition:border-color var(--transition-fast); box-sizing:border-box; }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus{ outline:none; border-color:var(--c-primary); }
+    .admin-form textarea{ resize:vertical; min-height:80px; }
+    .admin-form .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+    #escouade-list{ display:flex; flex-direction:column; gap:.4rem; margin-bottom:1rem; }
+    .esc-tab{ display:flex; justify-content:space-between; align-items:center; padding:.6rem .85rem; border-radius:var(--radius-sm); background:var(--bg-elevated-2); border:1px solid var(--border-subtle); cursor:pointer; transition:all .15s; }
+    .esc-tab:hover{ border-color:rgba(var(--c-primary-rgb),.5); background:rgba(var(--c-primary-rgb),.1); }
+    .esc-tab-left{ display:flex; align-items:center; gap:.6rem; min-width:0; }
+    .esc-tab-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .esc-tab-info{ display:flex; flex-direction:column; gap:.1rem; min-width:0; }
+    .esc-tab-title{ font-size:.84rem; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px; }
+    .esc-tab-meta{ font-size:.65rem; color:var(--text-muted); letter-spacing:.5px; text-transform:uppercase; font-family:var(--font-mono); }
+    .esc-tab-actions{ display:flex; gap:.3rem; flex-shrink:0; }
+    .esc-tab-actions button{ background:none; border:1px solid var(--border-subtle); border-radius:4px; color:var(--text-muted); font-size:.7rem; cursor:pointer; padding:.18rem .5rem; transition:all .15s; }
+    .esc-tab-actions button:hover{ color:#fff; }
+    .esc-tab-actions .del-esc:hover{ border-color:var(--c-danger); background:rgba(255,77,94,.15); color:var(--c-danger); }
+    .esc-tab-actions .edit-esc:hover{ border-color:var(--c-primary); background:rgba(var(--c-primary-rgb),.15); color:var(--c-secondary); }
+    #admin-toggle-btn, #accounts-btn, #appearance-btn{ position:fixed; right:1.6rem; z-index:999; border-radius:99px; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; padding:.75rem 1.3rem; border:1px solid rgba(var(--c-primary-rgb),.5); background:color-mix(in srgb, var(--bg-surface) 88%, transparent); color:var(--text-primary); box-shadow:0 10px 30px -10px rgba(0,0,0,.6), var(--shadow-glow); transition:all var(--transition-fast); display:none; align-items:center; gap:.55rem; backdrop-filter:blur(10px); }
+    #appearance-btn{ bottom:1.6rem; border-color:rgba(var(--c-secondary-rgb),.5); display: flex !important; }
+    #admin-toggle-btn{ bottom:6rem; }
+    #accounts-btn{ bottom:10.4rem; border-color:rgba(0,255,136,.45); }
+    #admin-toggle-btn.visible, #accounts-btn.visible{ display:flex; }
+    #admin-toggle-btn:hover{ background:rgba(var(--c-primary-rgb),.22); color:#fff; transform:translateY(-2px); }
+    #accounts-btn:hover{ background:rgba(0,255,136,.15); color:#fff; transform:translateY(-2px); }
+    #appearance-btn:hover{ background:rgba(var(--c-secondary-rgb),.18); color:#fff; transform:translateY(-2px); }
 
-    #admin-panel h3 {
-      color: #7B00FF; text-transform: uppercase; letter-spacing: 2px;
-      font-size: 0.85rem; margin: 0 0 1.2rem; padding-bottom: 0.6rem;
-      border-bottom: 1px solid rgba(123,0,255,0.3);
-    }
-    .admin-form { display: flex; flex-direction: column; gap: 0.6rem; }
-    .admin-form label {
-      font-size: 0.72rem; color: #888; text-transform: uppercase;
-      letter-spacing: 1px; margin-bottom: -0.3rem;
-    }
-    .admin-form input, .admin-form select, .admin-form textarea {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 4px; color: #c8cdd6; padding: 0.5rem 0.7rem;
-      font-size: 0.82rem; font-family: inherit; width: 100%;
-      transition: border-color 0.2s;
-    }
-    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline: none; border-color: #7B00FF; }
-    .admin-form textarea { resize: vertical; min-height: 80px; }
-    .admin-btn {
-      margin-top: 0.4rem; padding: 0.6rem 1rem; border-radius: 4px;
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase; cursor: pointer; border: 1px solid #7B00FF;
-      background: rgba(123,0,255,0.15); color: #c8cdd6; transition: all 0.2s; width: 100%;
-    }
-    .admin-btn:hover { background: rgba(123,0,255,0.35); color: #fff; }
-    .admin-btn.danger { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e74c3c; }
-    .admin-btn.danger:hover { background: rgba(231,76,60,0.3); color: #fff; }
-    .admin-notice { font-size: 0.72rem; color: #555; text-align: center; margin-top: 0.5rem; }
-    .admin-notice.success { color: #00ff88; }
-    .admin-notice.error { color: #e74c3c; }
-
-    .firebase-loading {
-      text-align: center; padding: 3rem 1rem; color: #555;
-      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
-    }
-    .firebase-loading::after {
-      content: ''; display: block; width: 32px; height: 32px; margin: 1rem auto 0;
-      border: 2px solid rgba(123,0,255,0.2); border-top-color: #7B00FF;
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px); z-index: 1000; align-items: center;
-      justify-content: center; padding: 1rem;
-    }
-    .modal-overlay.active { display: flex; animation: modalFadeIn 0.2s ease; }
-    @keyframes modalFadeIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
-    .modal-content {
-      position: relative; background: linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(5,10,25,0.98) 100%);
-      border: 1px solid var(--modal-color, #00ffff);
-      box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 15px color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
-      border-radius: 6px; padding: 2rem; max-width: 520px; width: 100%;
-      max-height: 90vh; overflow-y: auto;
-    }
-    .modal-content::before {
-      content: ''; display: block; position: absolute; top: 0; left: 0; right: 0;
-      height: 3px; background: var(--modal-color, #00ffff);
-      border-radius: 6px 6px 0 0; box-shadow: 0 0 12px var(--modal-color, #00ffff);
-    }
-    .close-modal {
-      position: absolute; top: 1rem; right: 1rem; background: none;
-      border: 1px solid rgba(255,255,255,0.15); color: #aaa;
-      font-size: 1.3rem; line-height: 1; width: 2rem; height: 2rem;
-      border-radius: 4px; cursor: pointer; display: flex;
-      align-items: center; justify-content: center; transition: all 0.2s;
-    }
-    .close-modal:hover {
-      color: #fff; border-color: var(--modal-color, #00ffff);
-      background: rgba(255,255,255,0.05);
-    }
-    .modal-header { margin-bottom: 1.25rem; padding-right: 2rem; }
-    .modal-title {
-      margin: 0 0 0.3rem; color: #fff; text-transform: uppercase;
-      letter-spacing: 3px; font-size: 1.3rem;
-    }
-    .modal-role {
-      margin: 0; color: var(--modal-color, #00ffff); text-transform: uppercase;
-      letter-spacing: 1.5px; font-size: 0.8rem; font-weight: 500; opacity: 0.85;
-      }
-    #modal-img {
-      display: block !important;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      object-position: center center !important;
-    }
-
-    #modal-img-fallback {
-      display: none;
-    }
-
-    .modal-img-container {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-    }
-    .modal-img-fallback {
-      position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
-      font-size: 2.5rem; font-weight: 700; letter-spacing: 6px; color: var(--modal-color, #00ffff);
-      opacity: 0.25; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.01) 10px, rgba(255,255,255,0.01) 20px);
-    }
-    .modal-desc { color: #c8cdd6; line-height: 1.7; font-size: 0.95rem; margin: 0 0 1.25rem; }
-    .recrutement-modality, .recrutement-ref { font-size: 0.85rem; color: #c8cdd6; margin-bottom: 0.5rem; letter-spacing: 0.5px; }
-    .modal-modality, .modal-ref { color: var(--modal-color, #00ffff); font-weight: 700; text-transform: uppercase; }
-    .modal-spec-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem;
-      border: 1px solid var(--modal-color, #00ffff); border-radius: 4px;
-      color: var(--modal-color, #00ffff); text-decoration: none; font-size: 0.8rem;
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      background: color-mix(in srgb, var(--modal-color, #00ffff) 8%, transparent);
-      transition: all 0.2s;
-    }
-    .modal-spec-btn:hover {
-      background: color-mix(in srgb, var(--modal-color, #00ffff) 20%, transparent);
-      box-shadow: 0 0 12px color-mix(in srgb, var(--modal-color, #00ffff) 30%, transparent);
-      color: #fff;
-    }
-    .modal-spec-btn svg { flex-shrink: 0; }
-
-    .modal-admin-actions {
-      display: none; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-    .modal-admin-actions.visible { display: flex; }
-    .modal-admin-actions button {
-      flex: 1; padding: 0.5rem; border-radius: 4px; font-size: 0.75rem;
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .btn-edit-modal { background: rgba(123,0,255,0.15); border: 1px solid #7B00FF; color: #c8cdd6; }
-    .btn-edit-modal:hover { background: rgba(123,0,255,0.35); color: #fff; }
-    .btn-delete-modal { background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #e74c3c; }
-    .btn-delete-modal:hover { background: rgba(231,76,60,0.3); color: #fff; }
-
-    #accounts-btn {
-      position: fixed; bottom: 5.6rem; right: 1.5rem; z-index: 999;
-      background: rgba(10,20,40,0.95); border: 1px solid #00ff88; color: #c8cdd6;
-      padding: 0.6rem 1.1rem; border-radius: 6px; font-size: 0.78rem;
-      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-      box-shadow: 0 0 18px rgba(0,255,136,0.18); transition: all 0.2s;
-      display: none; align-items: center; gap: 0.5rem;
-    }
-    #accounts-btn.visible { display: flex; }
-    #accounts-btn:hover { background: rgba(0,255,136,0.15); color: #fff; }
+    /* ── Console admin (dashboard) ── */
+    #admin-panel{ display:none; position:fixed; inset:0 0 0 auto; z-index:998; width:min(880px, 100vw); max-width:100vw; background:var(--bg-surface); border-left:1px solid var(--border-strong); box-shadow:-30px 0 60px -20px rgba(0,0,0,.7); }
+    #admin-panel.open{ display:flex; animation:panelIn var(--transition-speed) ease; }
+    @keyframes panelIn{ from{ opacity:0; transform:translateX(24px); } to{ opacity:1; transform:translateX(0); } }
+    .dash{ display:flex; width:100%; height:100%; }
+    .dash-sidebar{ width:var(--dash-sidebar-width); flex-shrink:0; background:var(--bg-void); border-right:1px solid var(--border-subtle); display:flex; flex-direction:column; padding:1.1rem .8rem; gap:1.2rem; transition:width var(--transition-speed) ease; overflow:hidden; }
+    .dash-sidebar.collapsed{ width:68px; }
+    .dash-sidebar-head{ display:flex; align-items:center; justify-content:space-between; padding:0 .3rem; }
+    .dash-brand{ display:flex; align-items:center; gap:.5rem; overflow:hidden; }
+    .dash-brand span{ font-family:var(--font-display); font-weight:700; letter-spacing:1.5px; font-size:.82rem; text-transform:uppercase; white-space:nowrap; color:var(--text-primary); }
+    .dash-collapse-btn{ background:none; border:1px solid var(--border-subtle); color:var(--text-muted); border-radius:6px; width:26px; height:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s; }
+    .dash-collapse-btn:hover{ border-color:var(--c-primary); color:var(--c-secondary); }
+    .dash-sidebar.collapsed .dash-collapse-btn svg{ transform:rotate(180deg); }
+    .dash-nav{ display:flex; flex-direction:column; gap:.25rem; flex:1; }
+    .dash-nav-item{ display:flex; align-items:center; gap:.75rem; padding:.6rem .65rem; border-radius:var(--radius-sm); background:none; border:1px solid transparent; color:var(--text-secondary); cursor:pointer; font-family:inherit; font-size:.8rem; font-weight:600; text-align:left; transition:all .15s; white-space:nowrap; overflow:hidden; }
+    .dash-nav-item svg{ flex-shrink:0; width:17px; height:17px; }
+    .dash-nav-item:hover{ background:var(--bg-elevated); color:var(--text-primary); }
+    .dash-nav-item.active{ background:rgba(var(--c-primary-rgb),.16); border-color:rgba(var(--c-primary-rgb),.4); color:#fff; }
+    .dash-sidebar.collapsed .dash-nav-item span{ display:none; }
+    .dash-sidebar.collapsed .dash-nav-item{ justify-content:center; }
+    .dash-sidebar-foot{ font-size:.66rem; color:var(--text-muted); padding:0 .3rem; letter-spacing:.5px; white-space:nowrap; overflow:hidden; }
+    .dash-sidebar.collapsed .dash-sidebar-foot{ display:none; }
+    .dash-main{ flex:1; display:flex; flex-direction:column; min-width:0; }
+    .dash-header{ display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.6rem; border-bottom:1px solid var(--border-subtle); }
+    .dash-header h2{ font-family:var(--font-display); font-size:1.05rem; text-transform:uppercase; letter-spacing:2px; margin:0; color:var(--text-primary); }
+    .dash-header p{ margin:.15rem 0 0; font-size:.74rem; color:var(--text-muted); }
+    .dash-close{ background:var(--bg-elevated); border:1px solid var(--border-subtle); color:var(--text-secondary); width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+    .dash-close:hover{ border-color:var(--c-danger); color:var(--c-danger); transform:rotate(90deg); }
+    .dash-content{ flex:1; overflow-y:auto; padding:1.6rem; }
+    .dash-panel{ display:none; }
+    .dash-panel.active{ display:block; animation:fadeUp .3s ease; }
+    @keyframes fadeUp{ from{ opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+    .dash-panel h4{ font-family:var(--font-display); color:var(--text-secondary); text-transform:uppercase; letter-spacing:1.5px; font-size:.74rem; margin:1.4rem 0 .6rem; font-weight:700; }
+    .dash-panel h4:first-child{ margin-top:0; }
+    .field-hint{ font-size:.72rem; color:var(--text-muted); margin:.2rem 0 0; }
+    .widgets-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin-bottom:1.1rem; }
+    .widgets-toolbar select{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:var(--radius-sm); padding:.5rem .7rem; font-size:.78rem; font-family:inherit; }
+    .widgets-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:.9rem; }
+    .widget-card{ padding:1.1rem 1.2rem; position:relative; }
+    .widget-card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; margin-bottom:.6rem; }
+    .widget-title{ font-size:.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); font-weight:700; }
+    .widget-value{ font-family:var(--font-display); font-size:1.7rem; font-weight:700; color:var(--text-primary); }
+    .widget-sub{ font-size:.72rem; color:var(--text-muted); margin-top:.2rem; }
+    .widget-controls{ display:flex; gap:.25rem; }
+    .widget-controls button{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-muted); width:22px; height:22px; border-radius:5px; cursor:pointer; font-size:.7rem; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+    .widget-controls button:hover{ border-color:var(--c-primary); color:var(--c-secondary); }
+    .widget-actions-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.4rem; }
+    .widget-empty{ color:var(--text-muted); font-size:.82rem; padding:2rem; text-align:center; border:1px dashed var(--border-subtle); border-radius:var(--radius-md); }
+    .add-widget-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
+    .chip-btn{ background:var(--bg-elevated-2); border:1px dashed var(--border-strong); color:var(--text-secondary); padding:.4rem .8rem; border-radius:99px; font-size:.72rem; cursor:pointer; transition:all .15s; }
+    .chip-btn:hover{ border-color:var(--c-success); color:var(--c-success); }
+    .palette-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(135px,1fr)); gap:.7rem; }
+    .palette-swatch{ padding:.8rem; border-radius:var(--radius-md); border:1px solid var(--border-subtle); cursor:pointer; transition:all .15s; background:var(--bg-elevated); }
+    .palette-swatch:hover{ border-color:var(--border-strong); transform:translateY(-2px); }
+    .palette-swatch.selected{ border-color:var(--c-primary); box-shadow:0 0 0 1px var(--c-primary); }
+    .palette-dots{ display:flex; gap:.3rem; margin-bottom:.5rem; }
+    .palette-dots span{ width:18px; height:18px; border-radius:50%; display:block; border:1px solid rgba(255,255,255,.2); }
+    .palette-name{ font-size:.72rem; color:var(--text-secondary); }
+    .color-field{ display:flex; align-items:center; gap:.7rem; }
+    .color-field input[type="color"]{ width:42px; height:38px; border-radius:8px; border:1px solid var(--border-subtle); background:none; cursor:pointer; padding:2px; }
+    .color-field code{ font-size:.78rem; color:var(--text-muted); font-family:var(--font-mono); }
+    .option-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.7rem 0; border-bottom:1px solid var(--border-subtle); }
+    .option-row:last-child{ border-bottom:none; }
+    .option-row-label{ font-size:.84rem; color:var(--text-primary); font-weight:600; }
+    .option-row-desc{ font-size:.74rem; color:var(--text-muted); margin-top:.15rem; }
+    .seg-control{ display:inline-flex; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:99px; padding:3px; gap:2px; }
+    .seg-control button{ background:none; border:none; color:var(--text-secondary); font-size:.74rem; font-weight:600; padding:.4rem .85rem; border-radius:99px; cursor:pointer; transition:all .15s; font-family:inherit; }
+    .seg-control button.active{ background:linear-gradient(135deg, var(--c-primary), var(--c-secondary)); color:#fff; }
+    .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+    .switch input{ opacity:0; width:0; height:0; }
+    .switch-track{ position:absolute; inset:0; background:var(--bg-elevated-2); border:1px solid var(--border-strong); border-radius:99px; cursor:pointer; transition:all .2s; }
+    .switch-track::before{ content:''; position:absolute; width:16px; height:16px; left:3px; top:2px; background:var(--text-muted); border-radius:50%; transition:all .2s; }
+    .switch input:checked + .switch-track{ background:rgba(var(--c-primary-rgb),.35); border-color:var(--c-primary); }
+    .switch input:checked + .switch-track::before{ transform:translateX(18px); background:var(--c-primary); }
+    .range-row{ display:flex; align-items:center; gap:.8rem; }
+    .range-row input[type="range"]{ flex:1; accent-color:var(--c-primary); }
+    .range-row output{ font-family:var(--font-mono); font-size:.76rem; color:var(--text-secondary); min-width:48px; text-align:right; }
+    select.std-select{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:var(--radius-sm); padding:.55rem .7rem; font-size:.82rem; font-family:inherit; width:100%; }
+    .dash-footer-actions{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle); }
+    .dash-footer-actions .btn{ flex:1; min-width:140px; }
+    .btn{ padding:.65rem 1rem; border-radius:var(--radius-sm); font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border:1px solid var(--border-strong); background:var(--bg-elevated-2); color:var(--text-primary); transition:all var(--transition-fast); font-family:inherit; }
+    .btn:hover{ border-color:var(--c-primary); color:#fff; }
+    .btn.success{ border-color:rgba(0,255,136,.4); background:rgba(0,255,136,.1); color:var(--c-success); }
+    .btn.success:hover{ background:rgba(0,255,136,.22); color:#fff; }
+    .btn.danger{ border-color:rgba(255,77,94,.4); background:rgba(255,77,94,.1); color:var(--c-danger); }
+    .btn.danger:hover{ background:rgba(255,77,94,.24); color:#fff; }
+    .btn.ghost{ background:transparent; }
+    .btn.block{ width:100%; }
+    footer{ position:relative; z-index:1; text-align:center; padding:2.2rem 1rem; color:var(--text-muted); font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; border-top:1px solid var(--border-subtle); }
+    @media (max-width:860px){ #admin-panel{ width:100vw; } .dash-sidebar{ position:absolute; z-index:5; height:100%; } .dash-sidebar:not(.mobile-open){ display:none; } }
+    @media (max-width:680px){ nav{ flex-wrap:wrap; gap:.8rem; padding:.8rem 1.1rem; } .nav-brand{ font-size:.78rem; } .nav-auth{ width:100%; justify-content:flex-end; order:3; } .content{ padding:0 1.1rem 4rem; } .section-header{ margin:2.2rem 0 1.6rem; flex-wrap:wrap; } .escouades-grid{ grid-template-columns:1fr 1fr; gap:.9rem; } #admin-toggle-btn, #accounts-btn{ right:1rem; padding:.6rem 1rem; font-size:.7rem; } .widgets-grid{ grid-template-columns:1fr 1fr; } .palette-grid{ grid-template-columns:repeat(2,1fr); } .admin-form .field-row{ grid-template-columns:1fr; } }
+    @media (max-width:480px){ .escouades-grid{ grid-template-columns:1fr; } .widgets-grid{ grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -241,8 +291,8 @@
 
 <nav>
   <div class="nav-logo">
-    <img src="Logo_408th.png" alt="Logo 408th" class="logo-img">
-    <span class="nav-brand">408TH CORPS COSMIQUE</span>
+    <img src="Logo_408th.png" alt="Logo 408th" class="logo-img" id="navLogoImg">
+    <span class="nav-brand" id="navBrandText">408TH CORPS COSMIQUE</span>
   </div>
   <a href="index.html">Accueil</a>
   <a href="discipline.html">Règlement</a>
@@ -269,23 +319,35 @@
     <div class="section-line"></div>
   </div>
 
-  <h3 class="category-title reveal">Escouades Gratuites</h3>
-  <div class="category-separator reveal" style="background:#00ff88; box-shadow:0 0 10px #00ff88;"></div>
-  <div class="escouades-grid reveal" id="grid-gratuites">
-    <div id="firebase-loading">Chargement des escouades</div>
+  <div class="category-block reveal">
+    <div class="category-header">
+      <span class="category-dot" style="background:var(--c-success); color:var(--c-success);"></span>
+      <h3 class="category-title">Escouades Gratuites</h3>
+      <span class="category-count" id="count-gratuites">–</span>
+      <div class="category-line"></div>
+    </div>
+    <div class="escouades-grid" id="grid-gratuites">
+      <div class="disc-loading">Chargement des escouades</div>
+    </div>
   </div>
 
-  <h3 class="category-title reveal" style="margin-top:4rem;">Escouades Payantes</h3>
-  <div class="category-separator reveal" style="background:#ff0055; box-shadow:0 0 10px #ff0055;"></div>
-  <div class="escouades-grid reveal" id="grid-payantes"></div>
+  <div class="category-block reveal">
+    <div class="category-header">
+      <span class="category-dot" style="background:var(--c-danger); color:var(--c-danger);"></span>
+      <h3 class="category-title">Escouades Payantes</h3>
+      <span class="category-count" id="count-payantes">–</span>
+      <div class="category-line"></div>
+    </div>
+    <div class="escouades-grid" id="grid-payantes"></div>
+  </div>
 </section>
 
 <div id="escouade-modal" class="modal-overlay">
-  <div class="modal-content holo-card">
+  <div class="modal-content">
     <button class="close-modal" aria-label="Fermer">&times;</button>
     <div class="modal-header">
-      <h2 id="modal-title"></h2>
-      <h4 id="modal-role"></h4>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <p id="modal-role" class="modal-role"></p>
     </div>
 
     <div class="modal-img-container">
@@ -293,27 +355,29 @@
       <div id="modal-img-fallback" class="modal-img-fallback"><span id="modal-img-label"></span></div>
     </div>
 
-    <p id="modal-desc"></p>
-    <div class="recrutement-modality">Modalité : <span id="modal-modality"></span></div>
-    <div class="recrutement-ref">Référence recrutement : <span id="modal-ref"></span></div>
+    <div class="modal-body">
+      <p id="modal-desc" class="modal-desc"></p>
+      <div class="recrutement-row">Modalité : <strong id="modal-modality"></strong></div>
+      <div class="recrutement-row">Référence recrutement : <strong id="modal-ref"></strong></div>
 
-    <a id="modal-spec-link" href="#" class="modal-spec-btn" target="_blank">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
-      <span id="modal-spec-label">Voir la spécialisation</span>
-    </a>
+      <a id="modal-spec-link" href="#" class="modal-spec-btn" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        <span id="modal-spec-label">Voir la spécialisation</span>
+      </a>
 
-    <div class="modal-admin-actions" id="modal-admin-actions">
-      <button class="btn-edit-modal" id="btn-edit-modal">Modifier</button>
-      <button class="btn-delete-modal" id="btn-delete-modal">Supprimer</button>
+      <div class="modal-admin-actions" id="modal-admin-actions">
+        <button class="admin-btn" id="btn-edit-modal" type="button">✎ Modifier</button>
+        <button class="admin-btn danger" id="btn-delete-modal" type="button">✕ Supprimer</button>
+      </div>
     </div>
   </div>
 </div>
 
-<button id="admin-toggle-btn" class="admin-toggle-btn">
+<button id="admin-toggle-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <circle cx="12" cy="12" r="3"></circle>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
@@ -321,54 +385,7 @@
   Admin
 </button>
 
-<div id="admin-panel">
-  <h3>⚙ Panneau Admin</h3>
-  <form class="admin-form" id="admin-form" autocomplete="off">
-    <input type="hidden" id="edit-doc-id" value="">
-    <label>Nom de l'escouade *</label>
-    <input type="text" id="a-title" placeholder="Escouade des Cendres" required>  <!-- ← ajouter cette ligne -->
-    <label>Rôle / Sous-titre *</label>
-    <input type="text" id="a-role" placeholder="Vétérans affiliés à l'Ordre Jedi" required>
-    <label>Description (HTML autorisé)</label>
-    <textarea id="a-desc" placeholder="Description complète"></textarea>
-    <label>Source de l'image</label>
-    <select id="a-img-mode">
-      <option value="local">Fichier local</option>
-      <option value="url">Lien Imgur / URL</option>
-    </select>
-
-    <label>Nom du fichier local</label>
-    <input type="text" id="a-img-local" placeholder="cendres.png">
-
-    <label>Lien Imgur / URL</label>
-    <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
-    <input type="text" id="a-img" placeholder="cendres.png">
-    <label>Position de l’image</label>
-    <input type="text" id="a-img-pos" placeholder="center 35%">
-    <label>Couleur principale</label>
-    <input type="color" id="a-color" value="#00ffff">
-    <label>Lien spécialisation</label>
-    <input type="url" id="a-spec-url" placeholder="https://">
-    <label>Texte bouton spécialisation</label>
-    <input type="text" id="a-spec-label" placeholder="Voir la spécialisation">
-    <label>Référence recrutement</label>
-    <input type="text" id="a-ref" placeholder="0000 Pseudo">
-    <label>Modalité</label>
-    <input type="text" id="a-modality" placeholder="Gratuit / Payant">
-    <label>Catégorie</label>
-    <select id="a-type">
-      <option value="gratuite">Gratuite</option>
-      <option value="payante">Payante</option>
-    </select>
-    <label>Ordre d'affichage</label>
-    <input type="number" id="a-ordre" placeholder="1" min="0">
-    <button type="submit" class="admin-btn" id="admin-submit-btn">Ajouter l'escouade</button>
-    <button type="button" class="admin-btn danger" id="cancel-edit-btn" style="display:none;">Annuler la modification</button>
-  </form>
-  <div class="admin-notice" id="admin-notice"></div>
-</div>
-
-<button id="accounts-btn" class="admin-toggle-btn" style="bottom: 5.6rem;">
+<button id="accounts-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
     <circle cx="9" cy="7" r="4"/>
@@ -378,16 +395,269 @@
   Comptes
 </button>
 
-<div id="accounts-modal" class="modal-overlay">
-  <div class="modal-content" style="max-width:760px;">
-    <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
-    <div class="modal-header">
-      <h2 class="modal-title">Gestion des comptes</h2>
-      <h4 class="modal-role">Superadmin uniquement</h4>
+<button id="appearance-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="9"></circle>
+    <circle cx="8.5" cy="10" r="1" fill="currentColor"></circle>
+    <circle cx="13.5" cy="8" r="1" fill="currentColor"></circle>
+    <circle cx="16" cy="13" r="1" fill="currentColor"></circle>
+    <path d="M12 21a4 4 0 0 1-4-4c0-1 1-1.5 1-2.5A1.5 1.5 0 0 0 7.5 13H7a5 5 0 0 1 0-9"></path>
+  </svg>
+  Apparence
+</button>
+
+<div id="admin-panel">
+  <div class="dash">
+    <aside class="dash-sidebar" id="dashSidebar">
+      <div class="dash-sidebar-head">
+        <div class="dash-brand">
+          <img src="Logo_408th.png" alt="" style="width:24px;height:24px;object-fit:contain;flex-shrink:0;">
+          <span>Console</span>
+        </div>
+        <button class="dash-collapse-btn" id="dashCollapseBtn" title="Réduire la barre latérale">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+      </div>
+      <nav class="dash-nav" id="dashNav">
+        <button class="dash-nav-item active" data-tab="overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <span>Tableau de bord</span>
+        </button>
+        <button class="dash-nav-item" data-tab="escouades" id="navTabEscouades" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Escouades</span>
+        </button>
+        <button class="dash-nav-item" data-tab="appearance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1" fill="currentColor"/><circle cx="13.5" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><path d="M12 21a4 4 0 0 1-4-4c0-1 1-1.5 1-2.5A1.5 1.5 0 0 0 7.5 13H7a5 5 0 0 1 0-9"/></svg>
+          <span>Apparence</span>
+        </button>
+        <button class="dash-nav-item" data-tab="layout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <span>Disposition</span>
+        </button>
+        <button class="dash-nav-item" data-tab="preferences">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          <span>Préférences</span>
+        </button>
+      </nav>
+      <div class="dash-sidebar-foot">408th • Console interne</div>
+    </aside>
+
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <h2 id="dashPanelTitle">Tableau de bord</h2>
+          <p>Panneau Admin — Escouades</p>
+        </div>
+        <button class="dash-close" id="dashCloseBtn" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="dash-content">
+
+        <section class="dash-panel active" data-panel="overview">
+          <div class="widgets-toolbar">
+            <label class="field-hint" style="margin:0;">Tableau de bord actif :</label>
+            <select id="dashboardProfileSelect" class="std-select" style="width:auto;"></select>
+            <button class="chip-btn" id="newDashboardBtn">+ Nouveau tableau de bord</button>
+            <button class="chip-btn" id="delDashboardBtn">Supprimer ce tableau</button>
+          </div>
+          <div class="widgets-grid" id="widgetsGrid"></div>
+          <div class="add-widget-row" id="addWidgetRow"></div>
+        </section>
+
+        <section class="dash-panel" data-panel="escouades">
+          <div id="escouade-list-wrap">
+            <h4>Escouades existantes</h4>
+            <div id="escouade-list"><p style="color:var(--text-muted);font-size:.78rem;">Chargement…</p></div>
+            <button class="admin-btn secondary" id="new-escouade-btn" style="margin-top:.5rem;">+ Nouvelle escouade</button>
+          </div>
+          <div id="escouade-form-wrap" style="display:none;">
+            <h4 id="esc-form-mode-label">Nouvelle escouade</h4>
+            <form class="admin-form" id="admin-form" autocomplete="off">
+              <input type="hidden" id="edit-doc-id" value="">
+              <label>Nom de l'escouade *</label>
+              <input type="text" id="a-title" placeholder="Escouade des Cendres" required>
+              <label>Rôle / Sous-titre *</label>
+              <input type="text" id="a-role" placeholder="Vétérans affiliés à l'Ordre Jedi" required>
+              <label>Description (HTML autorisé)</label>
+              <textarea id="a-desc" placeholder="Description complète"></textarea>
+
+              <label>Source de l'image</label>
+              <select id="a-img-mode">
+                <option value="local">Fichier local</option>
+                <option value="url">Lien Imgur / URL</option>
+              </select>
+              <label>Nom du fichier local</label>
+              <input type="text" id="a-img-local" placeholder="cendres.png">
+              <label>Lien Imgur / URL</label>
+              <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
+              <label>Position de l'image</label>
+              <input type="text" id="a-img-pos" placeholder="center 35%">
+
+              <div class="field-row">
+                <div>
+                  <label>Couleur principale</label>
+                  <input type="color" id="a-color" value="#00d4ff">
+                </div>
+                <div>
+                  <label>Catégorie</label>
+                  <select id="a-type">
+                    <option value="gratuite">Gratuite</option>
+                    <option value="payante">Payante</option>
+                  </select>
+                </div>
+              </div>
+
+              <label>Lien spécialisation</label>
+              <input type="url" id="a-spec-url" placeholder="https://">
+              <label>Texte bouton spécialisation</label>
+              <input type="text" id="a-spec-label" placeholder="Voir la spécialisation">
+              <label>Référence recrutement</label>
+              <input type="text" id="a-ref" placeholder="0000 Pseudo">
+              <label>Modalité</label>
+              <input type="text" id="a-modality" placeholder="Gratuit / Payant">
+              <label>Ordre d'affichage</label>
+              <input type="number" id="a-ordre" placeholder="1" min="0">
+
+              <button type="submit" class="admin-btn" id="admin-submit-btn">Ajouter l'escouade</button>
+              <button type="button" class="admin-btn danger" id="cancel-edit-btn">Annuler</button>
+            </form>
+            <div class="admin-notice" id="admin-notice"></div>
+          </div>
+        </section>
+
+        <section class="dash-panel" data-panel="appearance">
+          <h4>Thème</h4>
+          <div class="seg-control" id="themeSeg">
+            <button data-val="light">☀ Clair</button>
+            <button data-val="dark">● Sombre</button>
+            <button data-val="auto">◐ Auto</button>
+          </div>
+
+          <h4>Palettes prédéfinies</h4>
+          <div class="palette-grid" id="paletteGrid"></div>
+
+          <h4>Couleurs personnalisées</h4>
+          <div class="admin-form" style="gap:.9rem;">
+            <div class="color-field">
+              <input type="color" id="primaryColorInput" value="#7B00FF">
+              <div><div style="font-size:.8rem;color:var(--text-primary);">Couleur principale</div><code id="primaryColorCode">#7B00FF</code></div>
+            </div>
+            <div class="color-field">
+              <input type="color" id="secondaryColorInput" value="#00D4FF">
+              <div><div style="font-size:.8rem;color:var(--text-primary);">Couleur secondaire</div><code id="secondaryColorCode">#00D4FF</code></div>
+            </div>
+          </div>
+
+          <h4>Typographie</h4>
+          <select id="fontPairSelect" class="std-select"></select>
+          <div class="range-row" style="margin-top:.7rem;">
+            <span class="field-hint" style="white-space:nowrap;">Taille du texte</span>
+            <input type="range" id="fontSizeRange" min="14" max="19" step="1" value="16">
+            <output id="fontSizeOut">16px</output>
+          </div>
+
+          <h4>Style des cartes</h4>
+          <div class="seg-control" id="cardStyleSeg">
+            <button data-val="elevated">Élevée</button>
+            <button data-val="outlined">Contour</button>
+            <button data-val="flat">Plate</button>
+            <button data-val="neon">Néon</button>
+          </div>
+
+          <h4>Style des boutons</h4>
+          <div class="seg-control" id="buttonStyleSeg">
+            <button data-val="default">Défaut</button>
+            <button data-val="solid">Plein</button>
+            <button data-val="outline">Contour</button>
+            <button data-val="glass">Verre</button>
+            <button data-val="neon">Néon</button>
+          </div>
+
+          <h4>Animations</h4>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Animations fluides</div>
+              <div class="option-row-desc">Transitions, survols et apparitions animées.</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="animationsToggle" checked><span class="switch-track"></span></label>
+          </div>
+        </section>
+
+        <section class="dash-panel" data-panel="layout">
+          <h4>Barre latérale (console admin)</h4>
+          <div class="range-row">
+            <span class="field-hint" style="white-space:nowrap;">Largeur</span>
+            <input type="range" id="sidebarWidthRange" min="190" max="320" step="10" value="230">
+            <output id="sidebarWidthOut">230px</output>
+          </div>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Mode réduit par défaut</div>
+              <div class="option-row-desc">N'affiche que les icônes à l'ouverture.</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="sidebarCollapsedToggle"><span class="switch-track"></span></label>
+          </div>
+
+          <h4>En-tête du site</h4>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Afficher le logo</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="logoToggle" checked><span class="switch-track"></span></label>
+          </div>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Afficher le nom du corps</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="brandTextToggle" checked><span class="switch-track"></span></label>
+          </div>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Densité de l'en-tête</div>
+              <div class="option-row-desc">Hauteur de la barre de navigation.</div>
+            </div>
+            <div class="seg-control" id="headerDensitySeg">
+              <button data-val="0.8">Compact</button>
+              <button data-val="1">Normal</button>
+              <button data-val="1.3">Spacieux</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="dash-panel" data-panel="preferences">
+          <h4>Sauvegarde</h4>
+          <p class="field-hint">Vos préférences sont enregistrées automatiquement dans ce navigateur dès que vous cliquez sur « Enregistrer ». Le bouton « Annuler » revient à la dernière version enregistrée — un aperçu en direct s'applique pendant que vous réglez les options.</p>
+          <div class="dash-footer-actions">
+            <button class="btn success block" id="savePrefsBtn">Enregistrer les préférences</button>
+            <button class="btn ghost block" id="cancelPrefsBtn">Annuler les changements</button>
+          </div>
+
+          <h4>Réinitialisation</h4>
+          <button class="btn danger block" id="resetPrefsBtn">Réinitialiser tout aux valeurs par défaut</button>
+
+          <h4>Exporter / importer</h4>
+          <div class="dash-footer-actions">
+            <button class="btn ghost block" id="exportPrefsBtn">Exporter (.json)</button>
+            <button class="btn ghost block" id="importPrefsBtn">Importer un fichier</button>
+          </div>
+          <input type="file" id="importPrefsFile" accept="application/json" style="display:none;">
+          <p class="admin-notice" id="prefsNotice"></p>
+        </section>
+
+      </div>
     </div>
+  </div>
+</div>
 
+<div id="accounts-modal" class="modal-overlay">
+  <div class="modal-content generic" style="max-width:760px;">
+    <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
+    <h2 class="modal-title">Gestion des comptes</h2>
+    <p class="modal-role">Superadmin uniquement</p>
     <div id="accounts-list" style="display:grid; gap:0.75rem; margin-bottom:1rem;"></div>
-
     <form id="add-account-form" class="admin-form">
       <label>Email</label>
       <input type="email" id="new-account-email" placeholder="admin@mail.com" required>
@@ -398,7 +668,6 @@
       </select>
       <button type="submit" class="admin-btn">Ajouter / mettre à jour</button>
     </form>
-
     <div id="accounts-notice" class="admin-notice"></div>
   </div>
 </div>
@@ -408,11 +677,17 @@
 <script src="script.js"></script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref as dbRef, get, child, set, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, getDoc }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref as dbRef, get, child, set, remove }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+/* ══════════════════════════════════════════════
+   Firebase config
+══════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
   authDomain: "thsite-3fe39.firebaseapp.com",
@@ -424,185 +699,193 @@ const firebaseConfig = {
   measurementId: "G-Y95QVRY8WK"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const rtdb = getDatabase(app);
+const app      = initializeApp(firebaseConfig);
+const db       = getFirestore(app);
+const auth     = getAuth(app);
+const rtdb     = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
+/* ══════════════════════════════════════════════
+   State
+══════════════════════════════════════════════ */
 let currentUserRole = null;
 let currentDocId = null;
 
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const avatarWrap = document.getElementById("authUserWrap");
-const avatarImg = document.getElementById("authAvatarImg");
-const avatarFall = document.getElementById("authAvatarFallback");
-const usernameEl = document.getElementById("authUsername");
-const adminBtn = document.getElementById("admin-toggle-btn");
-const adminPanel = document.getElementById("admin-panel");
-const accountsBtn = document.getElementById("accounts-btn");
-const accountsModal = document.getElementById("accounts-modal");
-const closeAccountsModal = document.getElementById("close-accounts-modal");
-const accountsList = document.getElementById("accounts-list");
-const addAccountForm = document.getElementById("add-account-form");
-const newAccountEmail = document.getElementById("new-account-email");
-const newAccountRole = document.getElementById("new-account-role");
-const accountsNotice = document.getElementById("accounts-notice");
+/* ══════════════════════════════════════════════
+   DOM refs — auth & admin
+══════════════════════════════════════════════ */
+const loginBtn        = document.getElementById("loginBtn");
+const logoutBtn       = document.getElementById("logoutBtn");
+const avatarWrap      = document.getElementById("authUserWrap");
+const avatarImg       = document.getElementById("authAvatarImg");
+const avatarFall      = document.getElementById("authAvatarFallback");
+const usernameEl      = document.getElementById("authUsername");
+const adminBtn        = document.getElementById("admin-toggle-btn");
+const appearanceBtn   = document.getElementById("appearance-btn");
+const adminPanel      = document.getElementById("admin-panel");
+const accountsBtn     = document.getElementById("accounts-btn");
+const accountsModal   = document.getElementById("accounts-modal");
+const closeAccModal   = document.getElementById("close-accounts-modal");
+const accountsList    = document.getElementById("accounts-list");
+const addAccountForm  = document.getElementById("add-account-form");
+const newAccEmail     = document.getElementById("new-account-email");
+const newAccRole      = document.getElementById("new-account-role");
+const accountsNotice  = document.getElementById("accounts-notice");
 
+const escListWrap   = document.getElementById("escouade-list-wrap");
+const escFormWrap   = document.getElementById("escouade-form-wrap");
+const escFormLabel  = document.getElementById("esc-form-mode-label");
+const escListEl     = document.getElementById("escouade-list");
+const newEscBtn     = document.getElementById("new-escouade-btn");
+const adminForm     = document.getElementById("admin-form");
+const editDocIdInp  = document.getElementById("edit-doc-id");
+const submitBtn     = document.getElementById("admin-submit-btn");
+const cancelEditBtn = document.getElementById("cancel-edit-btn");
+const adminNotice   = document.getElementById("admin-notice");
+
+/* ══════════════════════════════════════════════
+   Auth helpers
+══════════════════════════════════════════════ */
 function showAvatar(user) {
   avatarWrap.classList.add("visible");
   const name = user.displayName || user.email.split("@")[0];
   usernameEl.textContent = name;
   if (user.photoURL) {
-    avatarImg.src = user.photoURL;
-    avatarImg.alt = name;
-    avatarImg.style.display = "block";
-    avatarFall.style.display = "none";
+    avatarImg.src = user.photoURL; avatarImg.alt = name;
+    avatarImg.style.display = "block"; avatarFall.style.display = "none";
   } else {
-    const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
     avatarFall.textContent = initials;
-    avatarFall.style.display = "flex";
-    avatarImg.style.display = "none";
+    avatarFall.style.display = "flex"; avatarImg.style.display = "none";
   }
 }
-
 function hideAvatar() {
   avatarWrap.classList.remove("visible");
-  avatarImg.style.display = "none";
-  avatarFall.style.display = "none";
+  avatarImg.style.display = "none"; avatarFall.style.display = "none";
   usernameEl.textContent = "";
 }
-
-function emailToKey(email) {
-  return email.trim().toLowerCase().replace(/\./g, ",");
-}
-
-function setAccountsNotice(msg, cls = "admin-notice") {
-  accountsNotice.textContent = msg;
-  accountsNotice.className = cls;
-}
-
-async function loadAccounts() {
-  accountsList.innerHTML = '<p style="color:#888;margin:0;">Chargement...</p>';
-  try {
-    const snap = await get(child(dbRef(rtdb), "admins"));
-    if (!snap.exists()) {
-      accountsList.innerHTML = '<p style="color:#888;margin:0;">Aucun compte.</p>';
-      return;
-    }
-
-    accountsList.innerHTML = "";
-    Object.entries(snap.val()).forEach(([key, data]) => {
-      const email = key.replace(/,/g, ".");
-      const row = document.createElement("div");
-      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;border:1px solid rgba(255,255,255,0.08);border-radius:6px;background:rgba(255,255,255,0.03);";
-      row.innerHTML = `<div><div style="color:#fff;font-size:0.85rem;">${email}</div><div style="color:#888;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role || "admin"}</div></div>`;
-
-      const del = document.createElement("button");
-      del.type = "button";
-      del.className = "admin-btn danger";
-      del.style.width = "auto";
-      del.textContent = "Supprimer";
-      del.addEventListener("click", async () => {
-        if (currentUserRole !== "superadmin") return;
-        if (!confirm(`Supprimer ${email} ?`)) return;
-        try {
-          await remove(dbRef(rtdb, `admins/${key}`));
-          setAccountsNotice("Compte supprimé.", "admin-notice success");
-          await loadAccounts();
-        } catch (err) {
-          setAccountsNotice("Erreur : " + err.message, "admin-notice error");
-        }
-      });
-
-      row.appendChild(del);
-      accountsList.appendChild(row);
-    });
-  } catch (err) {
-    accountsList.innerHTML = '<p style="color:#e74c3c;margin:0;">Erreur : ' + err.message + "</p>";
-  }
-}
+function emailToKey(email) { return email.trim().toLowerCase().replace(/\./g,","); }
 
 onAuthStateChanged(auth, async user => {
+  const tabEsc = document.querySelector('.dash-nav-item[data-tab="escouades"]');
   if (user) {
     showAvatar(user);
-    loginBtn.style.display = "none";
+    loginBtn.style.display  = "none";
     logoutBtn.style.display = "inline-block";
+    const snap = await get(child(dbRef(rtdb), `admins/${emailToKey(user.email)}`));
 
-    const emailKey = user.email.replace(/\./g, ",");
-    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
     if (snap.exists()) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
-      if (currentUserRole === "superadmin") {
-        accountsBtn.classList.add("visible");
-      } else {
-        accountsBtn.classList.remove("visible");
-      }
+      if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
+      else accountsBtn.classList.remove("visible");
+
+      if (tabEsc) tabEsc.style.display = "flex";
     } else {
       currentUserRole = null;
       adminBtn.classList.remove("visible");
       accountsBtn.classList.remove("visible");
       adminPanel.classList.remove("open");
-      accountsModal.classList.remove("active");
+      if (tabEsc) tabEsc.style.display = "none";
     }
+    refreshAdminBars();
+    window.dispatchEvent(new CustomEvent("esc:auth-updated", { detail: { role: currentUserRole, name: user.displayName || user.email } }));
   } else {
     hideAvatar();
     currentUserRole = null;
-    loginBtn.style.display = "inline-block";
+    loginBtn.style.display  = "inline-block";
     logoutBtn.style.display = "none";
     adminBtn.classList.remove("visible");
     accountsBtn.classList.remove("visible");
     adminPanel.classList.remove("open");
     accountsModal.classList.remove("active");
+    if (tabEsc) tabEsc.style.display = "none";
+    refreshAdminBars();
+    window.dispatchEvent(new CustomEvent("esc:auth-updated", { detail: { role: null, name: null } }));
   }
 });
 
 loginBtn.addEventListener("click", async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (err) {
-    try {
-      await signInWithRedirect(auth, provider);
-    } catch (e) {
-      console.error("Login error:", err, e);
-      alert("Connexion impossible. Autorise les popups ou utilise la redirection.");
-    }
-  }
+  try { await signInWithPopup(auth, provider); }
+  catch { try { await signInWithRedirect(auth, provider); } catch(e) { alert("Connexion impossible."); } }
 });
-
 logoutBtn.addEventListener("click", () => signOut(auth));
 
-const gridGrat = document.getElementById("grid-gratuites");
-const gridPay = document.getElementById("grid-payantes");
+/* ══════════════════════════════════════════════
+   Accounts management
+══════════════════════════════════════════════ */
+function setAccNotice(msg, cls="admin-notice") { accountsNotice.textContent=msg; accountsNotice.className=cls; }
+
+async function loadAccounts() {
+  accountsList.innerHTML = '<p style="color:var(--text-muted);margin:0;">Chargement...</p>';
+  try {
+    const snap = await get(child(dbRef(rtdb), "admins"));
+    if (!snap.exists()) { accountsList.innerHTML = '<p style="color:var(--text-muted);margin:0;">Aucun compte.</p>'; return; }
+    accountsList.innerHTML = "";
+    Object.entries(snap.val()).forEach(([key, data]) => {
+      const email = key.replace(/,/g,".");
+      const row = document.createElement("div");
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.75rem .9rem;border:1px solid var(--border-subtle);border-radius:10px;background:var(--bg-elevated-2);";
+      row.innerHTML = `<div><div style="color:var(--text-primary);font-size:.85rem;">${email}</div><div style="color:var(--text-muted);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;">${data.role||"admin"}</div></div>`;
+      const del = document.createElement("button");
+      del.className = "admin-btn danger"; del.style.width="auto"; del.textContent="Supprimer";
+      del.addEventListener("click", async () => {
+        if (currentUserRole!=="superadmin") return;
+        if (!confirm(`Supprimer ${email} ?`)) return;
+        try { await remove(dbRef(rtdb,`admins/${key}`)); setAccNotice("Compte supprimé.","admin-notice success"); await loadAccounts(); }
+        catch(err) { setAccNotice("Erreur : "+err.message,"admin-notice error"); }
+      });
+      row.appendChild(del); accountsList.appendChild(row);
+    });
+  } catch(err) { accountsList.innerHTML = '<p style="color:var(--c-danger);margin:0;">Erreur : '+err.message+"</p>"; }
+}
+
+accountsBtn.addEventListener("click", async () => {
+  if (currentUserRole!=="superadmin") return;
+  accountsModal.classList.add("active"); setAccNotice(""); await loadAccounts();
+});
+closeAccModal.addEventListener("click", () => accountsModal.classList.remove("active"));
+accountsModal.addEventListener("click", e => { if(e.target===accountsModal) accountsModal.classList.remove("active"); });
+addAccountForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (currentUserRole!=="superadmin") return;
+  const email = newAccEmail.value.trim().toLowerCase();
+  if (!email) return;
+  try {
+    await set(dbRef(rtdb,`admins/${emailToKey(email)}`),{email,role:newAccRole.value});
+    setAccNotice("Compte ajouté.","admin-notice success");
+    newAccEmail.value=""; await loadAccounts();
+  } catch(err) { setAccNotice("Erreur : "+err.message,"admin-notice error"); }
+});
+
+/* ══════════════════════════════════════════════
+   Rendu des escouades
+══════════════════════════════════════════════ */
+const gridGrat  = document.getElementById("grid-gratuites");
+const gridPay   = document.getElementById("grid-payantes");
+const countGrat = document.getElementById("count-gratuites");
+const countPay  = document.getElementById("count-payantes");
 
 function buildCard(docId, data) {
-  const color = data.color || "#00ffff";
+  const color = data.color || "#00d4ff";
   const hasImg = data.img && data.img.trim() !== "";
-
   const bgStyle = hasImg
-    ? `background-image:url('${data.img}'); background-size:cover; background-position:${data.imgPos || "center 35%"};`
-    : `background:${color}10;`;
-
-  const placeholder = hasImg
-    ? ""
-    : `<span style="
-        font-size:1.1rem;
-        font-weight:700;
-        letter-spacing:4px;
-        opacity:.3;
-        color:${color};
-      ">
-        ${(data.title || "")
-          .replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "")
-          .substring(0, 8)}
-      </span>`;
+    ? `background-image:url('${data.img}'); background-position:${data.imgPos || "center 35%"};`
+    : `background:color-mix(in srgb, ${color} 12%, transparent);`;
+  const placeholder = hasImg ? "" : `<span style="color:${color};">${(data.title || "").replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "").substring(0, 8)}</span>`;
 
   return `
-    <div class="escouade-card" data-id="${docId}" data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}" data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}" data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}" data-ref="${data.ref || ""}" data-modality="${data.modality || ""}" style="cursor:pointer;">
+    <div class="escouade-card surface-card" data-id="${docId}" style="--card-accent:${color};"
+      data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}"
+      data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}"
+      data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}"
+      data-ref="${data.ref || ""}" data-modality="${data.modality || ""}">
+      <div class="card-admin-bar" id="card-admin-${docId}">
+        <button type="button" class="card-edit-btn" data-id="${docId}" title="Modifier">✎</button>
+        <button type="button" class="card-del-btn" data-id="${docId}" title="Supprimer">✕</button>
+      </div>
       <div class="card-img-container">
-        <div class="img-placeholder" style="${bgStyle}border:2px solid ${color};min-height:150px;display:flex;align-items:center;justify-content:center;">${placeholder}</div>
+        <div class="card-img-placeholder" style="${bgStyle}">${placeholder}</div>
       </div>
       <div class="card-info">
         <h3 style="color:${color};">${data.title || ""}</h3>
@@ -611,44 +894,92 @@ function buildCard(docId, data) {
     </div>`;
 }
 
+function refreshAdminBars() {
+  document.querySelectorAll(".card-admin-bar").forEach(bar => {
+    if (currentUserRole) bar.classList.add("visible");
+    else bar.classList.remove("visible");
+  });
+}
+
+let allDocsCache = {};
 
 const q = query(collection(db, "escouades"), orderBy("ordre"));
 onSnapshot(q, snapshot => {
   gridGrat.innerHTML = "";
   gridPay.innerHTML = "";
+  allDocsCache = {};
   if (snapshot.empty) {
-    gridGrat.innerHTML = '<p style="color:#555;text-align:center;padding:2rem;font-size:.85rem;">Aucune escouade pour l’instant.</p>';
-    bindCards();
+    gridGrat.innerHTML = '<p class="escouades-empty">Aucune escouade pour l\'instant.</p>';
+    countGrat.textContent = "0"; countPay.textContent = "0";
+    bindCards(); rebuildEscouadeList([]);
+    window.dispatchEvent(new CustomEvent("esc:stats-updated", { detail: { total:0, gratuites:0, payantes:0, lastUpdate: Date.now() } }));
     return;
   }
+  const docs = [];
+  let nGrat = 0, nPay = 0;
   snapshot.forEach(docSnap => {
     const data = docSnap.data();
+    allDocsCache[docSnap.id] = data;
+    docs.push({ id: docSnap.id, data });
     const html = buildCard(docSnap.id, data);
-    if (data.type === "gratuite") gridGrat.insertAdjacentHTML("beforeend", html);
-    else gridPay.insertAdjacentHTML("beforeend", html);
+    if (data.type === "gratuite") { gridGrat.insertAdjacentHTML("beforeend", html); nGrat++; }
+    else { gridPay.insertAdjacentHTML("beforeend", html); nPay++; }
   });
+  if (!nGrat) gridGrat.innerHTML = '<p class="escouades-empty">Aucune escouade gratuite pour l\'instant.</p>';
+  if (!nPay)  gridPay.innerHTML  = '<p class="escouades-empty">Aucune escouade payante pour l\'instant.</p>';
+  countGrat.textContent = String(nGrat);
+  countPay.textContent  = String(nPay);
   bindCards();
+  refreshAdminBars();
+  rebuildEscouadeList(docs);
+  window.dispatchEvent(new CustomEvent("esc:stats-updated", { detail: { total: docs.length, gratuites:nGrat, payantes:nPay, lastUpdate: Date.now() } }));
 }, err => {
-  gridGrat.innerHTML = '<p style="color:#e74c3c;text-align:center;padding:2rem;">Erreur : ' + err.message + "</p>";
+  gridGrat.innerHTML = '<p class="escouades-empty" style="color:var(--c-danger);">Erreur Firestore : ' + err.message + "</p>";
 });
 
-const overlay = document.getElementById("escouade-modal");
-const titleEl = document.getElementById("modal-title");
-const roleEl = document.getElementById("modal-role");
-const imgEl = document.getElementById("modal-img");
-const fallback = document.getElementById("modal-img-fallback");
-const imgLabel = document.getElementById("modal-img-label");
-const descEl = document.getElementById("modal-desc");
-const modalityEl = document.getElementById("modal-modality");
-const refEl = document.getElementById("modal-ref");
-const specLink = document.getElementById("modal-spec-link");
-const specLabelEl = document.getElementById("modal-spec-label");
-const adminActions = document.getElementById("modal-admin-actions");
-const btnEditM = document.getElementById("btn-edit-modal");
-const btnDeleteM = document.getElementById("btn-delete-modal");
+function bindCards() {
+  document.querySelectorAll(".escouade-card").forEach(card => {
+    card.addEventListener("click", e => {
+      if (e.target.closest(".card-admin-bar")) return;
+      openModal(card);
+    });
+  });
+  document.querySelectorAll(".card-edit-btn").forEach(btn => {
+    btn.addEventListener("click", async e => {
+      e.stopPropagation();
+      if (!currentUserRole) return;
+      await openFormForEdit(btn.dataset.id);
+    });
+  });
+  document.querySelectorAll(".card-del-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      if (!currentUserRole) return;
+      deleteEscouade(btn.dataset.id);
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════
+   Modale de détail
+══════════════════════════════════════════════ */
+const overlay      = document.getElementById("escouade-modal");
+const titleEl       = document.getElementById("modal-title");
+const roleEl        = document.getElementById("modal-role");
+const imgEl         = document.getElementById("modal-img");
+const fallback      = document.getElementById("modal-img-fallback");
+const imgLabel      = document.getElementById("modal-img-label");
+const descEl        = document.getElementById("modal-desc");
+const modalityEl    = document.getElementById("modal-modality");
+const refEl         = document.getElementById("modal-ref");
+const specLink       = document.getElementById("modal-spec-link");
+const specLabelEl   = document.getElementById("modal-spec-label");
+const adminActions  = document.getElementById("modal-admin-actions");
+const btnEditM      = document.getElementById("btn-edit-modal");
+const btnDeleteM    = document.getElementById("btn-delete-modal");
 
 function openModal(card) {
-  const color = card.dataset.color || "#00ffff";
+  const color = card.dataset.color || "#00d4ff";
   currentDocId = card.dataset.id || null;
   overlay.querySelector(".modal-content").style.setProperty("--modal-color", color);
   titleEl.textContent = card.dataset.title || "";
@@ -677,25 +1008,66 @@ function closeModal() {
   currentDocId = null;
 }
 
-function bindCards() {
-  document.querySelectorAll(".escouade-card").forEach(card => card.addEventListener("click", () => openModal(card)));
-}
-
 overlay.querySelector(".close-modal").addEventListener("click", closeModal);
 overlay.addEventListener("click", e => { if (e.target === overlay) closeModal(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); accountsModal.classList.remove("active"); } });
 
-const adminForm = document.getElementById("admin-form");
-const editDocIdInp = document.getElementById("edit-doc-id");
-const submitBtn = document.getElementById("admin-submit-btn");
-const cancelEditBtn = document.getElementById("cancel-edit-btn");
-const adminNotice = document.getElementById("admin-notice");
+btnEditM.addEventListener("click", async () => {
+  if (!currentDocId || !currentUserRole) return;
+  await openFormForEdit(currentDocId);
+  closeModal();
+});
+btnDeleteM.addEventListener("click", () => {
+  if (!currentDocId || !currentUserRole) return;
+  deleteEscouade(currentDocId, titleEl.textContent);
+  closeModal();
+});
+
+/* ══════════════════════════════════════════════
+   CRUD escouades (panneau admin)
+══════════════════════════════════════════════ */
+async function deleteEscouade(docId, titleHint) {
+  const data = allDocsCache[docId] || {};
+  const label = titleHint || data.title || docId;
+  if (!confirm(`Supprimer définitivement "${label}" ?`)) return;
+  try { await deleteDoc(doc(db, "escouades", docId)); }
+  catch (err) { alert("Erreur : " + err.message); }
+}
+
+function rebuildEscouadeList(docs) {
+  if (!escListEl) return;
+  if (!docs.length) { escListEl.innerHTML = '<p style="color:var(--text-muted);font-size:.78rem;">Aucune escouade.</p>'; return; }
+  escListEl.innerHTML = "";
+  docs.forEach(({ id, data }) => {
+    const tab = document.createElement("div");
+    tab.className = "esc-tab"; tab.dataset.id = id;
+    const color = data.color || "#00d4ff";
+    tab.innerHTML = `
+      <div class="esc-tab-left">
+        <span class="esc-tab-dot" style="background:${color};"></span>
+        <div class="esc-tab-info">
+          <span class="esc-tab-title">${data.title || ""}</span>
+          <span class="esc-tab-meta">${data.type === "gratuite" ? "Gratuite" : "Payante"} · ordre ${data.ordre ?? "–"}</span>
+        </div>
+      </div>
+      <div class="esc-tab-actions">
+        <button class="edit-esc" title="Modifier">✎</button>
+        <button class="del-esc" title="Supprimer">✕</button>
+      </div>`;
+    tab.querySelector(".edit-esc").addEventListener("click", async e => { e.stopPropagation(); await openFormForEdit(id); });
+    tab.querySelector(".del-esc").addEventListener("click", e => { e.stopPropagation(); deleteEscouade(id); });
+    tab.addEventListener("click", () => {
+      const el = document.querySelector(`.escouade-card[data-id="${id}"]`);
+      if (el) { adminPanel.classList.remove("open"); el.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    });
+    escListEl.appendChild(tab);
+  });
+}
 
 function getFormData() {
   const imgMode = document.getElementById("a-img-mode").value;
   const localImg = document.getElementById("a-img-local").value.trim();
   const urlImg = document.getElementById("a-img-url").value.trim();
-
   return {
     title: document.getElementById("a-title").value.trim(),
     role: document.getElementById("a-role").value.trim(),
@@ -724,7 +1096,7 @@ function fillForm(data, docId) {
   document.getElementById("a-img-local").value = isUrl ? "" : (data.img || "");
   document.getElementById("a-img-url").value = isUrl ? (data.img || "") : "";
 
-  document.getElementById("a-color").value = data.color || "#00ffff";
+  document.getElementById("a-color").value = data.color || "#00d4ff";
   document.getElementById("a-spec-url").value = data.specUrl || "";
   document.getElementById("a-spec-label").value = data.specLabel || "Voir la spécialisation";
   document.getElementById("a-ref").value = data.ref || "";
@@ -732,63 +1104,42 @@ function fillForm(data, docId) {
   document.getElementById("a-type").value = data.type || "gratuite";
   document.getElementById("a-ordre").value = data.ordre || 1;
   submitBtn.textContent = "Enregistrer les modifications";
-  cancelEditBtn.style.display = "block";
-  adminPanel.classList.add("open");
-  adminPanel.scrollTop = 0;
+  escFormLabel.textContent = `Modifier : ${data.title || ""}`;
 }
 
 function resetForm() {
   adminForm.reset();
-  document.getElementById("a-color").value = "#00ffff";
+  document.getElementById("a-color").value = "#00d4ff";
   document.getElementById("a-img-pos").value = "center 35%";
   document.getElementById("a-img-mode").value = "local";
   document.getElementById("a-img-local").value = "";
   document.getElementById("a-img-url").value = "";
   editDocIdInp.value = "";
   submitBtn.textContent = "Ajouter l'escouade";
-  cancelEditBtn.style.display = "none";
   adminNotice.textContent = "";
   adminNotice.className = "admin-notice";
+  escFormLabel.textContent = "Nouvelle escouade";
 }
 
-adminBtn.addEventListener("click", () => {
-  if (!currentUserRole) return;
-  adminPanel.classList.toggle("open");
-});
+function showEscouadeList() { escListWrap.style.display = "block"; escFormWrap.style.display = "none"; }
+function showEscouadeForm() { escListWrap.style.display = "none"; escFormWrap.style.display = "block"; }
 
-accountsBtn.addEventListener("click", async () => {
-  if (currentUserRole !== "superadmin") return;
-  accountsModal.classList.add("active");
-  setAccountsNotice("");
-  await loadAccounts();
-});
+newEscBtn.addEventListener("click", () => { resetForm(); escFormLabel.textContent = "Nouvelle escouade"; showEscouadeForm(); });
+cancelEditBtn.addEventListener("click", () => { resetForm(); showEscouadeList(); });
 
-closeAccountsModal.addEventListener("click", () => accountsModal.classList.remove("active"));
-accountsModal.addEventListener("click", e => { if (e.target === accountsModal) accountsModal.classList.remove("active"); });
-
-addAccountForm.addEventListener("submit", async e => {
-  e.preventDefault();
-  if (currentUserRole !== "superadmin") return;
-  const email = newAccountEmail.value.trim().toLowerCase();
-  if (!email) return;
-  try {
-    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
-    setAccountsNotice("Compte ajouté.", "admin-notice success");
-    newAccountEmail.value = "";
-    await loadAccounts();
-  } catch (err) {
-    setAccountsNotice("Erreur : " + err.message, "admin-notice error");
-  }
-});
+async function openFormForEdit(docId) {
+  const data = allDocsCache[docId] || (await (async () => { const s = await getDoc(doc(db, "escouades", docId)); return s.exists() ? s.data() : null; })());
+  if (!data) return;
+  fillForm(data, docId);
+  showEscouadeForm();
+  adminPanel.classList.add("open");
+  adminPanel.scrollTop = 0;
+  document.querySelector('.dash-nav-item[data-tab="escouades"]')?.click();
+}
 
 adminForm.addEventListener("submit", async e => {
   e.preventDefault();
-  if (!currentUserRole) {
-    adminNotice.textContent = "Non autorisé.";
-    adminNotice.className = "admin-notice error";
-    return;
-  }
-
+  if (!currentUserRole) { adminNotice.textContent = "Non autorisé."; adminNotice.className = "admin-notice error"; return; }
   const data = getFormData();
   const docId = editDocIdInp.value;
   try {
@@ -801,33 +1152,135 @@ adminForm.addEventListener("submit", async e => {
     }
     adminNotice.className = "admin-notice success";
     resetForm();
+    showEscouadeList();
   } catch (err) {
     adminNotice.textContent = "Erreur : " + err.message;
     adminNotice.className = "admin-notice error";
   }
 });
 
-cancelEditBtn.addEventListener("click", resetForm);
-
-btnEditM.addEventListener("click", async () => {
-  if (!currentDocId || !currentUserRole) return;
-  const snap = await getDoc(doc(db, "escouades", currentDocId));
-  if (snap.exists()) {
-    fillForm(snap.data(), currentDocId);
-    closeModal();
+/* ══════════════════════════════════════════════
+   Ouverture / navigation console admin
+══════════════════════════════════════════════ */
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  adminPanel.classList.toggle("open");
+  if (adminPanel.classList.contains("open")) {
+    showEscouadeList();
+    document.querySelector('.dash-nav-item[data-tab="escouades"]')?.click();
   }
 });
 
-btnDeleteM.addEventListener("click", async () => {
-  if (!currentDocId || !currentUserRole) return;
-  if (!confirm(`Supprimer définitivement ${titleEl.textContent} ?`)) return;
-  try {
-    await deleteDoc(doc(db, "escouades", currentDocId));
-    closeModal();
-  } catch (err) {
-    alert("Erreur : " + err.message);
-  }
+appearanceBtn.addEventListener("click", () => {
+  adminPanel.classList.add("open");
+  document.querySelector('.dash-nav-item[data-tab="appearance"]')?.click();
 });
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   SYSTÈME DE PERSONNALISATION — Console Admin
+══════════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+  const STORAGE_KEY = "corps408_ui_prefs_v1";
+  const root = document.documentElement;
+  const PALETTES = [
+    { id:"nebula",   name:"Nébuleuse Violette", primary:"#7B00FF", secondary:"#00D4FF" },
+    { id:"sith",      name:"Crimson Sith",       primary:"#FF2D55", secondary:"#FF8A00" },
+    { id:"jedi",      name:"Émeraude Jedi",      primary:"#00C97B", secondary:"#7B00FF" },
+    { id:"imperial",  name:"Acier Impérial",     primary:"#5B7FFF", secondary:"#9AA3BA" },
+    { id:"solar",     name:"Éruption Solaire",   primary:"#FF9100", secondary:"#FF2D78" },
+    { id:"mono",      name:"Mono Stellaire",     primary:"#C8CDD6", secondary:"#7B00FF" }
+  ];
+  const FONT_PAIRS = [
+    { id:"rajdhani-inter", name:"Rajdhani / Inter (défaut)",     display:"'Rajdhani', sans-serif",      body:"'Inter', sans-serif" },
+    { id:"orbitron-inter", name:"Orbitron / Inter",               display:"'Orbitron', sans-serif",      body:"'Inter', sans-serif" },
+    { id:"space-mono",     name:"Space Grotesk / JetBrains Mono", display:"'Space Grotesk', sans-serif", body:"'JetBrains Mono', monospace" },
+    { id:"system",         name:"Système (performance max)",      display:"-apple-system,'Segoe UI',sans-serif", body:"-apple-system,'Segoe UI',sans-serif" }
+  ];
+  const WIDGET_LIBRARY = {
+    esc_total:      { title:"Escouades publiées",  render:() => ({ value:String(window.__escStats?.total ?? "–"), sub:"Toutes catégories" }) },
+    esc_gratuites:  { title:"Escouades gratuites",  render:() => ({ value:String(window.__escStats?.gratuites ?? "–"), sub:"Ouvertes sans condition" }) },
+    esc_payantes:   { title:"Escouades payantes",   render:() => ({ value:String(window.__escStats?.payantes ?? "–"), sub:"Accès conditionné" }) },
+    last_update:    { title:"Dernière mise à jour", render:() => ({ value: window.__escStats?.lastUpdate ? new Date(window.__escStats.lastUpdate).toLocaleTimeString("fr-FR") : "–", sub: window.__escStats?.lastUpdate ? new Date(window.__escStats.lastUpdate).toLocaleDateString("fr-FR") : "Aucune donnée" }) },
+    current_role:   { title:"Rôle actuel",          render:() => ({ value: window.__escAuth?.role || "Invité", sub: window.__escAuth?.name || "Non connecté" }) },
+    connection:     { title:"État de connexion",    render:() => ({ value: navigator.onLine ? "En ligne" : "Hors ligne", sub:"Réseau du navigateur" }) },
+    shortcuts:      { title:"Raccourcis", isAction:true, render:() => ({ value:"", sub:"" }) }
+  };
+  const WIDGET_TITLES = Object.fromEntries(Object.entries(WIDGET_LIBRARY).map(([k,v])=>[k,v.title]));
+  const DEFAULTS = { theme:"dark", primary:"#7B00FF", secondary:"#00D4FF", paletteId:null, fontPair:"rajdhani-inter", fontSize:16, cardStyle:"elevated", buttonStyle:"default", tableStyle:"lines", animations:true, sidebarWidth:230, sidebarCollapsed:false, showLogo:true, showBrandText:true, headerDensity:1, activeDashboard:"default", dashboards:{ "default": ["esc_total","esc_gratuites","esc_payantes","current_role"] } };
+  function loadSaved() {
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return JSON.parse(JSON.stringify(DEFAULTS)); return Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(raw)); }
+    catch (e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
+  }
+  let saved = loadSaved(); let draft = JSON.parse(JSON.stringify(saved));
+  function resolveTheme(t) { if (t === "auto") return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; return t; }
+  function apply(prefs) {
+    root.setAttribute("data-theme", resolveTheme(prefs.theme)); root.setAttribute("data-card-style", prefs.cardStyle); root.setAttribute("data-button-style", prefs.buttonStyle); root.setAttribute("data-table-style", prefs.tableStyle); root.setAttribute("data-animations", prefs.animations ? "on" : "off");
+    root.style.setProperty("--c-primary", prefs.primary); root.style.setProperty("--c-primary-rgb", hexToRgb(prefs.primary)); root.style.setProperty("--c-secondary", prefs.secondary); root.style.setProperty("--c-secondary-rgb", hexToRgb(prefs.secondary)); root.style.setProperty("--font-size-base", prefs.fontSize + "px"); root.style.setProperty("--dash-sidebar-width", prefs.sidebarWidth + "px"); root.style.setProperty("--header-density", prefs.headerDensity);
+    const fp = FONT_PAIRS.find(f => f.id === prefs.fontPair) || FONT_PAIRS[0];
+    root.style.setProperty("--font-display", fp.display); root.style.setProperty("--font-body", fp.body);
+    const navLogo = document.getElementById("navLogoImg"); const navBrand = document.getElementById("navBrandText");
+    if (navLogo) navLogo.style.display = prefs.showLogo ? "" : "none"; if (navBrand) navBrand.style.display = prefs.showBrandText ? "" : "none";
+    const sidebar = document.getElementById("dashSidebar"); if (sidebar) sidebar.classList.toggle("collapsed", !!prefs.sidebarCollapsed);
+  }
+  function hexToRgb(hex) { const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || "#7B00FF"); if (!m) return "123,0,255"; return [parseInt(m[1],16), parseInt(m[2],16), parseInt(m[3],16)].join(","); }
+  function persist() { saved = JSON.parse(JSON.stringify(draft)); localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
+  function revert() { draft = JSON.parse(JSON.stringify(saved)); apply(draft); syncControls(); }
+  apply(draft);
+  window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => { if (draft.theme === "auto") apply(draft); });
+  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState !== "loading") init();
+  let inited = false;
+  function init() {
+    if (inited) return; inited = true;
+    const navItems = document.querySelectorAll(".dash-nav-item"); const panels = document.querySelectorAll(".dash-panel"); const titleEl = document.getElementById("dashPanelTitle"); const TAB_TITLES = { overview:"Tableau de bord", escouades:"Escouades", appearance:"Apparence", layout:"Disposition", preferences:"Préférences" };
+    navItems.forEach(btn => { btn.addEventListener("click", () => { navItems.forEach(b => b.classList.remove("active")); btn.classList.add("active"); const tab = btn.dataset.tab; panels.forEach(p => p.classList.toggle("active", p.dataset.panel === tab)); if (titleEl) titleEl.textContent = TAB_TITLES[tab] || ""; }); });
+    document.getElementById("dashCloseBtn")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); });
+    document.getElementById("dashCollapseBtn")?.addEventListener("click", () => { const sb = document.getElementById("dashSidebar"); sb.classList.toggle("collapsed"); draft.sidebarCollapsed = sb.classList.contains("collapsed"); });
+    bindSeg("themeSeg", v => { draft.theme = v; apply(draft); }, () => draft.theme); bindSeg("cardStyleSeg", v => { draft.cardStyle = v; apply(draft); }, () => draft.cardStyle); bindSeg("buttonStyleSeg", v => { draft.buttonStyle = v; apply(draft); }, () => draft.buttonStyle); bindSeg("headerDensitySeg", v => { draft.headerDensity = parseFloat(v); apply(draft); }, () => String(draft.headerDensity));
+    function bindSeg(id, onSet, getCurrent) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => { b.addEventListener("click", () => { onSet(b.dataset.val); syncSeg(id, getCurrent()); }); }); }
+    function syncSeg(id, val) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.val === String(val))); }
+    const paletteGrid = document.getElementById("paletteGrid");
+    PALETTES.forEach(p => { const el = document.createElement("div"); el.className = "palette-swatch"; el.dataset.id = p.id; el.innerHTML = `<div class="palette-dots"><span style="background:${p.primary}"></span><span style="background:${p.secondary}"></span></div><div class="palette-name">${p.name}</div>`; el.addEventListener("click", () => { draft.primary = p.primary; draft.secondary = p.secondary; draft.paletteId = p.id; apply(draft); syncControls(); }); paletteGrid.appendChild(el); });
+    const primaryInput = document.getElementById("primaryColorInput"); const secondaryInput = document.getElementById("secondaryColorInput");
+    primaryInput.addEventListener("input", () => { draft.primary = primaryInput.value; draft.paletteId = null; apply(draft); syncControls(); }); secondaryInput.addEventListener("input", () => { draft.secondary = secondaryInput.value; draft.paletteId = null; apply(draft); syncControls(); });
+    const fontSelect = document.getElementById("fontPairSelect");
+    FONT_PAIRS.forEach(f => { const opt = document.createElement("option"); opt.value = f.id; opt.textContent = f.name; fontSelect.appendChild(opt); }); fontSelect.addEventListener("change", () => { draft.fontPair = fontSelect.value; apply(draft); });
+    const fontSizeRange = document.getElementById("fontSizeRange"); const fontSizeOut = document.getElementById("fontSizeOut"); fontSizeRange.addEventListener("input", () => { draft.fontSize = parseInt(fontSizeRange.value, 10); fontSizeOut.textContent = draft.fontSize + "px"; apply(draft); });
+    document.getElementById("animationsToggle").addEventListener("change", e => { draft.animations = e.target.checked; apply(draft); });
+    const sidebarWidthRange = document.getElementById("sidebarWidthRange"); const sidebarWidthOut = document.getElementById("sidebarWidthOut"); sidebarWidthRange.addEventListener("input", () => { draft.sidebarWidth = parseInt(sidebarWidthRange.value, 10); sidebarWidthOut.textContent = draft.sidebarWidth + "px"; apply(draft); });
+    document.getElementById("sidebarCollapsedToggle").addEventListener("change", e => { draft.sidebarCollapsed = e.target.checked; apply(draft); });
+    document.getElementById("logoToggle").addEventListener("change", e => { draft.showLogo = e.target.checked; apply(draft); });
+    document.getElementById("brandTextToggle").addEventListener("change", e => { draft.showBrandText = e.target.checked; apply(draft); });
+    const prefsNotice = document.getElementById("prefsNotice"); function notify(msg, cls) { prefsNotice.textContent = msg; prefsNotice.className = "admin-notice " + (cls||""); }
+    document.getElementById("savePrefsBtn").addEventListener("click", () => { persist(); notify("Préférences enregistrées.", "success"); });
+    document.getElementById("cancelPrefsBtn").addEventListener("click", () => { revert(); notify("Changements annulés — retour à la dernière sauvegarde.", ""); });
+    document.getElementById("resetPrefsBtn").addEventListener("click", () => { if (!confirm("Réinitialiser toute la personnalisation aux valeurs par défaut ?")) return; draft = JSON.parse(JSON.stringify(DEFAULTS)); apply(draft); syncControls(); persist(); notify("Réinitialisé aux valeurs par défaut.", "success"); });
+    document.getElementById("exportPrefsBtn").addEventListener("click", () => { const blob = new Blob([JSON.stringify(saved, null, 2)], { type:"application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "408th-preferences.json"; a.click(); URL.revokeObjectURL(a.href); });
+    const importFile = document.getElementById("importPrefsFile"); document.getElementById("importPrefsBtn").addEventListener("click", () => importFile.click()); importFile.addEventListener("change", () => { const file = importFile.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const parsed = JSON.parse(reader.result); draft = Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), parsed); apply(draft); syncControls(); persist(); notify("Préférences importées et appliquées.", "success"); } catch (e) { notify("Fichier invalide.", "error"); } }; reader.readAsText(file); importFile.value = ""; });
+    const widgetsGrid = document.getElementById("widgetsGrid"); const addWidgetRow = document.getElementById("addWidgetRow"); const dashboardSelect = document.getElementById("dashboardProfileSelect");
+    function currentWidgetList() { if (!draft.dashboards[draft.activeDashboard]) draft.activeDashboard = Object.keys(draft.dashboards)[0] || "default"; return draft.dashboards[draft.activeDashboard] || []; }
+    function renderWidgets() { const list = currentWidgetList(); widgetsGrid.innerHTML = ""; if (!list.length) { widgetsGrid.innerHTML = '<div class="widget-empty">Aucun widget. Ajoutez-en un ci-dessous.</div>'; } list.forEach((id, idx) => { const def = WIDGET_LIBRARY[id]; if (!def) return; const card = document.createElement("div"); card.className = "widget-card surface-card"; if (def.isAction) { card.innerHTML = ` <div class="widget-card-head"> <span class="widget-title">${def.title}</span> <div class="widget-controls"> <button data-act="up" title="Monter">↑</button> <button data-act="down" title="Descendre">↓</button> <button data-act="remove" title="Retirer">✕</button> </div> </div> <div class="widget-actions-row"> <button class="btn sm ghost" id="wgShortcutNew">+ Escouade</button> <button class="btn sm ghost" id="wgShortcutAccounts">Comptes</button> </div>`; card.querySelector("#wgShortcutNew")?.addEventListener("click", () => { document.querySelector('.dash-nav-item[data-tab="escouades"]')?.click(); document.getElementById("new-escouade-btn")?.click(); }); card.querySelector("#wgShortcutAccounts")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); document.getElementById("accounts-btn")?.click(); }); } else { const data = def.render(); card.innerHTML = ` <div class="widget-card-head"> <span class="widget-title">${def.title}</span> <div class="widget-controls"> <button data-act="up" title="Monter">↑</button> <button data-act="down" title="Descendre">↓</button> <button data-act="remove" title="Retirer">✕</button> </div> </div> <div class="widget-value">${data.value}</div> <div class="widget-sub">${data.sub}</div>`; } card.querySelector('[data-act="remove"]').addEventListener("click", () => { list.splice(idx, 1); renderWidgets(); renderAddWidgetChips(); }); card.querySelector('[data-act="up"]').addEventListener("click", () => { if (idx > 0) { [list[idx-1], list[idx]] = [list[idx], list[idx-1]]; renderWidgets(); } }); card.querySelector('[data-act="down"]').addEventListener("click", () => { if (idx < list.length-1) { [list[idx+1], list[idx]] = [list[idx], list[idx+1]]; renderWidgets(); } }); widgetsGrid.appendChild(card); }); }
+    function renderAddWidgetChips() { const list = currentWidgetList(); addWidgetRow.innerHTML = ""; Object.entries(WIDGET_TITLES).forEach(([id, title]) => { if (list.includes(id)) return; const chip = document.createElement("button"); chip.className = "chip-btn"; chip.textContent = "+ " + title; chip.addEventListener("click", () => { list.push(id); renderWidgets(); renderAddWidgetChips(); }); addWidgetRow.appendChild(chip); }); }
+    function renderDashboardSelect() { dashboardSelect.innerHTML = ""; Object.keys(draft.dashboards).forEach(name => { const opt = document.createElement("option"); opt.value = name; opt.textContent = name === "default" ? "Par défaut" : name; if (name === draft.activeDashboard) opt.selected = true; dashboardSelect.appendChild(opt); }); }
+    dashboardSelect.addEventListener("change", () => { draft.activeDashboard = dashboardSelect.value; renderWidgets(); renderAddWidgetChips(); });
+    document.getElementById("newDashboardBtn").addEventListener("click", () => { const name = prompt("Nom du nouveau tableau de bord (ex : Recrutement, Direction) :"); if (!name || draft.dashboards[name]) return; draft.dashboards[name] = ["esc_total","current_role"]; draft.activeDashboard = name; renderDashboardSelect(); renderWidgets(); renderAddWidgetChips(); });
+    document.getElementById("delDashboardBtn").addEventListener("click", () => { if (draft.activeDashboard === "default") { alert("Le tableau « Par défaut » ne peut pas être supprimé."); return; } if (!confirm(`Supprimer le tableau « ${draft.activeDashboard} » ?`)) return; delete draft.dashboards[draft.activeDashboard]; draft.activeDashboard = "default"; renderDashboardSelect(); renderWidgets(); renderAddWidgetChips(); });
+    window.addEventListener("esc:stats-updated", e => { window.__escStats = e.detail; renderWidgets(); }); window.addEventListener("esc:auth-updated", e => { window.__escAuth = e.detail; renderWidgets(); }); window.addEventListener("online", renderWidgets); window.addEventListener("offline", renderWidgets);
+    window.syncControls = syncControls;
+    function syncControls() {
+      syncSeg("themeSeg", draft.theme); syncSeg("cardStyleSeg", draft.cardStyle); syncSeg("buttonStyleSeg", draft.buttonStyle); syncSeg("headerDensitySeg", String(draft.headerDensity));
+      paletteGrid.querySelectorAll(".palette-swatch").forEach(el => { el.classList.toggle("selected", el.dataset.id === draft.paletteId); });
+      primaryInput.value = draft.primary; secondaryInput.value = draft.secondary; document.getElementById("primaryColorCode").textContent = draft.primary.toUpperCase(); document.getElementById("secondaryColorCode").textContent = draft.secondary.toUpperCase();
+      fontSelect.value = draft.fontPair; fontSizeRange.value = draft.fontSize; fontSizeOut.textContent = draft.fontSize + "px";
+      document.getElementById("animationsToggle").checked = draft.animations; sidebarWidthRange.value = draft.sidebarWidth; sidebarWidthOut.textContent = draft.sidebarWidth + "px"; document.getElementById("sidebarCollapsedToggle").checked = !!draft.sidebarCollapsed; document.getElementById("logoToggle").checked = draft.showLogo; document.getElementById("brandTextToggle").checked = draft.showBrandText;
+      renderDashboardSelect(); renderWidgets(); renderAddWidgetChips();
+    }
+    syncControls(); apply(draft);
+  }
+})();
 </script>
 </body>
 </html>
