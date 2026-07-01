@@ -385,7 +385,7 @@
     /* ════════════════════════════════════════════════════════════
        BOUTONS FLOTTANTS
     ════════════════════════════════════════════════════════════ */
-    #admin-toggle-btn, #accounts-btn{
+    #admin-toggle-btn, #accounts-btn, #appearance-btn{
       position:fixed; right:1.6rem; z-index:999; border-radius:99px;
       font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer;
       padding:.75rem 1.3rem; border:1px solid rgba(var(--c-primary-rgb),.5);
@@ -394,11 +394,13 @@
       transition:all var(--transition-fast); display:none; align-items:center; gap:.55rem;
       backdrop-filter:blur(10px);
     }
-    #admin-toggle-btn{ bottom:1.6rem; }
-    #accounts-btn{ bottom:6rem; border-color:rgba(0,255,136,.45); }
+    #appearance-btn{ bottom:1.6rem; border-color:rgba(var(--c-secondary-rgb),.5); display: flex !important; }
+    #admin-toggle-btn{ bottom:6rem; }
+    #accounts-btn{ bottom:10.4rem; border-color:rgba(0,255,136,.45); }
     #admin-toggle-btn.visible, #accounts-btn.visible{ display:flex; }
     #admin-toggle-btn:hover{ background:rgba(var(--c-primary-rgb),.22); color:#fff; transform:translateY(-2px); }
     #accounts-btn:hover{ background:rgba(0,255,136,.15); color:#fff; transform:translateY(-2px); }
+    #appearance-btn:hover{ background:rgba(var(--c-secondary-rgb),.18); color:#fff; transform:translateY(-2px); }
 
     /* ════════════════════════════════════════════════════════════
        PANNEAU ADMIN — tableau de bord façon SaaS
@@ -548,7 +550,7 @@
       .section-header{ margin:2.2rem 0 1.6rem; flex-wrap:wrap; }
       .disc-section{ padding:1.4rem 1.2rem; }
       .disc-number{ font-size:1.9rem; }
-      #admin-toggle-btn, #accounts-btn{ right:1rem; padding:.6rem 1rem; font-size:.7rem; }
+      #admin-toggle-btn, #accounts-btn, #appearance-btn{ right:1rem; padding:.6rem 1rem; font-size:.7rem; }
       .widgets-grid{ grid-template-columns:1fr 1fr; }
       .palette-grid{ grid-template-columns:repeat(2,1fr); }
     }
@@ -615,6 +617,18 @@
     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
   </svg>
   Comptes
+</button>
+
+<!-- ── Appearance toggle ── -->
+<button id="appearance-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="9"></circle>
+    <circle cx="8.5" cy="10" r="1" fill="currentColor"></circle>
+    <circle cx="13.5" cy="8" r="1" fill="currentColor"></circle>
+    <circle cx="16" cy="13" r="1" fill="currentColor"></circle>
+    <path d="M12 21a4 4 0 0 1-4-4c0-1 1-1.5 1-2.5A1.5 1.5 0 0 0 7.5 13H7a5 5 0 0 1 0-9"></path>
+  </svg>
+  Apparence
 </button>
 
 <!-- ══════════════════════════════════════════════
@@ -934,6 +948,7 @@ const avatarImg       = document.getElementById("authAvatarImg");
 const avatarFall      = document.getElementById("authAvatarFallback");
 const usernameEl      = document.getElementById("authUsername");
 const adminBtn        = document.getElementById("admin-toggle-btn");
+const appearanceBtn   = document.getElementById("appearance-btn");
 const adminPanel      = document.getElementById("admin-panel");
 const accountsBtn     = document.getElementById("accounts-btn");
 const accountsModal   = document.getElementById("accounts-modal");
@@ -1248,6 +1263,12 @@ adminBtn.addEventListener("click", () => {
   if (!currentUserRole) return;
   adminPanel.classList.toggle("open");
   if (adminPanel.classList.contains("open")) showSectionList();
+});
+
+appearanceBtn.addEventListener("click", () => {
+  adminPanel.classList.add("open");
+  // Ouvre automatiquement l'onglet "Apparence"
+  document.querySelector('.dash-nav-item[data-tab="appearance"]')?.click();
 });
 
 function showSectionList() {
