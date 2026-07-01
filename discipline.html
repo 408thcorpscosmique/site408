@@ -18,7 +18,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script>
-    /* Applique le thème mémorisé AVANT le premier rendu pour éviter tout flash */
     (function () {
       try {
         var raw = localStorage.getItem('corps408_ui_prefs_v1');
@@ -35,226 +34,83 @@
   </script>
 
   <style>
-    /* ════════════════════════════════════════════════════════════
-       DESIGN TOKENS — Console de Commandement Stellaire
-       Palette par défaut : violet impérial / cyan signal, fond abyssal.
-       Toutes les valeurs ci-dessous sont surchargeables en direct
-       par le panneau « Apparence » (voir script de personnalisation).
-    ════════════════════════════════════════════════════════════ */
     :root{
-      --c-primary:#7B00FF;
-      --c-primary-rgb:123,0,255;
-      --c-secondary:#00d4ff;
-      --c-secondary-rgb:0,212,255;
-      --c-success:#00ff88;
-      --c-danger:#ff4d5e;
-      --c-warning:#ffb020;
-
-      --bg-void:#05070d;
-      --bg-surface:#0b1120;
-      --bg-elevated:#111a2d;
-      --bg-elevated-2:#16203a;
-      --text-primary:#eef1f8;
-      --text-secondary:#9aa3ba;
-      --text-muted:#5b637a;
-      --border-subtle: rgba(255,255,255,0.08);
-      --border-strong: rgba(255,255,255,0.16);
-
-      --font-display:'Rajdhani', sans-serif;
-      --font-body:'Inter', sans-serif;
-      --font-mono:'JetBrains Mono', monospace;
-      --font-size-base:16px;
-
-      --radius-sm:6px;
-      --radius-md:12px;
-      --radius-lg:20px;
-      --transition-speed:0.25s;
-      --transition-fast:0.15s;
-      --dash-sidebar-width:230px;
-      --header-density:1;
-
-      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.22);
-      --shadow-card:0 14px 38px -18px rgba(0,0,0,0.65);
+      --c-primary:#7B00FF; --c-primary-rgb:123,0,255;
+      --c-secondary:#00d4ff; --c-secondary-rgb:0,212,255;
+      --c-success:#00ff88; --c-danger:#ff4d5e; --c-warning:#ffb020;
+      --bg-void:#05070d; --bg-surface:#0b1120; --bg-elevated:#111a2d; --bg-elevated-2:#16203a;
+      --text-primary:#eef1f8; --text-secondary:#9aa3ba; --text-muted:#5b637a;
+      --border-subtle: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.16);
+      --font-display:'Rajdhani', sans-serif; --font-body:'Inter', sans-serif; --font-mono:'JetBrains Mono', monospace;
+      --font-size-base:16px; --radius-sm:6px; --radius-md:12px; --radius-lg:20px;
+      --transition-speed:0.25s; --transition-fast:0.15s; --dash-sidebar-width:230px; --header-density:1;
+      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.22); --shadow-card:0 14px 38px -18px rgba(0,0,0,0.65);
     }
-
     [data-theme="light"]{
-      --bg-void:#eef0f7;
-      --bg-surface:#ffffff;
-      --bg-elevated:#ffffff;
-      --bg-elevated-2:#f5f2fc;
-      --text-primary:#161a26;
-      --text-secondary:#4d5673;
-      --text-muted:#838ca6;
-      --border-subtle: rgba(20,20,50,0.09);
-      --border-strong: rgba(20,20,50,0.18);
-      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.10);
-      --shadow-card:0 14px 38px -20px rgba(30,30,60,0.25);
+      --bg-void:#eef0f7; --bg-surface:#ffffff; --bg-elevated:#ffffff; --bg-elevated-2:#f5f2fc;
+      --text-primary:#161a26; --text-secondary:#4d5673; --text-muted:#838ca6;
+      --border-subtle: rgba(20,20,50,0.09); --border-strong: rgba(20,20,50,0.18);
+      --shadow-glow:0 0 50px rgba(var(--c-primary-rgb),0.10); --shadow-card:0 14px 38px -20px rgba(30,30,60,0.25);
     }
-
     [data-animations="off"] *{ transition-duration:0s !important; animation-duration:0.001s !important; }
-    @media (prefers-reduced-motion: reduce){
-      *{ animation-duration:0.001s !important; transition-duration:0.001s !important; }
-    }
-
+    @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001s !important; transition-duration:0.001s !important; } }
     *{ box-sizing:border-box; }
     html{ font-size:var(--font-size-base); scroll-behavior:smooth; }
-    body{
-      background:var(--bg-void);
-      color:var(--text-primary);
-      font-family:var(--font-body);
-      transition:background var(--transition-speed) ease, color var(--transition-speed) ease;
-    }
+    body{ background:var(--bg-void); color:var(--text-primary); font-family:var(--font-body); transition:background var(--transition-speed) ease, color var(--transition-speed) ease; }
     ::selection{ background:rgba(var(--c-primary-rgb),0.35); color:#fff; }
     ::-webkit-scrollbar{ width:10px; height:10px; }
     ::-webkit-scrollbar-track{ background:transparent; }
     ::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:10px; }
     ::-webkit-scrollbar-thumb:hover{ background:var(--c-primary); }
     :focus-visible{ outline:2px solid var(--c-secondary); outline-offset:2px; border-radius:4px; }
-
     #stars-canvas{ position:fixed; inset:0; z-index:0; opacity:.8; pointer-events:none; }
-
-    /* ── Background ambiance : grille de commandement + halo ── */
-    body::before{
-      content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
-      background-image:
-        linear-gradient(rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px);
-      background-size:48px 48px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
-      opacity:.5;
-    }
-    body::after{
-      content:''; position:fixed; top:-20%; left:50%; transform:translateX(-50%);
-      width:1100px; height:700px; z-index:0; pointer-events:none;
-      background:radial-gradient(ellipse at center, rgba(var(--c-primary-rgb),0.16), transparent 65%);
-      filter:blur(10px);
-    }
-
-    /* ════════════════════════════════════════════════════════════
-       NAVIGATION — barre de verre flottante
-    ════════════════════════════════════════════════════════════ */
-    nav{
-      position:sticky; top:0; z-index:200;
-      display:flex; align-items:center; gap:1.6rem;
-      padding:calc(0.9rem * var(--header-density)) 2rem;
-      background:color-mix(in srgb, var(--bg-surface) 78%, transparent);
-      backdrop-filter:blur(16px) saturate(140%);
-      border-bottom:1px solid var(--border-subtle);
-    }
+    body::before{ content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image: linear-gradient(rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--c-primary-rgb),0.05) 1px, transparent 1px); background-size:48px 48px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%); opacity:.5; }
+    body::after{ content:''; position:fixed; top:-20%; left:50%; transform:translateX(-50%); width:1100px; height:700px; z-index:0; pointer-events:none; background:radial-gradient(ellipse at center, rgba(var(--c-primary-rgb),0.16), transparent 65%); filter:blur(10px); }
+    nav{ position:sticky; top:0; z-index:200; display:flex; align-items:center; gap:1.6rem; padding:calc(0.9rem * var(--header-density)) 2rem; background:color-mix(in srgb, var(--bg-surface) 78%, transparent); backdrop-filter:blur(16px) saturate(140%); border-bottom:1px solid var(--border-subtle); }
     .nav-logo{ display:flex; align-items:center; gap:.65rem; margin-right:.5rem; }
     .logo-img{ width:34px; height:34px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(var(--c-primary-rgb),.55)); }
-    .nav-brand{
-      font-family:var(--font-display); font-weight:700; letter-spacing:2.5px;
-      font-size:.92rem; color:var(--text-primary); text-transform:uppercase;
-      background:linear-gradient(90deg, var(--text-primary), var(--c-secondary));
-      -webkit-background-clip:text; background-clip:text;
-    }
-    nav a{
-      position:relative; color:var(--text-secondary); text-decoration:none;
-      font-size:.82rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase;
-      padding:.4rem .15rem; transition:color var(--transition-fast);
-    }
-    nav a::after{
-      content:''; position:absolute; left:0; right:100%; bottom:-2px; height:2px;
-      background:linear-gradient(90deg, var(--c-primary), var(--c-secondary));
-      transition:right var(--transition-speed) ease; border-radius:2px;
-    }
+    .nav-brand{ font-family:var(--font-display); font-weight:700; letter-spacing:2.5px; font-size:.92rem; color:var(--text-primary); text-transform:uppercase; background:linear-gradient(90deg, var(--text-primary), var(--c-secondary)); -webkit-background-clip:text; background-clip:text; }
+    nav a{ position:relative; color:var(--text-secondary); text-decoration:none; font-size:.82rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; padding:.4rem .15rem; transition:color var(--transition-fast); }
+    nav a::after{ content:''; position:absolute; left:0; right:100%; bottom:-2px; height:2px; background:linear-gradient(90deg, var(--c-primary), var(--c-secondary)); transition:right var(--transition-speed) ease; border-radius:2px; }
     nav a:hover{ color:var(--text-primary); }
     nav a:hover::after, nav a.active::after{ right:0; }
     nav a.active{ color:#fff; }
-
     .nav-auth{ margin-left:auto; display:flex; align-items:center; gap:.6rem; }
-    #auth-bar{ display:none; } /* fusionné dans .nav-auth ci-dessus, ancien id neutralisé visuellement */
-
     .auth-user-wrap{ display:none; align-items:center; gap:.55rem; padding:.3rem .7rem .3rem .3rem; border-radius:99px; background:var(--bg-elevated); border:1px solid var(--border-subtle); }
     .auth-user-wrap.visible{ display:flex; }
     .auth-avatar{ width:28px; height:28px; border-radius:50%; border:2px solid var(--c-primary); object-fit:cover; }
-    .auth-avatar-fallback{
-      width:28px; height:28px; border-radius:50%; border:2px solid var(--c-primary);
-      background:rgba(var(--c-primary-rgb),.2); color:var(--c-secondary);
-      font-size:.62rem; font-weight:700; display:flex; align-items:center; justify-content:center; text-transform:uppercase;
-    }
+    .auth-avatar-fallback{ width:28px; height:28px; border-radius:50%; border:2px solid var(--c-primary); background:rgba(var(--c-primary-rgb),.2); color:var(--c-secondary); font-size:.62rem; font-weight:700; display:flex; align-items:center; justify-content:center; text-transform:uppercase; }
     .auth-username{ font-size:.74rem; color:var(--text-secondary); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .auth-btn{
-      padding:.5rem 1.1rem; border-radius:99px; font-size:.72rem; font-weight:700;
-      letter-spacing:1.2px; text-transform:uppercase; cursor:pointer; border:1px solid;
-      transition:all var(--transition-fast); font-family:inherit;
-    }
+    .auth-btn{ padding:.5rem 1.1rem; border-radius:99px; font-size:.72rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; cursor:pointer; border:1px solid; transition:all var(--transition-fast); font-family:inherit; }
     .auth-btn-login{ background:linear-gradient(135deg, var(--c-primary), var(--c-secondary)); border-color:transparent; color:#fff; box-shadow:0 6px 18px -6px rgba(var(--c-primary-rgb),.6); }
     .auth-btn-login:hover{ filter:brightness(1.12); transform:translateY(-1px); }
     .auth-btn-logout{ background:transparent; border-color:var(--border-strong); color:var(--text-secondary); }
     .auth-btn-logout:hover{ border-color:var(--c-danger); color:var(--c-danger); }
-
-    /* ════════════════════════════════════════════════════════════
-       HERO / EN-TÊTE DE SECTION
-    ════════════════════════════════════════════════════════════ */
     .content{ position:relative; z-index:1; max-width:980px; margin:0 auto; padding:0 1.5rem 6rem; }
-    .section-header{
-      display:flex; align-items:center; gap:1.4rem; margin:3.5rem 0 2.5rem; position:relative;
-    }
-    .section-number{
-      font-family:var(--font-mono); font-size:.95rem; font-weight:600; color:var(--c-secondary);
-      letter-spacing:3px; padding:.3rem .6rem; border:1px solid rgba(var(--c-secondary-rgb),.35);
-      border-radius:99px; background:rgba(var(--c-secondary-rgb),.07);
-    }
-    .section-title{
-      font-family:var(--font-display); font-weight:700; text-transform:uppercase;
-      letter-spacing:3px; font-size:clamp(1.5rem, 3vw, 2.2rem); margin:0; color:var(--text-primary);
-    }
+    .section-header{ display:flex; align-items:center; gap:1.4rem; margin:3.5rem 0 2.5rem; position:relative; }
+    .section-number{ font-family:var(--font-mono); font-size:.95rem; font-weight:600; color:var(--c-secondary); letter-spacing:3px; padding:.3rem .6rem; border:1px solid rgba(var(--c-secondary-rgb),.35); border-radius:99px; background:rgba(var(--c-secondary-rgb),.07); }
+    .section-title{ font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:clamp(1.5rem, 3vw, 2.2rem); margin:0; color:var(--text-primary); }
     .section-line{ flex:1; height:1px; background:linear-gradient(90deg, var(--border-strong), transparent); }
     .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
     .reveal.visible, .reveal.active, .reveal.in-view{ opacity:1; transform:none; }
-
-    /* ════════════════════════════════════════════════════════════
-       CARTES — surface réutilisable (sections, widgets, panneaux)
-       Variantes pilotées par [data-card-style] sur <html>
-    ════════════════════════════════════════════════════════════ */
-    .surface-card{
-      background:linear-gradient(155deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
-      border:1px solid var(--border-subtle); border-radius:var(--radius-lg);
-      box-shadow:var(--shadow-card);
-      transition:border-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
-    }
+    .surface-card{ background:linear-gradient(155deg, var(--bg-elevated) 0%, var(--bg-surface) 100%); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); transition:border-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed); }
     html[data-card-style="outlined"] .surface-card{ background:transparent; border:1px solid rgba(var(--c-primary-rgb),.45); box-shadow:none; }
     html[data-card-style="flat"] .surface-card{ background:var(--bg-elevated); border:1px solid transparent; box-shadow:none; }
     html[data-card-style="neon"] .surface-card{ background:var(--bg-surface); border:1px solid rgba(var(--c-primary-rgb),.6); box-shadow:0 0 0 1px rgba(var(--c-primary-rgb),.15), 0 0 32px rgba(var(--c-primary-rgb),.28); }
-
     #discipline-content{ padding:1rem 0; display:flex; flex-direction:column; gap:1.5rem; }
     .disc-section{ padding:2.1rem 2.2rem; position:relative; overflow:hidden; }
     .disc-section:hover{ border-color:rgba(var(--c-primary-rgb),.4); transform:translateY(-2px); }
-    .disc-section::before{
-      content:''; position:absolute; top:0; left:0; right:0; height:2px;
-      background:linear-gradient(90deg, var(--c-primary), var(--c-secondary)); opacity:.7;
-    }
+    .disc-section::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, var(--c-primary), var(--c-secondary)); opacity:.7; }
     .disc-section-header{ display:flex; align-items:baseline; gap:1.3rem; margin-bottom:1.6rem; }
-    .disc-number{
-      font-family:var(--font-mono); font-size:2.6rem; font-weight:700;
-      color:transparent; -webkit-text-stroke:1.5px rgba(var(--c-primary-rgb),.35);
-      line-height:1; flex-shrink:0;
-    }
+    .disc-number{ font-family:var(--font-mono); font-size:2.6rem; font-weight:700; color:transparent; -webkit-text-stroke:1.5px rgba(var(--c-primary-rgb),.35); line-height:1; flex-shrink:0; }
     .disc-title{ font-family:var(--font-display); font-size:1.35rem; text-transform:uppercase; letter-spacing:2.5px; color:var(--text-primary); margin:0; font-weight:700; }
-
     .disc-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.7rem; }
-    .disc-list li{
-      padding:.85rem 1.1rem; background:var(--bg-elevated-2); border-left:3px solid var(--c-primary);
-      border-radius:0 var(--radius-sm) var(--radius-sm) 0; color:var(--text-secondary);
-      line-height:1.65; font-size:.95rem; transition:background var(--transition-fast), border-color var(--transition-fast);
-    }
+    .disc-list li{ padding:.85rem 1.1rem; background:var(--bg-elevated-2); border-left:3px solid var(--c-primary); border-radius:0 var(--radius-sm) var(--radius-sm) 0; color:var(--text-secondary); line-height:1.65; font-size:.95rem; transition:background var(--transition-fast), border-color var(--transition-fast); }
     .disc-list li:hover{ background:rgba(var(--c-primary-rgb),.08); border-color:var(--c-secondary); }
     .disc-list li strong{ color:var(--text-primary); }
-    .disc-list li code{
-      display:block; margin-top:.4rem; background:rgba(0,0,0,.3); border-radius:var(--radius-sm);
-      padding:.45rem .75rem; font-size:.84rem; font-family:var(--font-mono); color:var(--c-success); letter-spacing:.5px;
-    }
-    .disc-list li em{ color:var(--text-muted); font-style:normal; font-size:.84rem; }
-
     .disc-table-wrap{ overflow-x:auto; margin-top:.6rem; border-radius:var(--radius-md); border:1px solid var(--border-subtle); }
     .disc-table{ width:100%; border-collapse:collapse; font-size:.9rem; }
-    .disc-table th{
-      background:rgba(var(--c-primary-rgb),.12); color:var(--c-secondary); padding:.75rem 1.1rem; text-align:left;
-      text-transform:uppercase; letter-spacing:1px; font-size:.74rem; font-weight:700;
-      border-bottom:1px solid var(--border-subtle); white-space:nowrap;
-    }
+    .disc-table th{ background:rgba(var(--c-primary-rgb),.12); color:var(--c-secondary); padding:.75rem 1.1rem; text-align:left; text-transform:uppercase; letter-spacing:1px; font-size:.74rem; font-weight:700; border-bottom:1px solid var(--border-subtle); white-space:nowrap; }
     .disc-table td{ padding:.7rem 1.1rem; border-bottom:1px solid var(--border-subtle); color:var(--text-secondary); }
     .disc-table tr:last-child td{ border-bottom:none; }
     .disc-table tbody tr{ transition:background var(--transition-fast); }
@@ -266,59 +122,13 @@
     html[data-table-style="cards"] .disc-table tr{ background:var(--bg-elevated-2); border-radius:var(--radius-sm); margin-bottom:.6rem; padding:.4rem .2rem; border:1px solid var(--border-subtle); }
     html[data-table-style="cards"] .disc-table td{ display:flex; justify-content:space-between; gap:1rem; border-bottom:1px dashed var(--border-subtle); }
     html[data-table-style="cards"] .disc-table td:last-child{ border-bottom:none; }
-
-    .disc-note{
-      background:rgba(255,176,32,.08); border:1px solid rgba(255,176,32,.25); border-radius:var(--radius-md);
-      padding:.95rem 1.2rem; color:#e3b455; font-size:.88rem; line-height:1.65; margin-bottom:1rem;
-    }
+    .disc-note{ background:rgba(255,176,32,.08); border:1px solid rgba(255,176,32,.25); border-radius:var(--radius-md); padding:.95rem 1.2rem; color:#e3b455; font-size:.88rem; line-height:1.65; margin-bottom:1rem; }
     .disc-subtitle{ font-family:var(--font-display); font-size:.92rem; text-transform:uppercase; letter-spacing:2px; color:var(--c-secondary); margin:1.3rem 0 .7rem; font-weight:700; }
-
     .disc-loading{ text-align:center; padding:5rem 1rem; color:var(--text-muted); font-size:.85rem; letter-spacing:2px; text-transform:uppercase; }
-    .disc-loading::after{
-      content:''; display:block; width:34px; height:34px; margin:1.1rem auto 0;
-      border:2px solid rgba(var(--c-primary-rgb),.25); border-top-color:var(--c-primary);
-      border-radius:50%; animation:spin .8s linear infinite;
-    }
+    .disc-loading::after{ content:''; display:block; width:34px; height:34px; margin:1.1rem auto 0; border:2px solid rgba(var(--c-primary-rgb),.25); border-top-color:var(--c-primary); border-radius:50%; animation:spin .8s linear infinite; }
     @keyframes spin{ to{ transform:rotate(360deg); } }
-
     .disc-section-admin-bar{ display:none; justify-content:flex-end; gap:.6rem; margin-top:1.2rem; padding-top:.9rem; border-top:1px solid var(--border-subtle); }
     .disc-section-admin-bar.visible{ display:flex; }
-
-    /* ════════════════════════════════════════════════════════════
-       BOUTONS — variantes pilotées par [data-button-style]
-    ════════════════════════════════════════════════════════════ */
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:.45rem;
-      font-family:inherit; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
-      padding:.6rem 1.1rem; border-radius:var(--radius-sm); cursor:pointer; border:1px solid transparent;
-      transition:all var(--transition-fast); background:rgba(var(--c-primary-rgb),.15); color:var(--text-primary);
-      border-color:rgba(var(--c-primary-rgb),.4);
-    }
-    .btn:hover{ background:rgba(var(--c-primary-rgb),.3); color:#fff; }
-    .btn.danger{ border-color:rgba(255,77,94,.4); background:rgba(255,77,94,.12); color:var(--c-danger); }
-    .btn.danger:hover{ background:rgba(255,77,94,.28); color:#fff; }
-    .btn.success{ border-color:rgba(0,255,136,.4); background:rgba(0,255,136,.1); color:var(--c-success); }
-    .btn.success:hover{ background:rgba(0,255,136,.22); color:#fff; }
-    .btn.ghost{ background:transparent; border-color:var(--border-strong); color:var(--text-secondary); }
-    .btn.ghost:hover{ color:var(--text-primary); border-color:var(--c-primary); }
-    .btn.block{ width:100%; }
-    .btn.sm{ padding:.4rem .7rem; font-size:.7rem; }
-
-    html[data-button-style="solid"] .btn{ background:var(--c-primary); border-color:var(--c-primary); color:#fff; }
-    html[data-button-style="solid"] .btn:hover{ filter:brightness(1.15); }
-    html[data-button-style="solid"] .btn.danger{ background:var(--c-danger); border-color:var(--c-danger); color:#fff; }
-    html[data-button-style="solid"] .btn.success{ background:var(--c-success); border-color:var(--c-success); color:#04130c; }
-
-    html[data-button-style="outline"] .btn{ background:transparent; }
-    html[data-button-style="outline"] .btn:hover{ background:rgba(var(--c-primary-rgb),.12); }
-
-    html[data-button-style="glass"] .btn{ background:rgba(255,255,255,.06); border-color:var(--border-subtle); backdrop-filter:blur(8px); }
-    html[data-button-style="glass"] .btn:hover{ background:rgba(255,255,255,.12); border-color:var(--c-primary); }
-
-    html[data-button-style="neon"] .btn{ background:transparent; border-color:var(--c-primary); color:var(--c-primary); box-shadow:0 0 14px rgba(var(--c-primary-rgb),.35) inset, 0 0 14px rgba(var(--c-primary-rgb),.25); }
-    html[data-button-style="neon"] .btn:hover{ background:rgba(var(--c-primary-rgb),.15); color:#fff; }
-
-    /* legacy aliases used by original inline JS-generated markup */
     .admin-btn{ margin-top:.4rem; padding:.65rem 1rem; border-radius:var(--radius-sm); font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border:1px solid rgba(var(--c-primary-rgb),.4); background:rgba(var(--c-primary-rgb),.15); color:var(--text-primary); transition:all var(--transition-fast); width:100%; }
     .admin-btn:hover{ background:rgba(var(--c-primary-rgb),.32); color:#fff; }
     .admin-btn.danger{ border-color:rgba(255,77,94,.4); background:rgba(255,77,94,.1); color:var(--c-danger); }
@@ -328,25 +138,15 @@
     .admin-notice{ font-size:.74rem; color:var(--text-muted); text-align:center; margin-top:.6rem; }
     .admin-notice.success{ color:var(--c-success); }
     .admin-notice.error{ color:var(--c-danger); }
-
     .btn-edit-sec{ background:rgba(var(--c-primary-rgb),.15); border:1px solid var(--c-primary); color:var(--text-primary); padding:.45rem 1rem; border-radius:var(--radius-sm); font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all var(--transition-fast); }
     .btn-edit-sec:hover{ background:rgba(var(--c-primary-rgb),.32); color:#fff; }
     .btn-del-sec{ background:rgba(255,77,94,.1); border:1px solid var(--c-danger); color:var(--c-danger); padding:.45rem 1rem; border-radius:var(--radius-sm); font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all var(--transition-fast); }
     .btn-del-sec:hover{ background:rgba(255,77,94,.28); color:#fff; }
-
-    /* ════════════════════════════════════════════════════════════
-       FORMULAIRES
-    ════════════════════════════════════════════════════════════ */
     .admin-form{ display:flex; flex-direction:column; gap:.65rem; }
     .admin-form label{ font-size:.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:-.3rem; font-weight:600; }
-    .admin-form input, .admin-form select, .admin-form textarea{
-      background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:var(--radius-sm);
-      color:var(--text-primary); padding:.6rem .8rem; font-size:.85rem; font-family:inherit; width:100%;
-      transition:border-color var(--transition-fast); box-sizing:border-box;
-    }
+    .admin-form input, .admin-form select, .admin-form textarea{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); color:var(--text-primary); padding:.6rem .8rem; font-size:.85rem; font-family:inherit; width:100%; transition:border-color var(--transition-fast); box-sizing:border-box; }
     .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus{ outline:none; border-color:var(--c-primary); }
     .admin-form textarea{ resize:vertical; min-height:80px; }
-
     #items-builder{ display:flex; flex-direction:column; gap:.5rem; margin-top:.3rem; }
     .item-row{ display:flex; gap:.4rem; align-items:flex-start; }
     .item-row textarea{ flex:1; min-height:48px; resize:vertical; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); color:var(--text-primary); padding:.45rem .65rem; font-size:.8rem; font-family:inherit; box-sizing:border-box; }
@@ -357,7 +157,6 @@
     .item-row button.move-btn:hover{ background:rgba(var(--c-primary-rgb),.2); border-color:var(--c-primary); color:var(--c-secondary); }
     #add-item-btn{ background:rgba(0,255,136,.06); border:1px dashed rgba(0,255,136,.35); border-radius:var(--radius-sm); color:var(--c-success); font-size:.75rem; cursor:pointer; padding:.55rem; text-align:center; transition:all var(--transition-fast); width:100%; }
     #add-item-btn:hover{ background:rgba(0,255,136,.15); }
-
     #section-list{ display:flex; flex-direction:column; gap:.4rem; margin-bottom:1rem; }
     .section-tab{ display:flex; justify-content:space-between; align-items:center; padding:.6rem .85rem; border-radius:var(--radius-sm); background:var(--bg-elevated-2); border:1px solid var(--border-subtle); cursor:pointer; transition:all .15s; }
     .section-tab:hover{ border-color:rgba(var(--c-primary-rgb),.5); background:rgba(var(--c-primary-rgb),.1); }
@@ -370,43 +169,19 @@
     .section-tab-actions button:hover{ color:#fff; }
     .section-tab-actions .del-section:hover{ border-color:var(--c-danger); background:rgba(255,77,94,.15); color:var(--c-danger); }
     .section-tab-actions .edit-section:hover{ border-color:var(--c-primary); background:rgba(var(--c-primary-rgb),.15); color:var(--c-secondary); }
-
-    /* ════════════════════════════════════════════════════════════
-       BOUTONS FLOTTANTS
-    ════════════════════════════════════════════════════════════ */
-    #admin-toggle-btn, #accounts-btn{
-      position:fixed; right:1.6rem; z-index:999; border-radius:99px;
-      font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer;
-      padding:.75rem 1.3rem; border:1px solid rgba(var(--c-primary-rgb),.5);
-      background:color-mix(in srgb, var(--bg-surface) 88%, transparent); color:var(--text-primary);
-      box-shadow:0 10px 30px -10px rgba(0,0,0,.6), var(--shadow-glow);
-      transition:all var(--transition-fast); display:none; align-items:center; gap:.55rem;
-      backdrop-filter:blur(10px);
-    }
-    #admin-toggle-btn{ bottom:1.6rem; }
-    #accounts-btn{ bottom:6rem; border-color:rgba(0,255,136,.45); }
+    #admin-toggle-btn, #accounts-btn, #appearance-btn{ position:fixed; right:1.6rem; z-index:999; border-radius:99px; font-size:.78rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; padding:.75rem 1.3rem; border:1px solid rgba(var(--c-primary-rgb),.5); background:color-mix(in srgb, var(--bg-surface) 88%, transparent); color:var(--text-primary); box-shadow:0 10px 30px -10px rgba(0,0,0,.6), var(--shadow-glow); transition:all var(--transition-fast); display:none; align-items:center; gap:.55rem; backdrop-filter:blur(10px); }
+    #appearance-btn{ bottom:1.6rem; border-color:rgba(var(--c-secondary-rgb),.5); display: flex !important; }
+    #admin-toggle-btn{ bottom:6rem; }
+    #accounts-btn{ bottom:10.4rem; border-color:rgba(0,255,136,.45); }
     #admin-toggle-btn.visible, #accounts-btn.visible{ display:flex; }
     #admin-toggle-btn:hover{ background:rgba(var(--c-primary-rgb),.22); color:#fff; transform:translateY(-2px); }
     #accounts-btn:hover{ background:rgba(0,255,136,.15); color:#fff; transform:translateY(-2px); }
-
-    /* ════════════════════════════════════════════════════════════
-       PANNEAU ADMIN — tableau de bord façon SaaS
-    ════════════════════════════════════════════════════════════ */
-    #admin-panel{
-      display:none; position:fixed; inset:0 0 0 auto; z-index:998;
-      width:min(880px, 100vw); max-width:100vw;
-      background:var(--bg-surface); border-left:1px solid var(--border-strong);
-      box-shadow:-30px 0 60px -20px rgba(0,0,0,.7);
-    }
+    #appearance-btn:hover{ background:rgba(var(--c-secondary-rgb),.18); color:#fff; transform:translateY(-2px); }
+    #admin-panel{ display:none; position:fixed; inset:0 0 0 auto; z-index:998; width:min(880px, 100vw); max-width:100vw; background:var(--bg-surface); border-left:1px solid var(--border-strong); box-shadow:-30px 0 60px -20px rgba(0,0,0,.7); }
     #admin-panel.open{ display:flex; animation:panelIn var(--transition-speed) ease; }
     @keyframes panelIn{ from{ opacity:0; transform:translateX(24px); } to{ opacity:1; transform:translateX(0); } }
-
     .dash{ display:flex; width:100%; height:100%; }
-    .dash-sidebar{
-      width:var(--dash-sidebar-width); flex-shrink:0; background:var(--bg-void);
-      border-right:1px solid var(--border-subtle); display:flex; flex-direction:column;
-      padding:1.1rem .8rem; gap:1.2rem; transition:width var(--transition-speed) ease; overflow:hidden;
-    }
+    .dash-sidebar{ width:var(--dash-sidebar-width); flex-shrink:0; background:var(--bg-void); border-right:1px solid var(--border-subtle); display:flex; flex-direction:column; padding:1.1rem .8rem; gap:1.2rem; transition:width var(--transition-speed) ease; overflow:hidden; }
     .dash-sidebar.collapsed{ width:68px; }
     .dash-sidebar-head{ display:flex; align-items:center; justify-content:space-between; padding:0 .3rem; }
     .dash-brand{ display:flex; align-items:center; gap:.5rem; overflow:hidden; }
@@ -414,39 +189,28 @@
     .dash-collapse-btn{ background:none; border:1px solid var(--border-subtle); color:var(--text-muted); border-radius:6px; width:26px; height:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s; }
     .dash-collapse-btn:hover{ border-color:var(--c-primary); color:var(--c-secondary); }
     .dash-sidebar.collapsed .dash-collapse-btn svg{ transform:rotate(180deg); }
-
     .dash-nav{ display:flex; flex-direction:column; gap:.25rem; flex:1; }
-    .dash-nav-item{
-      display:flex; align-items:center; gap:.75rem; padding:.6rem .65rem; border-radius:var(--radius-sm);
-      background:none; border:1px solid transparent; color:var(--text-secondary); cursor:pointer;
-      font-family:inherit; font-size:.8rem; font-weight:600; text-align:left; transition:all .15s; white-space:nowrap; overflow:hidden;
-    }
+    .dash-nav-item{ display:flex; align-items:center; gap:.75rem; padding:.6rem .65rem; border-radius:var(--radius-sm); background:none; border:1px solid transparent; color:var(--text-secondary); cursor:pointer; font-family:inherit; font-size:.8rem; font-weight:600; text-align:left; transition:all .15s; white-space:nowrap; overflow:hidden; }
     .dash-nav-item svg{ flex-shrink:0; width:17px; height:17px; }
     .dash-nav-item:hover{ background:var(--bg-elevated); color:var(--text-primary); }
     .dash-nav-item.active{ background:rgba(var(--c-primary-rgb),.16); border-color:rgba(var(--c-primary-rgb),.4); color:#fff; }
     .dash-sidebar.collapsed .dash-nav-item span{ display:none; }
     .dash-sidebar.collapsed .dash-nav-item{ justify-content:center; }
-
     .dash-sidebar-foot{ font-size:.66rem; color:var(--text-muted); padding:0 .3rem; letter-spacing:.5px; white-space:nowrap; overflow:hidden; }
     .dash-sidebar.collapsed .dash-sidebar-foot{ display:none; }
-
     .dash-main{ flex:1; display:flex; flex-direction:column; min-width:0; }
     .dash-header{ display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.6rem; border-bottom:1px solid var(--border-subtle); }
     .dash-header h2{ font-family:var(--font-display); font-size:1.05rem; text-transform:uppercase; letter-spacing:2px; margin:0; color:var(--text-primary); }
     .dash-header p{ margin:.15rem 0 0; font-size:.74rem; color:var(--text-muted); }
     .dash-close{ background:var(--bg-elevated); border:1px solid var(--border-subtle); color:var(--text-secondary); width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; }
     .dash-close:hover{ border-color:var(--c-danger); color:var(--c-danger); transform:rotate(90deg); }
-
     .dash-content{ flex:1; overflow-y:auto; padding:1.6rem; }
     .dash-panel{ display:none; }
     .dash-panel.active{ display:block; animation:fadeUp .3s ease; }
     @keyframes fadeUp{ from{ opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-
     .dash-panel h4{ font-family:var(--font-display); color:var(--text-secondary); text-transform:uppercase; letter-spacing:1.5px; font-size:.74rem; margin:1.4rem 0 .6rem; font-weight:700; }
     .dash-panel h4:first-child{ margin-top:0; }
     .field-hint{ font-size:.72rem; color:var(--text-muted); margin:.2rem 0 0; }
-
-    /* ── Widgets / tableau de bord ── */
     .widgets-toolbar{ display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin-bottom:1.1rem; }
     .widgets-toolbar select{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:var(--radius-sm); padding:.5rem .7rem; font-size:.78rem; font-family:inherit; }
     .widgets-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:.9rem; }
@@ -460,12 +224,9 @@
     .widget-controls button:hover{ border-color:var(--c-primary); color:var(--c-secondary); }
     .widget-actions-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.4rem; }
     .widget-empty{ color:var(--text-muted); font-size:.82rem; padding:2rem; text-align:center; border:1px dashed var(--border-subtle); border-radius:var(--radius-md); }
-
     .add-widget-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
     .chip-btn{ background:var(--bg-elevated-2); border:1px dashed var(--border-strong); color:var(--text-secondary); padding:.4rem .8rem; border-radius:99px; font-size:.72rem; cursor:pointer; transition:all .15s; }
     .chip-btn:hover{ border-color:var(--c-success); color:var(--c-success); }
-
-    /* ── Apparence ── */
     .palette-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(135px,1fr)); gap:.7rem; }
     .palette-swatch{ padding:.8rem; border-radius:var(--radius-md); border:1px solid var(--border-subtle); cursor:pointer; transition:all .15s; background:var(--bg-elevated); }
     .palette-swatch:hover{ border-color:var(--border-strong); transform:translateY(-2px); }
@@ -473,77 +234,40 @@
     .palette-dots{ display:flex; gap:.3rem; margin-bottom:.5rem; }
     .palette-dots span{ width:18px; height:18px; border-radius:50%; display:block; border:1px solid rgba(255,255,255,.2); }
     .palette-name{ font-size:.72rem; color:var(--text-secondary); }
-
     .color-field{ display:flex; align-items:center; gap:.7rem; }
     .color-field input[type="color"]{ width:42px; height:38px; border-radius:8px; border:1px solid var(--border-subtle); background:none; cursor:pointer; padding:2px; }
     .color-field code{ font-size:.78rem; color:var(--text-muted); font-family:var(--font-mono); }
-
     .option-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.7rem 0; border-bottom:1px solid var(--border-subtle); }
     .option-row:last-child{ border-bottom:none; }
     .option-row-label{ font-size:.84rem; color:var(--text-primary); font-weight:600; }
     .option-row-desc{ font-size:.74rem; color:var(--text-muted); margin-top:.15rem; }
-
     .seg-control{ display:inline-flex; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:99px; padding:3px; gap:2px; }
     .seg-control button{ background:none; border:none; color:var(--text-secondary); font-size:.74rem; font-weight:600; padding:.4rem .85rem; border-radius:99px; cursor:pointer; transition:all .15s; font-family:inherit; }
     .seg-control button.active{ background:linear-gradient(135deg, var(--c-primary), var(--c-secondary)); color:#fff; }
-
     .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
     .switch input{ opacity:0; width:0; height:0; }
     .switch-track{ position:absolute; inset:0; background:var(--bg-elevated-2); border:1px solid var(--border-strong); border-radius:99px; cursor:pointer; transition:all .2s; }
     .switch-track::before{ content:''; position:absolute; width:16px; height:16px; left:3px; top:2px; background:var(--text-muted); border-radius:50%; transition:all .2s; }
     .switch input:checked + .switch-track{ background:rgba(var(--c-primary-rgb),.35); border-color:var(--c-primary); }
     .switch input:checked + .switch-track::before{ transform:translateX(18px); background:var(--c-primary); }
-
     .range-row{ display:flex; align-items:center; gap:.8rem; }
     .range-row input[type="range"]{ flex:1; accent-color:var(--c-primary); }
     .range-row output{ font-family:var(--font-mono); font-size:.76rem; color:var(--text-secondary); min-width:48px; text-align:right; }
-
     select.std-select{ background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:var(--radius-sm); padding:.55rem .7rem; font-size:.82rem; font-family:inherit; width:100%; }
-
     .dash-footer-actions{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle); }
     .dash-footer-actions .btn{ flex:1; min-width:140px; }
-
-    /* ════════════════════════════════════════════════════════════
-       MODALE (comptes)
-    ════════════════════════════════════════════════════════════ */
     .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center; padding:1rem; }
     .modal-overlay.active{ display:flex; animation:modalFadeIn .2s ease; }
     @keyframes modalFadeIn{ from{ opacity:0; transform:scale(.96);} to{opacity:1; transform:scale(1);} }
-    .modal-content{
-      position:relative; background:linear-gradient(150deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
-      border:1px solid rgba(var(--c-primary-rgb),.4); box-shadow:0 30px 60px -20px rgba(0,0,0,.7), var(--shadow-glow);
-      border-radius:var(--radius-lg); padding:2.1rem; max-width:760px; width:100%; max-height:90vh; overflow-y:auto;
-    }
+    .modal-content{ position:relative; background:linear-gradient(150deg, var(--bg-elevated) 0%, var(--bg-surface) 100%); border:1px solid rgba(var(--c-primary-rgb),.4); box-shadow:0 30px 60px -20px rgba(0,0,0,.7), var(--shadow-glow); border-radius:var(--radius-lg); padding:2.1rem; max-width:760px; width:100%; max-height:90vh; overflow-y:auto; }
     .close-modal{ position:absolute; top:1rem; right:1rem; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); color:var(--text-secondary); font-size:1.2rem; line-height:1; width:2.1rem; height:2.1rem; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
     .close-modal:hover{ color:#fff; border-color:var(--c-primary); transform:rotate(90deg); }
     .modal-title{ font-family:var(--font-display); color:#fff; text-transform:uppercase; letter-spacing:3px; font-size:1.2rem; margin:0 0 .3rem; }
     .modal-role{ color:var(--c-secondary); text-transform:uppercase; letter-spacing:1.5px; font-size:.78rem; font-weight:700; margin:0 0 1.3rem; }
-
     footer{ position:relative; z-index:1; text-align:center; padding:2.2rem 1rem; color:var(--text-muted); font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; border-top:1px solid var(--border-subtle); }
-
-    /* ════════════════════════════════════════════════════════════
-       RESPONSIVE
-    ════════════════════════════════════════════════════════════ */
-    @media (max-width:860px){
-      #admin-panel{ width:100vw; }
-      .dash-sidebar{ position:absolute; z-index:5; height:100%; }
-      .dash-sidebar:not(.mobile-open){ display:none; }
-    }
-    @media (max-width:680px){
-      nav{ flex-wrap:wrap; gap:.8rem; padding:.8rem 1.1rem; }
-      .nav-brand{ font-size:.78rem; }
-      .nav-auth{ width:100%; justify-content:flex-end; order:3; }
-      .content{ padding:0 1.1rem 4rem; }
-      .section-header{ margin:2.2rem 0 1.6rem; flex-wrap:wrap; }
-      .disc-section{ padding:1.4rem 1.2rem; }
-      .disc-number{ font-size:1.9rem; }
-      #admin-toggle-btn, #accounts-btn{ right:1rem; padding:.6rem 1rem; font-size:.7rem; }
-      .widgets-grid{ grid-template-columns:1fr 1fr; }
-      .palette-grid{ grid-template-columns:repeat(2,1fr); }
-    }
-    @media (max-width:420px){
-      .widgets-grid{ grid-template-columns:1fr; }
-    }
+    @media (max-width:860px){ #admin-panel{ width:100vw; } .dash-sidebar{ position:absolute; z-index:5; height:100%; } .dash-sidebar:not(.mobile-open){ display:none; } }
+    @media (max-width:680px){ nav{ flex-wrap:wrap; gap:.8rem; padding:.8rem 1.1rem; } .nav-brand{ font-size:.78rem; } .nav-auth{ width:100%; justify-content:flex-end; order:3; } .content{ padding:0 1.1rem 4rem; } .section-header{ margin:2.2rem 0 1.6rem; flex-wrap:wrap; } .disc-section{ padding:1.4rem 1.2rem; } .disc-number{ font-size:1.9rem; } #admin-toggle-btn, #accounts-btn{ right:1rem; padding:.6rem 1rem; font-size:.7rem; } .widgets-grid{ grid-template-columns:1fr 1fr; } .palette-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:420px){ .widgets-grid{ grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -583,7 +307,6 @@
   </div>
 </section>
 
-<!-- ── Admin toggle ── -->
 <button id="admin-toggle-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <circle cx="12" cy="12" r="3"></circle>
@@ -592,7 +315,6 @@
   Admin
 </button>
 
-<!-- ── Accounts button ── -->
 <button id="accounts-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -603,9 +325,17 @@
   Comptes
 </button>
 
-<!-- ══════════════════════════════════════════════
-     PANNEAU ADMIN — Tableau de bord
-══════════════════════════════════════════════ -->
+<button id="appearance-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="9"></circle>
+    <circle cx="8.5" cy="10" r="1" fill="currentColor"></circle>
+    <circle cx="13.5" cy="8" r="1" fill="currentColor"></circle>
+    <circle cx="16" cy="13" r="1" fill="currentColor"></circle>
+    <path d="M12 21a4 4 0 0 1-4-4c0-1 1-1.5 1-2.5A1.5 1.5 0 0 0 7.5 13H7a5 5 0 0 1 0-9"></path>
+  </svg>
+  Apparence
+</button>
+
 <div id="admin-panel">
   <div class="dash">
     <aside class="dash-sidebar" id="dashSidebar">
@@ -623,7 +353,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
           <span>Tableau de bord</span>
         </button>
-        <button class="dash-nav-item" data-tab="sections">
+        <button class="dash-nav-item" data-tab="sections" id="navTabSections" style="display:none;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>
           <span>Sections</span>
         </button>
@@ -656,7 +386,6 @@
 
       <div class="dash-content">
 
-        <!-- ── Vue d'ensemble / Widgets ── -->
         <section class="dash-panel active" data-panel="overview">
           <div class="widgets-toolbar">
             <label class="field-hint" style="margin:0;">Tableau de bord actif :</label>
@@ -668,7 +397,6 @@
           <div class="add-widget-row" id="addWidgetRow"></div>
         </section>
 
-        <!-- ── Sections (CRUD règlement) ── -->
         <section class="dash-panel" data-panel="sections">
           <div id="section-list-wrap">
             <h4>Sections existantes</h4>
@@ -714,7 +442,6 @@
           </div>
         </section>
 
-        <!-- ── Apparence ── -->
         <section class="dash-panel" data-panel="appearance">
           <h4>Thème</h4>
           <div class="seg-control" id="themeSeg">
@@ -780,7 +507,6 @@
           </div>
         </section>
 
-        <!-- ── Disposition ── -->
         <section class="dash-panel" data-panel="layout">
           <h4>Barre latérale (console admin)</h4>
           <div class="range-row">
@@ -822,7 +548,6 @@
           </div>
         </section>
 
-        <!-- ── Préférences ── -->
         <section class="dash-panel" data-panel="preferences">
           <h4>Sauvegarde</h4>
           <p class="field-hint">Vos préférences sont enregistrées automatiquement dans ce navigateur dès que vous cliquez sur « Enregistrer ». Le bouton « Annuler » revient à la dernière version enregistrée — un aperçu en direct s'applique pendant que vous réglez les options.</p>
@@ -848,7 +573,6 @@
   </div>
 </div>
 
-<!-- ── Accounts modal ── -->
 <div id="accounts-modal" class="modal-overlay">
   <div class="modal-content" style="max-width:760px;">
     <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
@@ -883,7 +607,7 @@ import { getDatabase, ref as dbRef, get, child, set, remove }
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 /* ══════════════════════════════════════════════
-   Firebase config (identique à escouades.html)
+   Firebase config
 ══════════════════════════════════════════════ */
 const firebaseConfig = {
   apiKey: "AIzaSyCd2zU0S1G7gw68HbS_NGvjAH00IlcB8VU",
@@ -906,10 +630,9 @@ const provider = new GoogleAuthProvider();
    State
 ══════════════════════════════════════════════ */
 let currentUserRole = null;
-let editingDocId    = null;   // null = create, string = update
 
 /* ══════════════════════════════════════════════
-   DOM refs — auth
+   DOM refs — auth & admin
 ══════════════════════════════════════════════ */
 const loginBtn        = document.getElementById("loginBtn");
 const logoutBtn       = document.getElementById("logoutBtn");
@@ -918,6 +641,7 @@ const avatarImg       = document.getElementById("authAvatarImg");
 const avatarFall      = document.getElementById("authAvatarFallback");
 const usernameEl      = document.getElementById("authUsername");
 const adminBtn        = document.getElementById("admin-toggle-btn");
+const appearanceBtn   = document.getElementById("appearance-btn");
 const adminPanel      = document.getElementById("admin-panel");
 const accountsBtn     = document.getElementById("accounts-btn");
 const accountsModal   = document.getElementById("accounts-modal");
@@ -928,9 +652,6 @@ const newAccEmail     = document.getElementById("new-account-email");
 const newAccRole      = document.getElementById("new-account-role");
 const accountsNotice  = document.getElementById("accounts-notice");
 
-/* ══════════════════════════════════════════════
-   DOM refs — admin form
-══════════════════════════════════════════════ */
 const sectionListWrap  = document.getElementById("section-list-wrap");
 const sectionFormWrap  = document.getElementById("section-form-wrap");
 const formModeLabel    = document.getElementById("form-mode-label");
@@ -976,21 +697,26 @@ function hideAvatar() {
 function emailToKey(email) { return email.trim().toLowerCase().replace(/\./g,","); }
 
 onAuthStateChanged(auth, async user => {
+  const tabSections = document.querySelector('.dash-nav-item[data-tab="sections"]');
   if (user) {
     showAvatar(user);
     loginBtn.style.display  = "none";
     logoutBtn.style.display = "inline-block";
     const snap = await get(child(dbRef(rtdb), `admins/${emailToKey(user.email)}`));
+    
     if (snap.exists()) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
       if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
       else accountsBtn.classList.remove("visible");
+      
+      if(tabSections) tabSections.style.display = "flex";
     } else {
       currentUserRole = null;
       adminBtn.classList.remove("visible");
       accountsBtn.classList.remove("visible");
       adminPanel.classList.remove("open");
+      if(tabSections) tabSections.style.display = "none";
     }
     refreshAdminBars();
     window.dispatchEvent(new CustomEvent("disc:auth-updated", { detail: { role: currentUserRole, name: user.displayName || user.email } }));
@@ -1003,6 +729,7 @@ onAuthStateChanged(auth, async user => {
     accountsBtn.classList.remove("visible");
     adminPanel.classList.remove("open");
     accountsModal.classList.remove("active");
+    if(tabSections) tabSections.style.display = "none";
     refreshAdminBars();
     window.dispatchEvent(new CustomEvent("disc:auth-updated", { detail: { role: null, name: null } }));
   }
@@ -1066,7 +793,6 @@ addAccountForm.addEventListener("submit", async e => {
 ══════════════════════════════════════════════ */
 const discContent = document.getElementById("discipline-content");
 
-/** Parse items from Firestore array and render as HTML based on type */
 function renderSection(docId, data) {
   const type     = data.type  || "list";
   const items    = Array.isArray(data.items) ? data.items : [];
@@ -1117,7 +843,6 @@ function refreshAdminBars() {
   });
 }
 
-/* ── Live Firestore listener ── */
 const q = query(collection(db,"discipline"), orderBy("ordre"));
 let allDocsCache = {};
 
@@ -1141,7 +866,6 @@ onSnapshot(q, snapshot => {
   discContent.innerHTML = `<p style="color:var(--c-danger);text-align:center;padding:3rem;">Erreur Firestore : ${err.message}</p>`;
 });
 
-/* ── Bind inline edit/delete on rendered sections ── */
 function bindSectionAdminBars() {
   document.querySelectorAll(".btn-edit-sec").forEach(btn => {
     btn.addEventListener("click", () => { if(currentUserRole) openFormForEdit(btn.dataset.id); });
@@ -1158,9 +882,6 @@ async function deleteSection(docId) {
   catch(err) { alert("Erreur : "+err.message); }
 }
 
-/* ══════════════════════════════════════════════
-   Admin panel — section list sidebar
-══════════════════════════════════════════════ */
 function rebuildSectionList(docs) {
   if (!sectionListEl) return;
   if (!docs.length) { sectionListEl.innerHTML = '<p style="color:var(--text-muted);font-size:.78rem;">Aucune section.</p>'; return; }
@@ -1187,9 +908,6 @@ function rebuildSectionList(docs) {
   });
 }
 
-/* ══════════════════════════════════════════════
-   Admin panel — items builder
-══════════════════════════════════════════════ */
 function createItemRow(value = "") {
   const row = document.createElement("div");
   row.className = "item-row";
@@ -1218,13 +936,18 @@ aType.addEventListener("change", () => {
   tableColsWrap.style.display = (aType.value === "table" || aType.value === "mixed") ? "block" : "none";
 });
 
-/* ══════════════════════════════════════════════
-   Admin panel — open / close
-══════════════════════════════════════════════ */
 adminBtn.addEventListener("click", () => {
   if (!currentUserRole) return;
   adminPanel.classList.toggle("open");
-  if (adminPanel.classList.contains("open")) showSectionList();
+  if (adminPanel.classList.contains("open")) {
+    showSectionList();
+    document.querySelector('.dash-nav-item[data-tab="sections"]')?.click();
+  }
+});
+
+appearanceBtn.addEventListener("click", () => {
+  adminPanel.classList.add("open");
+  document.querySelector('.dash-nav-item[data-tab="appearance"]')?.click();
 });
 
 function showSectionList() {
@@ -1249,9 +972,6 @@ cancelEditBtn.addEventListener("click", () => {
   showSectionList();
 });
 
-/* ══════════════════════════════════════════════
-   Admin panel — form helpers
-══════════════════════════════════════════════ */
 function getFormData() {
   const items = Array.from(itemsBuilder.querySelectorAll(".item-row textarea"))
                      .map(t => t.value.trim())
@@ -1312,9 +1032,6 @@ async function openFormForEdit(docId) {
   document.querySelector('.dash-nav-item[data-tab="sections"]')?.click();
 }
 
-/* ══════════════════════════════════════════════
-   Admin form — submit
-══════════════════════════════════════════════ */
 adminForm.addEventListener("submit", async e => {
   e.preventDefault();
   if (!currentUserRole) { adminNotice.textContent="Non autorisé."; adminNotice.className="admin-notice error"; return; }
@@ -1341,15 +1058,11 @@ adminForm.addEventListener("submit", async e => {
 <script>
 /* ══════════════════════════════════════════════════════════════════
    SYSTÈME DE PERSONNALISATION — Console Admin
-   Indépendant du module Firebase ci-dessus. Tout est stocké en
-   localStorage et appliqué via variables CSS sur <html> pour un
-   aperçu en temps réel.
 ══════════════════════════════════════════════════════════════════ */
 (function () {
   "use strict";
   const STORAGE_KEY = "corps408_ui_prefs_v1";
   const root = document.documentElement;
-
   const PALETTES = [
     { id:"nebula",   name:"Nébuleuse Violette", primary:"#7B00FF", secondary:"#00D4FF" },
     { id:"sith",      name:"Crimson Sith",       primary:"#FF2D55", secondary:"#FF8A00" },
@@ -1358,405 +1071,90 @@ adminForm.addEventListener("submit", async e => {
     { id:"solar",     name:"Éruption Solaire",   primary:"#FF9100", secondary:"#FF2D78" },
     { id:"mono",      name:"Mono Stellaire",     primary:"#C8CDD6", secondary:"#7B00FF" }
   ];
-
   const FONT_PAIRS = [
     { id:"rajdhani-inter", name:"Rajdhani / Inter (défaut)",     display:"'Rajdhani', sans-serif",      body:"'Inter', sans-serif" },
     { id:"orbitron-inter", name:"Orbitron / Inter",               display:"'Orbitron', sans-serif",      body:"'Inter', sans-serif" },
     { id:"space-mono",     name:"Space Grotesk / JetBrains Mono", display:"'Space Grotesk', sans-serif", body:"'JetBrains Mono', monospace" },
     { id:"system",         name:"Système (performance max)",      display:"-apple-system,'Segoe UI',sans-serif", body:"-apple-system,'Segoe UI',sans-serif" }
   ];
-
   const WIDGET_LIBRARY = {
     sections_count: { title:"Sections publiées",   render:() => ({ value:String(window.__discStats?.count ?? "–"), sub:"Articles du règlement" }) },
     last_update:    { title:"Dernière mise à jour", render:() => ({ value: window.__discStats?.lastUpdate ? new Date(window.__discStats.lastUpdate).toLocaleTimeString("fr-FR") : "–", sub: window.__discStats?.lastUpdate ? new Date(window.__discStats.lastUpdate).toLocaleDateString("fr-FR") : "Aucune donnée" }) },
     current_role:   { title:"Rôle actuel",          render:() => ({ value: window.__discAuth?.role || "Invité", sub: window.__discAuth?.name || "Non connecté" }) },
     connection:     { title:"État de connexion",    render:() => ({ value: navigator.onLine ? "En ligne" : "Hors ligne", sub:"Réseau du navigateur" }) },
-    shortcuts:      { title:"Raccourcis", isAction:true,
-                      render:() => ({ value:"", sub:"" }) }
+    shortcuts:      { title:"Raccourcis", isAction:true, render:() => ({ value:"", sub:"" }) }
   };
   const WIDGET_TITLES = Object.fromEntries(Object.entries(WIDGET_LIBRARY).map(([k,v])=>[k,v.title]));
-
-  const DEFAULTS = {
-    theme:"dark",
-    primary:"#7B00FF",
-    secondary:"#00D4FF",
-    paletteId:null,
-    fontPair:"rajdhani-inter",
-    fontSize:16,
-    cardStyle:"elevated",
-    buttonStyle:"default",
-    tableStyle:"lines",
-    animations:true,
-    sidebarWidth:230,
-    sidebarCollapsed:false,
-    showLogo:true,
-    showBrandText:true,
-    headerDensity:1,
-    activeDashboard:"default",
-    dashboards:{ "default": ["sections_count","last_update","current_role","connection"] }
-  };
-
+  const DEFAULTS = { theme:"dark", primary:"#7B00FF", secondary:"#00D4FF", paletteId:null, fontPair:"rajdhani-inter", fontSize:16, cardStyle:"elevated", buttonStyle:"default", tableStyle:"lines", animations:true, sidebarWidth:230, sidebarCollapsed:false, showLogo:true, showBrandText:true, headerDensity:1, activeDashboard:"default", dashboards:{ "default": ["sections_count","last_update","current_role","connection"] } };
   function loadSaved() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
-      return Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(raw));
-    } catch (e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return JSON.parse(JSON.stringify(DEFAULTS)); return Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(raw)); }
+    catch (e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
   }
-
-  let saved = loadSaved();
-  let draft = JSON.parse(JSON.stringify(saved));
-
-  function resolveTheme(t) {
-    if (t === "auto") return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-    return t;
-  }
-
+  let saved = loadSaved(); let draft = JSON.parse(JSON.stringify(saved));
+  function resolveTheme(t) { if (t === "auto") return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; return t; }
   function apply(prefs) {
-    root.setAttribute("data-theme", resolveTheme(prefs.theme));
-    root.setAttribute("data-card-style", prefs.cardStyle);
-    root.setAttribute("data-button-style", prefs.buttonStyle);
-    root.setAttribute("data-table-style", prefs.tableStyle);
-    root.setAttribute("data-animations", prefs.animations ? "on" : "off");
-
-    root.style.setProperty("--c-primary", prefs.primary);
-    root.style.setProperty("--c-primary-rgb", hexToRgb(prefs.primary));
-    root.style.setProperty("--c-secondary", prefs.secondary);
-    root.style.setProperty("--c-secondary-rgb", hexToRgb(prefs.secondary));
-    root.style.setProperty("--font-size-base", prefs.fontSize + "px");
-    root.style.setProperty("--dash-sidebar-width", prefs.sidebarWidth + "px");
-    root.style.setProperty("--header-density", prefs.headerDensity);
-
+    root.setAttribute("data-theme", resolveTheme(prefs.theme)); root.setAttribute("data-card-style", prefs.cardStyle); root.setAttribute("data-button-style", prefs.buttonStyle); root.setAttribute("data-table-style", prefs.tableStyle); root.setAttribute("data-animations", prefs.animations ? "on" : "off");
+    root.style.setProperty("--c-primary", prefs.primary); root.style.setProperty("--c-primary-rgb", hexToRgb(prefs.primary)); root.style.setProperty("--c-secondary", prefs.secondary); root.style.setProperty("--c-secondary-rgb", hexToRgb(prefs.secondary)); root.style.setProperty("--font-size-base", prefs.fontSize + "px"); root.style.setProperty("--dash-sidebar-width", prefs.sidebarWidth + "px"); root.style.setProperty("--header-density", prefs.headerDensity);
     const fp = FONT_PAIRS.find(f => f.id === prefs.fontPair) || FONT_PAIRS[0];
-    root.style.setProperty("--font-display", fp.display);
-    root.style.setProperty("--font-body", fp.body);
-
-    const navLogo = document.getElementById("navLogoImg");
-    const navBrand = document.getElementById("navBrandText");
-    if (navLogo) navLogo.style.display = prefs.showLogo ? "" : "none";
-    if (navBrand) navBrand.style.display = prefs.showBrandText ? "" : "none";
-
-    const sidebar = document.getElementById("dashSidebar");
-    if (sidebar) sidebar.classList.toggle("collapsed", !!prefs.sidebarCollapsed);
+    root.style.setProperty("--font-display", fp.display); root.style.setProperty("--font-body", fp.body);
+    const navLogo = document.getElementById("navLogoImg"); const navBrand = document.getElementById("navBrandText");
+    if (navLogo) navLogo.style.display = prefs.showLogo ? "" : "none"; if (navBrand) navBrand.style.display = prefs.showBrandText ? "" : "none";
+    const sidebar = document.getElementById("dashSidebar"); if (sidebar) sidebar.classList.toggle("collapsed", !!prefs.sidebarCollapsed);
   }
-
-  function hexToRgb(hex) {
-    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || "#7B00FF");
-    if (!m) return "123,0,255";
-    return [parseInt(m[1],16), parseInt(m[2],16), parseInt(m[3],16)].join(",");
-  }
-
-  function persist() {
-    saved = JSON.parse(JSON.stringify(draft));
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-  }
-  function revert() {
-    draft = JSON.parse(JSON.stringify(saved));
-    apply(draft);
-    syncControls();
-  }
-
+  function hexToRgb(hex) { const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || "#7B00FF"); if (!m) return "123,0,255"; return [parseInt(m[1],16), parseInt(m[2],16), parseInt(m[3],16)].join(","); }
+  function persist() { saved = JSON.parse(JSON.stringify(draft)); localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
+  function revert() { draft = JSON.parse(JSON.stringify(saved)); apply(draft); syncControls(); }
   apply(draft);
   window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => { if (draft.theme === "auto") apply(draft); });
-
-  /* ── Wait for DOM ── */
   document.addEventListener("DOMContentLoaded", init);
   if (document.readyState !== "loading") init();
   let inited = false;
   function init() {
     if (inited) return; inited = true;
-
-    /* ── Dashboard tab navigation ── */
-    const navItems = document.querySelectorAll(".dash-nav-item");
-    const panels = document.querySelectorAll(".dash-panel");
-    const titleEl = document.getElementById("dashPanelTitle");
-    const TAB_TITLES = { overview:"Tableau de bord", sections:"Sections", appearance:"Apparence", layout:"Disposition", preferences:"Préférences" };
-    navItems.forEach(btn => {
-      btn.addEventListener("click", () => {
-        navItems.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        const tab = btn.dataset.tab;
-        panels.forEach(p => p.classList.toggle("active", p.dataset.panel === tab));
-        if (titleEl) titleEl.textContent = TAB_TITLES[tab] || "";
-      });
-    });
-
-    document.getElementById("dashCloseBtn")?.addEventListener("click", () => {
-      document.getElementById("admin-panel").classList.remove("open");
-    });
-    document.getElementById("dashCollapseBtn")?.addEventListener("click", () => {
-      const sb = document.getElementById("dashSidebar");
-      sb.classList.toggle("collapsed");
-      draft.sidebarCollapsed = sb.classList.contains("collapsed");
-    });
-
-    /* ── Theme segmented control ── */
-    bindSeg("themeSeg", v => { draft.theme = v; apply(draft); }, () => draft.theme);
-    bindSeg("cardStyleSeg", v => { draft.cardStyle = v; apply(draft); }, () => draft.cardStyle);
-    bindSeg("buttonStyleSeg", v => { draft.buttonStyle = v; apply(draft); }, () => draft.buttonStyle);
-    bindSeg("tableStyleSeg", v => { draft.tableStyle = v; apply(draft); }, () => draft.tableStyle);
-    bindSeg("headerDensitySeg", v => { draft.headerDensity = parseFloat(v); apply(draft); }, () => String(draft.headerDensity));
-
-    function bindSeg(id, onSet, getCurrent) {
-      const wrap = document.getElementById(id);
-      if (!wrap) return;
-      wrap.querySelectorAll("button").forEach(b => {
-        b.addEventListener("click", () => { onSet(b.dataset.val); syncSeg(id, getCurrent()); });
-      });
-    }
-    function syncSeg(id, val) {
-      const wrap = document.getElementById(id);
-      if (!wrap) return;
-      wrap.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.val === String(val)));
-    }
-
-    /* ── Palettes ── */
+    const navItems = document.querySelectorAll(".dash-nav-item"); const panels = document.querySelectorAll(".dash-panel"); const titleEl = document.getElementById("dashPanelTitle"); const TAB_TITLES = { overview:"Tableau de bord", sections:"Sections", appearance:"Apparence", layout:"Disposition", preferences:"Préférences" };
+    navItems.forEach(btn => { btn.addEventListener("click", () => { navItems.forEach(b => b.classList.remove("active")); btn.classList.add("active"); const tab = btn.dataset.tab; panels.forEach(p => p.classList.toggle("active", p.dataset.panel === tab)); if (titleEl) titleEl.textContent = TAB_TITLES[tab] || ""; }); });
+    document.getElementById("dashCloseBtn")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); });
+    document.getElementById("dashCollapseBtn")?.addEventListener("click", () => { const sb = document.getElementById("dashSidebar"); sb.classList.toggle("collapsed"); draft.sidebarCollapsed = sb.classList.contains("collapsed"); });
+    bindSeg("themeSeg", v => { draft.theme = v; apply(draft); }, () => draft.theme); bindSeg("cardStyleSeg", v => { draft.cardStyle = v; apply(draft); }, () => draft.cardStyle); bindSeg("buttonStyleSeg", v => { draft.buttonStyle = v; apply(draft); }, () => draft.buttonStyle); bindSeg("tableStyleSeg", v => { draft.tableStyle = v; apply(draft); }, () => draft.tableStyle); bindSeg("headerDensitySeg", v => { draft.headerDensity = parseFloat(v); apply(draft); }, () => String(draft.headerDensity));
+    function bindSeg(id, onSet, getCurrent) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => { b.addEventListener("click", () => { onSet(b.dataset.val); syncSeg(id, getCurrent()); }); }); }
+    function syncSeg(id, val) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.val === String(val))); }
     const paletteGrid = document.getElementById("paletteGrid");
-    PALETTES.forEach(p => {
-      const el = document.createElement("div");
-      el.className = "palette-swatch";
-      el.dataset.id = p.id;
-      el.innerHTML = `<div class="palette-dots"><span style="background:${p.primary}"></span><span style="background:${p.secondary}"></span></div><div class="palette-name">${p.name}</div>`;
-      el.addEventListener("click", () => {
-        draft.primary = p.primary; draft.secondary = p.secondary; draft.paletteId = p.id;
-        apply(draft); syncControls();
-      });
-      paletteGrid.appendChild(el);
-    });
-
-    /* ── Custom colors ── */
-    const primaryInput = document.getElementById("primaryColorInput");
-    const secondaryInput = document.getElementById("secondaryColorInput");
-    primaryInput.addEventListener("input", () => {
-      draft.primary = primaryInput.value; draft.paletteId = null; apply(draft); syncControls();
-    });
-    secondaryInput.addEventListener("input", () => {
-      draft.secondary = secondaryInput.value; draft.paletteId = null; apply(draft); syncControls();
-    });
-
-    /* ── Fonts ── */
+    PALETTES.forEach(p => { const el = document.createElement("div"); el.className = "palette-swatch"; el.dataset.id = p.id; el.innerHTML = `<div class="palette-dots"><span style="background:${p.primary}"></span><span style="background:${p.secondary}"></span></div><div class="palette-name">${p.name}</div>`; el.addEventListener("click", () => { draft.primary = p.primary; draft.secondary = p.secondary; draft.paletteId = p.id; apply(draft); syncControls(); }); paletteGrid.appendChild(el); });
+    const primaryInput = document.getElementById("primaryColorInput"); const secondaryInput = document.getElementById("secondaryColorInput");
+    primaryInput.addEventListener("input", () => { draft.primary = primaryInput.value; draft.paletteId = null; apply(draft); syncControls(); }); secondaryInput.addEventListener("input", () => { draft.secondary = secondaryInput.value; draft.paletteId = null; apply(draft); syncControls(); });
     const fontSelect = document.getElementById("fontPairSelect");
-    FONT_PAIRS.forEach(f => {
-      const opt = document.createElement("option"); opt.value = f.id; opt.textContent = f.name;
-      fontSelect.appendChild(opt);
-    });
-    fontSelect.addEventListener("change", () => { draft.fontPair = fontSelect.value; apply(draft); });
-
-    const fontSizeRange = document.getElementById("fontSizeRange");
-    const fontSizeOut = document.getElementById("fontSizeOut");
-    fontSizeRange.addEventListener("input", () => {
-      draft.fontSize = parseInt(fontSizeRange.value, 10);
-      fontSizeOut.textContent = draft.fontSize + "px";
-      apply(draft);
-    });
-
-    /* ── Animations ── */
-    document.getElementById("animationsToggle").addEventListener("change", e => {
-      draft.animations = e.target.checked; apply(draft);
-    });
-
-    /* ── Layout: sidebar / header ── */
-    const sidebarWidthRange = document.getElementById("sidebarWidthRange");
-    const sidebarWidthOut = document.getElementById("sidebarWidthOut");
-    sidebarWidthRange.addEventListener("input", () => {
-      draft.sidebarWidth = parseInt(sidebarWidthRange.value, 10);
-      sidebarWidthOut.textContent = draft.sidebarWidth + "px";
-      apply(draft);
-    });
-    document.getElementById("sidebarCollapsedToggle").addEventListener("change", e => {
-      draft.sidebarCollapsed = e.target.checked; apply(draft);
-    });
+    FONT_PAIRS.forEach(f => { const opt = document.createElement("option"); opt.value = f.id; opt.textContent = f.name; fontSelect.appendChild(opt); }); fontSelect.addEventListener("change", () => { draft.fontPair = fontSelect.value; apply(draft); });
+    const fontSizeRange = document.getElementById("fontSizeRange"); const fontSizeOut = document.getElementById("fontSizeOut"); fontSizeRange.addEventListener("input", () => { draft.fontSize = parseInt(fontSizeRange.value, 10); fontSizeOut.textContent = draft.fontSize + "px"; apply(draft); });
+    document.getElementById("animationsToggle").addEventListener("change", e => { draft.animations = e.target.checked; apply(draft); });
+    const sidebarWidthRange = document.getElementById("sidebarWidthRange"); const sidebarWidthOut = document.getElementById("sidebarWidthOut"); sidebarWidthRange.addEventListener("input", () => { draft.sidebarWidth = parseInt(sidebarWidthRange.value, 10); sidebarWidthOut.textContent = draft.sidebarWidth + "px"; apply(draft); });
+    document.getElementById("sidebarCollapsedToggle").addEventListener("change", e => { draft.sidebarCollapsed = e.target.checked; apply(draft); });
     document.getElementById("logoToggle").addEventListener("change", e => { draft.showLogo = e.target.checked; apply(draft); });
     document.getElementById("brandTextToggle").addEventListener("change", e => { draft.showBrandText = e.target.checked; apply(draft); });
-
-    /* ── Save / cancel / reset / export / import ── */
-    const prefsNotice = document.getElementById("prefsNotice");
-    function notify(msg, cls) { prefsNotice.textContent = msg; prefsNotice.className = "admin-notice " + (cls||""); }
-
-    document.getElementById("savePrefsBtn").addEventListener("click", () => {
-      persist(); notify("Préférences enregistrées.", "success");
-    });
-    document.getElementById("cancelPrefsBtn").addEventListener("click", () => {
-      revert(); notify("Changements annulés — retour à la dernière sauvegarde.", "");
-    });
-    document.getElementById("resetPrefsBtn").addEventListener("click", () => {
-      if (!confirm("Réinitialiser toute la personnalisation aux valeurs par défaut ?")) return;
-      draft = JSON.parse(JSON.stringify(DEFAULTS));
-      apply(draft); syncControls(); persist();
-      notify("Réinitialisé aux valeurs par défaut.", "success");
-    });
-    document.getElementById("exportPrefsBtn").addEventListener("click", () => {
-      const blob = new Blob([JSON.stringify(saved, null, 2)], { type:"application/json" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = "408th-preferences.json"; a.click();
-      URL.revokeObjectURL(a.href);
-    });
-    const importFile = document.getElementById("importPrefsFile");
-    document.getElementById("importPrefsBtn").addEventListener("click", () => importFile.click());
-    importFile.addEventListener("change", () => {
-      const file = importFile.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const parsed = JSON.parse(reader.result);
-          draft = Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), parsed);
-          apply(draft); syncControls(); persist();
-          notify("Préférences importées et appliquées.", "success");
-        } catch (e) { notify("Fichier invalide.", "error"); }
-      };
-      reader.readAsText(file);
-      importFile.value = "";
-    });
-
-    /* ── Widgets / dashboards ── */
-    const widgetsGrid = document.getElementById("widgetsGrid");
-    const addWidgetRow = document.getElementById("addWidgetRow");
-    const dashboardSelect = document.getElementById("dashboardProfileSelect");
-
-    function currentWidgetList() {
-      if (!draft.dashboards[draft.activeDashboard]) draft.activeDashboard = Object.keys(draft.dashboards)[0] || "default";
-      return draft.dashboards[draft.activeDashboard] || [];
-    }
-
-    function renderWidgets() {
-      const list = currentWidgetList();
-      widgetsGrid.innerHTML = "";
-      if (!list.length) {
-        widgetsGrid.innerHTML = '<div class="widget-empty">Aucun widget. Ajoutez-en un ci-dessous.</div>';
-      }
-      list.forEach((id, idx) => {
-        const def = WIDGET_LIBRARY[id];
-        if (!def) return;
-        const card = document.createElement("div");
-        card.className = "widget-card surface-card";
-        if (def.isAction) {
-          card.innerHTML = `
-            <div class="widget-card-head">
-              <span class="widget-title">${def.title}</span>
-              <div class="widget-controls">
-                <button data-act="up" title="Monter">↑</button>
-                <button data-act="down" title="Descendre">↓</button>
-                <button data-act="remove" title="Retirer">✕</button>
-              </div>
-            </div>
-            <div class="widget-actions-row">
-              <button class="btn sm ghost" id="wgShortcutNew">+ Section</button>
-              <button class="btn sm ghost" id="wgShortcutAccounts">Comptes</button>
-            </div>`;
-          card.querySelector("#wgShortcutNew")?.addEventListener("click", () => {
-            document.querySelector('.dash-nav-item[data-tab="sections"]')?.click();
-            document.getElementById("new-section-btn")?.click();
-          });
-          card.querySelector("#wgShortcutAccounts")?.addEventListener("click", () => {
-            document.getElementById("admin-panel").classList.remove("open");
-            document.getElementById("accounts-btn")?.click();
-          });
-        } else {
-          const data = def.render();
-          card.innerHTML = `
-            <div class="widget-card-head">
-              <span class="widget-title">${def.title}</span>
-              <div class="widget-controls">
-                <button data-act="up" title="Monter">↑</button>
-                <button data-act="down" title="Descendre">↓</button>
-                <button data-act="remove" title="Retirer">✕</button>
-              </div>
-            </div>
-            <div class="widget-value">${data.value}</div>
-            <div class="widget-sub">${data.sub}</div>`;
-        }
-        card.querySelector('[data-act="remove"]').addEventListener("click", () => {
-          list.splice(idx, 1); renderWidgets(); renderAddWidgetChips();
-        });
-        card.querySelector('[data-act="up"]').addEventListener("click", () => {
-          if (idx > 0) { [list[idx-1], list[idx]] = [list[idx], list[idx-1]]; renderWidgets(); }
-        });
-        card.querySelector('[data-act="down"]').addEventListener("click", () => {
-          if (idx < list.length-1) { [list[idx+1], list[idx]] = [list[idx], list[idx+1]]; renderWidgets(); }
-        });
-        widgetsGrid.appendChild(card);
-      });
-    }
-
-    function renderAddWidgetChips() {
-      const list = currentWidgetList();
-      addWidgetRow.innerHTML = "";
-      Object.entries(WIDGET_TITLES).forEach(([id, title]) => {
-        if (list.includes(id)) return;
-        const chip = document.createElement("button");
-        chip.className = "chip-btn"; chip.textContent = "+ " + title;
-        chip.addEventListener("click", () => { list.push(id); renderWidgets(); renderAddWidgetChips(); });
-        addWidgetRow.appendChild(chip);
-      });
-    }
-
-    function renderDashboardSelect() {
-      dashboardSelect.innerHTML = "";
-      Object.keys(draft.dashboards).forEach(name => {
-        const opt = document.createElement("option"); opt.value = name;
-        opt.textContent = name === "default" ? "Par défaut" : name;
-        if (name === draft.activeDashboard) opt.selected = true;
-        dashboardSelect.appendChild(opt);
-      });
-    }
-    dashboardSelect.addEventListener("change", () => {
-      draft.activeDashboard = dashboardSelect.value; renderWidgets(); renderAddWidgetChips();
-    });
-    document.getElementById("newDashboardBtn").addEventListener("click", () => {
-      const name = prompt("Nom du nouveau tableau de bord (ex : Modération, Direction) :");
-      if (!name || draft.dashboards[name]) return;
-      draft.dashboards[name] = ["sections_count","current_role"];
-      draft.activeDashboard = name;
-      renderDashboardSelect(); renderWidgets(); renderAddWidgetChips();
-    });
-    document.getElementById("delDashboardBtn").addEventListener("click", () => {
-      if (draft.activeDashboard === "default") { alert("Le tableau « Par défaut » ne peut pas être supprimé."); return; }
-      if (!confirm(`Supprimer le tableau « ${draft.activeDashboard} » ?`)) return;
-      delete draft.dashboards[draft.activeDashboard];
-      draft.activeDashboard = "default";
-      renderDashboardSelect(); renderWidgets(); renderAddWidgetChips();
-    });
-
-    window.addEventListener("disc:sections-updated", e => { window.__discStats = e.detail; renderWidgets(); });
-    window.addEventListener("disc:auth-updated", e => { window.__discAuth = e.detail; renderWidgets(); });
-    window.addEventListener("online", renderWidgets);
-    window.addEventListener("offline", renderWidgets);
-
-    /* ── Sync all controls to draft state ── */
+    const prefsNotice = document.getElementById("prefsNotice"); function notify(msg, cls) { prefsNotice.textContent = msg; prefsNotice.className = "admin-notice " + (cls||""); }
+    document.getElementById("savePrefsBtn").addEventListener("click", () => { persist(); notify("Préférences enregistrées.", "success"); });
+    document.getElementById("cancelPrefsBtn").addEventListener("click", () => { revert(); notify("Changements annulés — retour à la dernière sauvegarde.", ""); });
+    document.getElementById("resetPrefsBtn").addEventListener("click", () => { if (!confirm("Réinitialiser toute la personnalisation aux valeurs par défaut ?")) return; draft = JSON.parse(JSON.stringify(DEFAULTS)); apply(draft); syncControls(); persist(); notify("Réinitialisé aux valeurs par défaut.", "success"); });
+    document.getElementById("exportPrefsBtn").addEventListener("click", () => { const blob = new Blob([JSON.stringify(saved, null, 2)], { type:"application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "408th-preferences.json"; a.click(); URL.revokeObjectURL(a.href); });
+    const importFile = document.getElementById("importPrefsFile"); document.getElementById("importPrefsBtn").addEventListener("click", () => importFile.click()); importFile.addEventListener("change", () => { const file = importFile.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const parsed = JSON.parse(reader.result); draft = Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), parsed); apply(draft); syncControls(); persist(); notify("Préférences importées et appliquées.", "success"); } catch (e) { notify("Fichier invalide.", "error"); } }; reader.readAsText(file); importFile.value = ""; });
+    const widgetsGrid = document.getElementById("widgetsGrid"); const addWidgetRow = document.getElementById("addWidgetRow"); const dashboardSelect = document.getElementById("dashboardProfileSelect");
+    function currentWidgetList() { if (!draft.dashboards[draft.activeDashboard]) draft.activeDashboard = Object.keys(draft.dashboards)[0] || "default"; return draft.dashboards[draft.activeDashboard] || []; }
+    function renderWidgets() { const list = currentWidgetList(); widgetsGrid.innerHTML = ""; if (!list.length) { widgetsGrid.innerHTML = '<div class="widget-empty">Aucun widget. Ajoutez-en un ci-dessous.</div>'; } list.forEach((id, idx) => { const def = WIDGET_LIBRARY[id]; if (!def) return; const card = document.createElement("div"); card.className = "widget-card surface-card"; if (def.isAction) { card.innerHTML = ` <div class="widget-card-head"> <span class="widget-title">${def.title}</span> <div class="widget-controls"> <button data-act="up" title="Monter">↑</button> <button data-act="down" title="Descendre">↓</button> <button data-act="remove" title="Retirer">✕</button> </div> </div> <div class="widget-actions-row"> <button class="btn sm ghost" id="wgShortcutNew">+ Section</button> <button class="btn sm ghost" id="wgShortcutAccounts">Comptes</button> </div>`; card.querySelector("#wgShortcutNew")?.addEventListener("click", () => { document.querySelector('.dash-nav-item[data-tab="sections"]')?.click(); document.getElementById("new-section-btn")?.click(); }); card.querySelector("#wgShortcutAccounts")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); document.getElementById("accounts-btn")?.click(); }); } else { const data = def.render(); card.innerHTML = ` <div class="widget-card-head"> <span class="widget-title">${def.title}</span> <div class="widget-controls"> <button data-act="up" title="Monter">↑</button> <button data-act="down" title="Descendre">↓</button> <button data-act="remove" title="Retirer">✕</button> </div> </div> <div class="widget-value">${data.value}</div> <div class="widget-sub">${data.sub}</div>`; } card.querySelector('[data-act="remove"]').addEventListener("click", () => { list.splice(idx, 1); renderWidgets(); renderAddWidgetChips(); }); card.querySelector('[data-act="up"]').addEventListener("click", () => { if (idx > 0) { [list[idx-1], list[idx]] = [list[idx], list[idx-1]]; renderWidgets(); } }); card.querySelector('[data-act="down"]').addEventListener("click", () => { if (idx < list.length-1) { [list[idx+1], list[idx]] = [list[idx], list[idx+1]]; renderWidgets(); } }); widgetsGrid.appendChild(card); }); }
+    function renderAddWidgetChips() { const list = currentWidgetList(); addWidgetRow.innerHTML = ""; Object.entries(WIDGET_TITLES).forEach(([id, title]) => { if (list.includes(id)) return; const chip = document.createElement("button"); chip.className = "chip-btn"; chip.textContent = "+ " + title; chip.addEventListener("click", () => { list.push(id); renderWidgets(); renderAddWidgetChips(); }); addWidgetRow.appendChild(chip); }); }
+    function renderDashboardSelect() { dashboardSelect.innerHTML = ""; Object.keys(draft.dashboards).forEach(name => { const opt = document.createElement("option"); opt.value = name; opt.textContent = name === "default" ? "Par défaut" : name; if (name === draft.activeDashboard) opt.selected = true; dashboardSelect.appendChild(opt); }); }
+    dashboardSelect.addEventListener("change", () => { draft.activeDashboard = dashboardSelect.value; renderWidgets(); renderAddWidgetChips(); });
+    document.getElementById("newDashboardBtn").addEventListener("click", () => { const name = prompt("Nom du nouveau tableau de bord (ex : Modération, Direction) :"); if (!name || draft.dashboards[name]) return; draft.dashboards[name] = ["sections_count","current_role"]; draft.activeDashboard = name; renderDashboardSelect(); renderWidgets(); renderAddWidgetChips(); });
+    document.getElementById("delDashboardBtn").addEventListener("click", () => { if (draft.activeDashboard === "default") { alert("Le tableau « Par défaut » ne peut pas être supprimé."); return; } if (!confirm(`Supprimer le tableau « ${draft.activeDashboard} » ?`)) return; delete draft.dashboards[draft.activeDashboard]; draft.activeDashboard = "default"; renderDashboardSelect(); renderWidgets(); renderAddWidgetChips(); });
+    window.addEventListener("disc:sections-updated", e => { window.__discStats = e.detail; renderWidgets(); }); window.addEventListener("disc:auth-updated", e => { window.__discAuth = e.detail; renderWidgets(); }); window.addEventListener("online", renderWidgets); window.addEventListener("offline", renderWidgets);
     window.syncControls = syncControls;
     function syncControls() {
-      syncSeg("themeSeg", draft.theme);
-      syncSeg("cardStyleSeg", draft.cardStyle);
-      syncSeg("buttonStyleSeg", draft.buttonStyle);
-      syncSeg("tableStyleSeg", draft.tableStyle);
-      syncSeg("headerDensitySeg", String(draft.headerDensity));
-
-      paletteGrid.querySelectorAll(".palette-swatch").forEach(el => {
-        el.classList.toggle("selected", el.dataset.id === draft.paletteId);
-      });
-      primaryInput.value = draft.primary;
-      secondaryInput.value = draft.secondary;
-      document.getElementById("primaryColorCode").textContent = draft.primary.toUpperCase();
-      document.getElementById("secondaryColorCode").textContent = draft.secondary.toUpperCase();
-
-      fontSelect.value = draft.fontPair;
-      fontSizeRange.value = draft.fontSize;
-      fontSizeOut.textContent = draft.fontSize + "px";
-
-      document.getElementById("animationsToggle").checked = draft.animations;
-      sidebarWidthRange.value = draft.sidebarWidth;
-      sidebarWidthOut.textContent = draft.sidebarWidth + "px";
-      document.getElementById("sidebarCollapsedToggle").checked = !!draft.sidebarCollapsed;
-      document.getElementById("logoToggle").checked = draft.showLogo;
-      document.getElementById("brandTextToggle").checked = draft.showBrandText;
-
-      renderDashboardSelect();
-      renderWidgets();
-      renderAddWidgetChips();
+      syncSeg("themeSeg", draft.theme); syncSeg("cardStyleSeg", draft.cardStyle); syncSeg("buttonStyleSeg", draft.buttonStyle); syncSeg("tableStyleSeg", draft.tableStyle); syncSeg("headerDensitySeg", String(draft.headerDensity));
+      paletteGrid.querySelectorAll(".palette-swatch").forEach(el => { el.classList.toggle("selected", el.dataset.id === draft.paletteId); });
+      primaryInput.value = draft.primary; secondaryInput.value = draft.secondary; document.getElementById("primaryColorCode").textContent = draft.primary.toUpperCase(); document.getElementById("secondaryColorCode").textContent = draft.secondary.toUpperCase();
+      fontSelect.value = draft.fontPair; fontSizeRange.value = draft.fontSize; fontSizeOut.textContent = draft.fontSize + "px";
+      document.getElementById("animationsToggle").checked = draft.animations; sidebarWidthRange.value = draft.sidebarWidth; sidebarWidthOut.textContent = draft.sidebarWidth + "px"; document.getElementById("sidebarCollapsedToggle").checked = !!draft.sidebarCollapsed; document.getElementById("logoToggle").checked = draft.showLogo; document.getElementById("brandTextToggle").checked = draft.showBrandText;
+      renderDashboardSelect(); renderWidgets(); renderAddWidgetChips();
     }
-
-    syncControls();
-    apply(draft);
+    syncControls(); apply(draft);
   }
 })();
 </script>
