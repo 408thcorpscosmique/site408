@@ -110,9 +110,32 @@
     .escouade-card{ position:relative; overflow:hidden; cursor:pointer; display:flex; flex-direction:column; }
     .escouade-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--card-accent, var(--c-primary)); opacity:.85; z-index:2; }
     .escouade-card:hover{ border-color:color-mix(in srgb, var(--card-accent, var(--c-primary)) 55%, var(--border-subtle)); transform:translateY(-4px); box-shadow:0 20px 40px -18px rgba(0,0,0,.7), 0 0 0 1px color-mix(in srgb, var(--card-accent, var(--c-primary)) 25%, transparent); }
-    .card-img-container{ position:relative; height:150px; overflow:hidden; }
-    .card-img-placeholder{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background-size:cover; background-position:center; }
+    .card-img-container{ position:relative; height:150px; overflow:hidden; transition:height var(--transition-speed) ease; }
+    .card-img-placeholder{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background-size:cover; background-position:center; transition:transform var(--transition-speed) ease, filter var(--transition-speed) ease; }
     .card-img-placeholder span{ font-family:var(--font-display); font-size:1.3rem; font-weight:700; letter-spacing:4px; opacity:.35; text-transform:uppercase; }
+    /* ── Ratio d'image global (personnalisable via Apparence) ── */
+    html[data-img-ratio="square"] .card-img-container{ height:0; padding-top:100%; }
+    html[data-img-ratio="wide"] .card-img-container{ height:0; padding-top:42%; }
+    html[data-img-ratio="tall"] .card-img-container{ height:0; padding-top:130%; }
+    html[data-img-ratio="portrait"] .card-img-container{ height:0; padding-top:115%; }
+    html[data-img-ratio="classic"] .card-img-container{ height:150px; }
+    html[data-img-ratio="square"] .card-img-placeholder, html[data-img-ratio="wide"] .card-img-placeholder, html[data-img-ratio="tall"] .card-img-placeholder, html[data-img-ratio="portrait"] .card-img-placeholder{ position:absolute; inset:0; }
+    /* ── Ajustement (cover/contain) ── */
+    html[data-img-fit="contain"] .card-img-placeholder{ background-size:contain !important; background-repeat:no-repeat; background-color:var(--bg-elevated-2); }
+    /* ── Arrondi des images ── */
+    html[data-img-radius="sharp"] .card-img-container{ border-radius:0; }
+    html[data-img-radius="soft"] .card-img-container{ border-radius:var(--radius-md); margin:.6rem .6rem 0; width:calc(100% - 1.2rem); }
+    html[data-img-radius="round"] .card-img-container{ border-radius:var(--radius-lg); margin:.6rem .6rem 0; width:calc(100% - 1.2rem); }
+    /* ── Zoom au survol ── */
+    html[data-img-hoverzoom="on"] .escouade-card:hover .card-img-placeholder{ transform:scale(1.08); }
+    /* ── Filtres d'image ── */
+    html[data-img-filter="grayscale"] .card-img-placeholder{ filter:grayscale(1) contrast(1.05); }
+    html[data-img-filter="grayscale"] .escouade-card:hover .card-img-placeholder{ filter:grayscale(0.15) contrast(1.05); }
+    html[data-img-filter="duotone"] .card-img-placeholder{ filter:grayscale(1) sepia(.55) hue-rotate(var(--img-duotone-hue,220deg)) saturate(3.2) brightness(.95); }
+    html[data-img-filter="warm"] .card-img-placeholder{ filter:saturate(1.25) sepia(.12) contrast(1.05); }
+    html[data-img-filter="cool"] .card-img-placeholder{ filter:saturate(1.1) hue-rotate(-8deg) contrast(1.05) brightness(.98); }
+    /* ── Overlay dégradé optionnel pour lisibilité du titre sur l'image ── */
+    html[data-img-overlay="on"] .card-img-container::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(2,4,10,.75) 100%); pointer-events:none; }
     .card-info{ padding:1.1rem 1.25rem 1.25rem; display:flex; flex-direction:column; gap:.25rem; flex:1; }
     .card-info h3{ margin:0; font-family:var(--font-display); font-size:1.05rem; letter-spacing:1.2px; text-transform:uppercase; color:var(--card-accent, var(--text-primary)); }
     .card-info p{ margin:0; font-size:.82rem; color:var(--text-secondary); line-height:1.5; }
@@ -170,6 +193,44 @@
     .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus{ outline:none; border-color:var(--c-primary); }
     .admin-form textarea{ resize:vertical; min-height:80px; }
     .admin-form .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+
+    /* ══════════════════════════════════════════════
+       Éditeur d'image d'escouade — carré, très personnalisable
+    ══════════════════════════════════════════════ */
+    .img-editor{ display:flex; gap:1rem; align-items:flex-start; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:.9rem; flex-wrap:wrap; }
+    .img-editor-preview-col{ flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+    .img-preview-square{ position:relative; width:150px; height:150px; border-radius:var(--radius-md); overflow:hidden; background:repeating-conic-gradient(var(--bg-elevated) 0% 25%, var(--bg-surface) 0% 50%) 50% / 16px 16px; border:1px solid var(--border-strong); cursor:crosshair; touch-action:none; user-select:none; flex-shrink:0; }
+    .img-preview-square.empty{ cursor:default; }
+    .img-preview-bg{ position:absolute; inset:0; background-size:cover; background-position:center; background-repeat:no-repeat; pointer-events:none; }
+    .img-preview-empty-hint{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; font-size:.65rem; color:var(--text-muted); padding:.5rem; line-height:1.4; pointer-events:none; }
+    .img-preview-focal{ position:absolute; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 2px rgba(0,0,0,.55), 0 0 10px rgba(0,0,0,.5); pointer-events:none; display:none; }
+    .img-preview-square.has-img .img-preview-focal{ display:block; }
+    .img-preview-square.has-img .img-preview-empty-hint{ display:none; }
+    .img-preview-crosshair-x, .img-preview-crosshair-y{ position:absolute; background:rgba(255,255,255,.35); pointer-events:none; display:none; }
+    .img-preview-square.has-img .img-preview-crosshair-x{ display:block; left:0; right:0; height:1px; }
+    .img-preview-square.has-img .img-preview-crosshair-y{ display:block; top:0; bottom:0; width:1px; }
+    .img-preview-label{ font-size:.62rem; color:var(--text-muted); text-align:center; max-width:150px; line-height:1.3; }
+    .img-editor-controls{ flex:1 1 220px; min-width:200px; display:flex; flex-direction:column; gap:.55rem; }
+    .img-source-tabs{ display:flex; gap:.35rem; }
+    .img-source-tab{ flex:1; padding:.4rem .5rem; font-size:.66rem; font-weight:700; letter-spacing:.6px; text-transform:uppercase; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); background:transparent; color:var(--text-secondary); cursor:pointer; transition:all var(--transition-fast); text-align:center; }
+    .img-source-tab.active{ background:rgba(var(--c-primary-rgb),.18); border-color:rgba(var(--c-primary-rgb),.5); color:var(--text-primary); }
+    .img-source-pane{ display:none; flex-direction:column; gap:.45rem; }
+    .img-source-pane.active{ display:flex; }
+    .img-dropzone{ border:2px dashed var(--border-strong); border-radius:var(--radius-sm); padding:1rem .7rem; text-align:center; cursor:pointer; transition:all var(--transition-fast); font-size:.72rem; color:var(--text-muted); }
+    .img-dropzone:hover, .img-dropzone.dragover{ border-color:var(--c-primary); background:rgba(var(--c-primary-rgb),.06); color:var(--text-secondary); }
+    .img-dropzone strong{ color:var(--text-primary); }
+    .img-upload-progress-wrap{ display:none; height:5px; border-radius:99px; background:var(--bg-elevated); overflow:hidden; }
+    .img-upload-progress-wrap.active{ display:block; }
+    .img-upload-progress-bar{ height:100%; width:0%; background:linear-gradient(90deg, var(--c-primary), var(--c-secondary)); transition:width .15s ease; }
+    .img-zoom-row{ display:flex; align-items:center; gap:.5rem; }
+    .img-zoom-row input[type="range"]{ flex:1; accent-color:var(--c-primary); }
+    .img-zoom-row output{ font-size:.68rem; color:var(--text-muted); font-family:var(--font-mono); width:36px; text-align:right; flex-shrink:0; }
+    .img-editor-row{ display:flex; gap:.5rem; align-items:center; }
+    .img-editor-row .field-hint{ font-size:.66rem; color:var(--text-muted); }
+    .img-clear-btn{ font-size:.65rem; padding:.35rem .6rem; border-radius:var(--radius-sm); border:1px solid rgba(255,77,94,.35); background:rgba(255,77,94,.08); color:var(--c-danger); cursor:pointer; align-self:flex-start; }
+    .img-clear-btn:hover{ background:rgba(255,77,94,.2); }
+    input[type="range"]{ -webkit-appearance:none; height:4px; border-radius:99px; background:var(--border-strong); }
+    input[type="range"]::-webkit-slider-thumb{ -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:var(--c-primary); cursor:pointer; box-shadow:0 0 0 3px rgba(var(--c-primary-rgb),.25); }
     #escouade-list{ display:flex; flex-direction:column; gap:.4rem; margin-bottom:1rem; }
     .esc-tab{ display:flex; justify-content:space-between; align-items:center; padding:.6rem .85rem; border-radius:var(--radius-sm); background:var(--bg-elevated-2); border:1px solid var(--border-subtle); cursor:pointer; transition:all .15s; }
     .esc-tab:hover{ border-color:rgba(var(--c-primary-rgb),.5); background:rgba(var(--c-primary-rgb),.1); }
@@ -257,7 +318,7 @@
     .option-row:last-child{ border-bottom:none; }
     .option-row-label{ font-size:.84rem; color:var(--text-primary); font-weight:600; }
     .option-row-desc{ font-size:.74rem; color:var(--text-muted); margin-top:.15rem; }
-    .seg-control{ display:inline-flex; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:99px; padding:3px; gap:2px; }
+    .seg-control{ display:inline-flex; flex-wrap:wrap; background:var(--bg-elevated-2); border:1px solid var(--border-subtle); border-radius:99px; padding:3px; gap:2px; }
     .seg-control button{ background:none; border:none; color:var(--text-secondary); font-size:.74rem; font-weight:600; padding:.4rem .85rem; border-radius:99px; cursor:pointer; transition:all .15s; font-family:inherit; }
     .seg-control button.active{ background:linear-gradient(135deg, var(--c-primary), var(--c-secondary)); color:#fff; }
     .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
@@ -484,17 +545,54 @@
               <label>Description (HTML autorisé)</label>
               <textarea id="a-desc" placeholder="Description complète"></textarea>
 
-              <label>Source de l'image</label>
-              <select id="a-img-mode">
-                <option value="local">Fichier local</option>
-                <option value="url">Lien Imgur / URL</option>
-              </select>
-              <label>Nom du fichier local</label>
-              <input type="text" id="a-img-local" placeholder="cendres.png">
-              <label>Lien Imgur / URL</label>
-              <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
-              <label>Position de l'image</label>
-              <input type="text" id="a-img-pos" placeholder="center 35%">
+              <label>Image de l'escouade</label>
+              <div class="img-editor">
+                <div class="img-editor-preview-col">
+                  <div class="img-preview-square empty" id="imgPreviewSquare">
+                    <div class="img-preview-bg" id="imgPreviewBg"></div>
+                    <div class="img-preview-crosshair-x" id="imgCrossX"></div>
+                    <div class="img-preview-crosshair-y" id="imgCrossY"></div>
+                    <div class="img-preview-focal" id="imgFocal"></div>
+                    <div class="img-preview-empty-hint">Aucune image<br>— aperçu carré —</div>
+                  </div>
+                  <div class="img-preview-label">Cliquez / glissez sur l'aperçu pour cadrer l'image</div>
+                  <button type="button" class="img-clear-btn" id="imgClearBtn">✕ Retirer l'image</button>
+                </div>
+                <div class="img-editor-controls">
+                  <div class="img-source-tabs">
+                    <button type="button" class="img-source-tab active" data-src="upload">Envoyer un fichier</button>
+                    <button type="button" class="img-source-tab" data-src="url">Lien / Imgur</button>
+                    <button type="button" class="img-source-tab" data-src="local">Fichier local (avancé)</button>
+                  </div>
+
+                  <div class="img-source-pane active" data-pane="upload">
+                    <div class="img-dropzone" id="imgDropzone">
+                      <strong>Glissez une image ici</strong><br>ou cliquez pour parcourir (JPG, PNG, WebP)
+                    </div>
+                    <input type="file" id="a-img-file" accept="image/*" style="display:none;">
+                    <div class="img-upload-progress-wrap" id="imgUploadProgressWrap"><div class="img-upload-progress-bar" id="imgUploadProgressBar"></div></div>
+                  </div>
+
+                  <div class="img-source-pane" data-pane="url">
+                    <input type="url" id="a-img-url" placeholder="https://i.imgur.com/xxxxxx.jpg">
+                    <span class="field-hint">Collez un lien Imgur ou toute URL d'image publique.</span>
+                  </div>
+
+                  <div class="img-source-pane" data-pane="local">
+                    <input type="text" id="a-img-local" placeholder="cendres.png">
+                    <span class="field-hint">Nom d'un fichier déjà présent dans le dépôt du site (à côté de escouades.html).</span>
+                  </div>
+
+                  <label style="margin-top:.2rem;">Zoom / cadrage</label>
+                  <div class="img-zoom-row">
+                    <input type="range" id="a-img-zoom" min="100" max="260" step="2" value="140">
+                    <output id="a-img-zoom-out">140%</output>
+                  </div>
+                  <span class="field-hint">Le point de mise au point (rond blanc) se déplace directement sur l'aperçu carré ci-contre — c'est exactement le cadrage utilisé sur les cartes et dans la fiche détaillée.</span>
+                  <input type="hidden" id="a-img" value="">
+                  <input type="hidden" id="a-img-pos" value="center 35%">
+                </div>
+              </div>
 
               <div class="field-row">
                 <div>
@@ -583,6 +681,46 @@
               <div class="option-row-desc">Transitions, survols et apparitions animées.</div>
             </div>
             <label class="switch"><input type="checkbox" id="animationsToggle" checked><span class="switch-track"></span></label>
+          </div>
+
+          <h4>Style des images d'escouade</h4>
+          <div class="field-hint" style="margin-bottom:.3rem;">Ces réglages s'appliquent à toutes les cartes et fiches, en plus du cadrage propre à chaque escouade.</div>
+          <div class="seg-control" id="imgRatioSeg">
+            <button data-val="classic">Classique</button>
+            <button data-val="square">Carré</button>
+            <button data-val="wide">Large</button>
+            <button data-val="portrait">Portrait</button>
+            <button data-val="tall">Haute</button>
+          </div>
+          <div class="seg-control" id="imgFitSeg" style="margin-top:.6rem;">
+            <button data-val="cover">Remplir (cover)</button>
+            <button data-val="contain">Contenir</button>
+          </div>
+          <div class="seg-control" id="imgRadiusSeg" style="margin-top:.6rem;">
+            <button data-val="sharp">Angles droits</button>
+            <button data-val="soft">Coins arrondis</button>
+            <button data-val="round">Très arrondi</button>
+          </div>
+          <div class="seg-control" id="imgFilterSeg" style="margin-top:.6rem;">
+            <button data-val="none">Naturel</button>
+            <button data-val="grayscale">Niveaux de gris</button>
+            <button data-val="duotone">Duotone</button>
+            <button data-val="warm">Chaud</button>
+            <button data-val="cool">Froid</button>
+          </div>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Zoom léger au survol</div>
+              <div class="option-row-desc">Anime l'image quand on survole une carte.</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="imgHoverZoomToggle"><span class="switch-track"></span></label>
+          </div>
+          <div class="option-row">
+            <div>
+              <div class="option-row-label">Voile en bas d'image</div>
+              <div class="option-row-desc">Assombrit le bas de l'image pour mieux lire le titre.</div>
+            </div>
+            <label class="switch"><input type="checkbox" id="imgOverlayToggle"><span class="switch-track"></span></label>
           </div>
         </section>
 
@@ -684,6 +822,8 @@ import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAut
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getDatabase, ref as dbRef, get, child, set, remove }
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 /* ══════════════════════════════════════════════
    Firebase config
@@ -703,6 +843,7 @@ const app      = initializeApp(firebaseConfig);
 const db       = getFirestore(app);
 const auth     = getAuth(app);
 const rtdb     = getDatabase(app);
+const storage  = getStorage(app);
 const provider = new GoogleAuthProvider();
 
 /* ══════════════════════════════════════════════
@@ -869,15 +1010,16 @@ const countPay  = document.getElementById("count-payantes");
 function buildCard(docId, data) {
   const color = data.color || "#00d4ff";
   const hasImg = data.img && data.img.trim() !== "";
+  const zoom = data.imgZoom || 140;
   const bgStyle = hasImg
-    ? `background-image:url('${data.img}'); background-position:${data.imgPos || "center 35%"};`
+    ? `background-image:url('${data.img}'); background-position:${data.imgPos || "center 35%"}; background-size:${zoom}%;`
     : `background:color-mix(in srgb, ${color} 12%, transparent);`;
   const placeholder = hasImg ? "" : `<span style="color:${color};">${(data.title || "").replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "").substring(0, 8)}</span>`;
 
   return `
     <div class="escouade-card surface-card" data-id="${docId}" style="--card-accent:${color};"
       data-title="${data.title || ""}" data-role="${data.role || ""}" data-desc="${data.desc || ""}"
-      data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}"
+      data-img="${data.img || ""}" data-color="${color}" data-img-pos="${data.imgPos || "center 35%"}" data-img-zoom="${zoom}"
       data-spec-label="${data.specLabel || "Voir la spécialisation"}" data-spec-url="${data.specUrl || ""}"
       data-ref="${data.ref || ""}" data-modality="${data.modality || ""}">
       <div class="card-admin-bar" id="card-admin-${docId}">
@@ -993,6 +1135,7 @@ function openModal(card) {
   imgEl.style.display = "block";
   imgEl.alt = card.dataset.title || "";
   imgEl.src = card.dataset.img || "";
+  imgEl.style.objectPosition = card.dataset.imgPos || "center 35%";
   imgLabel.textContent = (card.dataset.title || "").replace(/Escouade|Compagnie|Brigade|Division|Bataillon/gi, "");
 
   if (currentUserRole) adminActions.classList.add("visible");
@@ -1064,16 +1207,129 @@ function rebuildEscouadeList(docs) {
   });
 }
 
+/* ══════════════════════════════════════════════
+   Éditeur d'image — upload, cadrage carré et zoom
+══════════════════════════════════════════════ */
+const imgHidden       = document.getElementById("a-img");
+const imgPosHidden     = document.getElementById("a-img-pos");
+const imgZoomRange     = document.getElementById("a-img-zoom");
+const imgZoomOut       = document.getElementById("a-img-zoom-out");
+const imgUrlInput      = document.getElementById("a-img-url");
+const imgLocalInput    = document.getElementById("a-img-local");
+const imgFileInput     = document.getElementById("a-img-file");
+const imgDropzone      = document.getElementById("imgDropzone");
+const imgPreviewSquare = document.getElementById("imgPreviewSquare");
+const imgPreviewBg     = document.getElementById("imgPreviewBg");
+const imgFocal         = document.getElementById("imgFocal");
+const imgCrossX        = document.getElementById("imgCrossX");
+const imgCrossY        = document.getElementById("imgCrossY");
+const imgClearBtn      = document.getElementById("imgClearBtn");
+const imgProgressWrap  = document.getElementById("imgUploadProgressWrap");
+const imgProgressBar   = document.getElementById("imgUploadProgressBar");
+
+function setFocalPointUI(xPct, yPct) {
+  imgFocal.style.left = xPct + "%"; imgFocal.style.top = yPct + "%";
+  imgCrossX.style.top = yPct + "%"; imgCrossY.style.left = xPct + "%";
+  imgPreviewBg.style.backgroundPosition = `${xPct}% ${yPct}%`;
+  imgPosHidden.value = `${Math.round(xPct)}% ${Math.round(yPct)}%`;
+}
+
+function parsePosToPct(posStr) {
+  const parts = (posStr || "center 35%").trim().split(/\s+/);
+  const toPct = (v) => { if (v === "center") return 50; if (v === "left" || v === "top") return 0; if (v === "right" || v === "bottom") return 100; const n = parseFloat(v); return isNaN(n) ? 50 : n; };
+  return { x: toPct(parts[0] || "center"), y: toPct(parts[1] || "50%") };
+}
+
+function setPreviewImage(url) {
+  imgHidden.value = url || "";
+  if (url) {
+    imgPreviewBg.style.backgroundImage = `url('${url}')`;
+    imgPreviewBg.style.backgroundSize = (imgZoomRange.value || 140) + "%";
+    imgPreviewSquare.classList.add("has-img"); imgPreviewSquare.classList.remove("empty");
+  } else {
+    imgPreviewBg.style.backgroundImage = "";
+    imgPreviewSquare.classList.remove("has-img"); imgPreviewSquare.classList.add("empty");
+  }
+}
+
+function resetImageEditor() {
+  setPreviewImage("");
+  imgZoomRange.value = 140; imgZoomOut.textContent = "140%";
+  setFocalPointUI(50, 35);
+  imgUrlInput.value = ""; imgLocalInput.value = ""; imgFileInput.value = "";
+  imgProgressWrap.classList.remove("active"); imgProgressBar.style.width = "0%";
+  switchImgTab("upload");
+}
+
+function switchImgTab(name) {
+  document.querySelectorAll(".img-source-tab").forEach(t => t.classList.toggle("active", t.dataset.src === name));
+  document.querySelectorAll(".img-source-pane").forEach(p => p.classList.toggle("active", p.dataset.pane === name));
+}
+document.querySelectorAll(".img-source-tab").forEach(tab => {
+  tab.addEventListener("click", () => switchImgTab(tab.dataset.src));
+});
+
+// Drag / click on the square preview sets the focal point (object position)
+let draggingFocal = false;
+function focalFromEvent(e) {
+  const rect = imgPreviewSquare.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  let xPct = ((clientX - rect.left) / rect.width) * 100;
+  let yPct = ((clientY - rect.top) / rect.height) * 100;
+  xPct = Math.max(0, Math.min(100, xPct)); yPct = Math.max(0, Math.min(100, yPct));
+  setFocalPointUI(xPct, yPct);
+}
+imgPreviewSquare.addEventListener("mousedown", e => { if (!imgHidden.value) return; draggingFocal = true; focalFromEvent(e); });
+imgPreviewSquare.addEventListener("touchstart", e => { if (!imgHidden.value) return; draggingFocal = true; focalFromEvent(e); }, { passive:true });
+window.addEventListener("mousemove", e => { if (draggingFocal) focalFromEvent(e); });
+window.addEventListener("touchmove", e => { if (draggingFocal) focalFromEvent(e); }, { passive:true });
+window.addEventListener("mouseup", () => draggingFocal = false);
+window.addEventListener("touchend", () => draggingFocal = false);
+
+imgZoomRange.addEventListener("input", () => {
+  imgZoomOut.textContent = imgZoomRange.value + "%";
+  imgPreviewBg.style.backgroundSize = imgZoomRange.value + "%";
+});
+
+imgClearBtn.addEventListener("click", () => { resetImageEditor(); });
+
+imgUrlInput.addEventListener("input", () => { const v = imgUrlInput.value.trim(); if (v) setPreviewImage(v); else if (!imgLocalInput.value) setPreviewImage(""); });
+imgLocalInput.addEventListener("input", () => { const v = imgLocalInput.value.trim(); if (v) setPreviewImage(v); else if (!imgUrlInput.value) setPreviewImage(""); });
+
+function uploadImageFile(file) {
+  if (!file || !file.type.startsWith("image/")) { adminNotice.textContent = "Fichier non valide — choisissez une image."; adminNotice.className = "admin-notice error"; return; }
+  const localPreviewUrl = URL.createObjectURL(file);
+  setPreviewImage(localPreviewUrl);
+  imgProgressWrap.classList.add("active"); imgProgressBar.style.width = "2%";
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const path = `escouades_images/${Date.now()}_${safeName}`;
+  const task = uploadBytesResumable(storageRef(storage, path), file);
+  task.on("state_changed",
+    snap => { const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100); imgProgressBar.style.width = pct + "%"; },
+    err => { adminNotice.textContent = "Échec de l'envoi : " + err.message; adminNotice.className = "admin-notice error"; imgProgressWrap.classList.remove("active"); },
+    async () => {
+      const url = await getDownloadURL(task.snapshot.ref);
+      setPreviewImage(url);
+      imgProgressWrap.classList.remove("active"); imgProgressBar.style.width = "0%";
+      adminNotice.textContent = "Image envoyée ✓"; adminNotice.className = "admin-notice success";
+    }
+  );
+}
+imgDropzone.addEventListener("click", () => imgFileInput.click());
+imgFileInput.addEventListener("change", () => { if (imgFileInput.files[0]) uploadImageFile(imgFileInput.files[0]); });
+["dragenter","dragover"].forEach(evt => imgDropzone.addEventListener(evt, e => { e.preventDefault(); imgDropzone.classList.add("dragover"); }));
+["dragleave","drop"].forEach(evt => imgDropzone.addEventListener(evt, e => { e.preventDefault(); imgDropzone.classList.remove("dragover"); }));
+imgDropzone.addEventListener("drop", e => { const file = e.dataTransfer.files && e.dataTransfer.files[0]; if (file) uploadImageFile(file); });
+
 function getFormData() {
-  const imgMode = document.getElementById("a-img-mode").value;
-  const localImg = document.getElementById("a-img-local").value.trim();
-  const urlImg = document.getElementById("a-img-url").value.trim();
   return {
     title: document.getElementById("a-title").value.trim(),
     role: document.getElementById("a-role").value.trim(),
     desc: document.getElementById("a-desc").value.trim(),
-    imgPos: document.getElementById("a-img-pos").value.trim() || "center 35%",
-    img: imgMode === "url" ? urlImg : localImg,
+    imgPos: imgPosHidden.value.trim() || "center 35%",
+    imgZoom: parseInt(imgZoomRange.value, 10) || 140,
+    img: imgHidden.value.trim(),
     color: document.getElementById("a-color").value,
     specUrl: document.getElementById("a-spec-url").value.trim(),
     specLabel: document.getElementById("a-spec-label").value.trim() || "Voir la spécialisation",
@@ -1089,12 +1345,19 @@ function fillForm(data, docId) {
   document.getElementById("a-title").value = data.title || "";
   document.getElementById("a-role").value = data.role || "";
   document.getElementById("a-desc").value = data.desc || "";
-  document.getElementById("a-img-pos").value = data.imgPos || "center 35%";
 
-  const isUrl = (data.img || "").startsWith("http://") || (data.img || "").startsWith("https://");
-  document.getElementById("a-img-mode").value = isUrl ? "url" : "local";
-  document.getElementById("a-img-local").value = isUrl ? "" : (data.img || "");
-  document.getElementById("a-img-url").value = isUrl ? (data.img || "") : "";
+  const img = data.img || "";
+  setPreviewImage(img);
+  const pos = parsePosToPct(data.imgPos);
+  setFocalPointUI(pos.x, pos.y);
+  imgZoomRange.value = data.imgZoom || 140;
+  imgZoomOut.textContent = (data.imgZoom || 140) + "%";
+  imgPreviewBg.style.backgroundSize = (data.imgZoom || 140) + "%";
+
+  const isUrl = img.startsWith("http://") || img.startsWith("https://");
+  if (isUrl) { imgUrlInput.value = img; imgLocalInput.value = ""; switchImgTab("url"); }
+  else if (img) { imgLocalInput.value = img; imgUrlInput.value = ""; switchImgTab("local"); }
+  else { imgUrlInput.value = ""; imgLocalInput.value = ""; switchImgTab("upload"); }
 
   document.getElementById("a-color").value = data.color || "#00d4ff";
   document.getElementById("a-spec-url").value = data.specUrl || "";
@@ -1110,16 +1373,14 @@ function fillForm(data, docId) {
 function resetForm() {
   adminForm.reset();
   document.getElementById("a-color").value = "#00d4ff";
-  document.getElementById("a-img-pos").value = "center 35%";
-  document.getElementById("a-img-mode").value = "local";
-  document.getElementById("a-img-local").value = "";
-  document.getElementById("a-img-url").value = "";
+  resetImageEditor();
   editDocIdInp.value = "";
   submitBtn.textContent = "Ajouter l'escouade";
   adminNotice.textContent = "";
   adminNotice.className = "admin-notice";
   escFormLabel.textContent = "Nouvelle escouade";
 }
+resetImageEditor();
 
 function showEscouadeList() { escListWrap.style.display = "block"; escFormWrap.style.display = "none"; }
 function showEscouadeForm() { escListWrap.style.display = "none"; escFormWrap.style.display = "block"; }
@@ -1209,7 +1470,7 @@ appearanceBtn.addEventListener("click", () => {
     shortcuts:      { title:"Raccourcis", isAction:true, render:() => ({ value:"", sub:"" }) }
   };
   const WIDGET_TITLES = Object.fromEntries(Object.entries(WIDGET_LIBRARY).map(([k,v])=>[k,v.title]));
-  const DEFAULTS = { theme:"dark", primary:"#7B00FF", secondary:"#00D4FF", paletteId:null, fontPair:"rajdhani-inter", fontSize:16, cardStyle:"elevated", buttonStyle:"default", tableStyle:"lines", animations:true, sidebarWidth:230, sidebarCollapsed:false, showLogo:true, showBrandText:true, headerDensity:1, activeDashboard:"default", dashboards:{ "default": ["esc_total","esc_gratuites","esc_payantes","current_role"] } };
+  const DEFAULTS = { theme:"dark", primary:"#7B00FF", secondary:"#00D4FF", paletteId:null, fontPair:"rajdhani-inter", fontSize:16, cardStyle:"elevated", buttonStyle:"default", tableStyle:"lines", animations:true, sidebarWidth:230, sidebarCollapsed:false, showLogo:true, showBrandText:true, headerDensity:1, imgRatio:"classic", imgFit:"cover", imgRadius:"sharp", imgFilter:"none", imgHoverZoom:false, imgOverlay:false, activeDashboard:"default", dashboards:{ "default": ["esc_total","esc_gratuites","esc_payantes","current_role"] } };
   function loadSaved() {
     try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return JSON.parse(JSON.stringify(DEFAULTS)); return Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(raw)); }
     catch (e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
@@ -1218,6 +1479,7 @@ appearanceBtn.addEventListener("click", () => {
   function resolveTheme(t) { if (t === "auto") return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"; return t; }
   function apply(prefs) {
     root.setAttribute("data-theme", resolveTheme(prefs.theme)); root.setAttribute("data-card-style", prefs.cardStyle); root.setAttribute("data-button-style", prefs.buttonStyle); root.setAttribute("data-table-style", prefs.tableStyle); root.setAttribute("data-animations", prefs.animations ? "on" : "off");
+    root.setAttribute("data-img-ratio", prefs.imgRatio || "classic"); root.setAttribute("data-img-fit", prefs.imgFit || "cover"); root.setAttribute("data-img-radius", prefs.imgRadius || "sharp"); root.setAttribute("data-img-filter", prefs.imgFilter || "none"); root.setAttribute("data-img-hoverzoom", prefs.imgHoverZoom ? "on" : "off"); root.setAttribute("data-img-overlay", prefs.imgOverlay ? "on" : "off");
     root.style.setProperty("--c-primary", prefs.primary); root.style.setProperty("--c-primary-rgb", hexToRgb(prefs.primary)); root.style.setProperty("--c-secondary", prefs.secondary); root.style.setProperty("--c-secondary-rgb", hexToRgb(prefs.secondary)); root.style.setProperty("--font-size-base", prefs.fontSize + "px"); root.style.setProperty("--dash-sidebar-width", prefs.sidebarWidth + "px"); root.style.setProperty("--header-density", prefs.headerDensity);
     const fp = FONT_PAIRS.find(f => f.id === prefs.fontPair) || FONT_PAIRS[0];
     root.style.setProperty("--font-display", fp.display); root.style.setProperty("--font-body", fp.body);
@@ -1240,6 +1502,9 @@ appearanceBtn.addEventListener("click", () => {
     document.getElementById("dashCloseBtn")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); });
     document.getElementById("dashCollapseBtn")?.addEventListener("click", () => { const sb = document.getElementById("dashSidebar"); sb.classList.toggle("collapsed"); draft.sidebarCollapsed = sb.classList.contains("collapsed"); });
     bindSeg("themeSeg", v => { draft.theme = v; apply(draft); }, () => draft.theme); bindSeg("cardStyleSeg", v => { draft.cardStyle = v; apply(draft); }, () => draft.cardStyle); bindSeg("buttonStyleSeg", v => { draft.buttonStyle = v; apply(draft); }, () => draft.buttonStyle); bindSeg("headerDensitySeg", v => { draft.headerDensity = parseFloat(v); apply(draft); }, () => String(draft.headerDensity));
+    bindSeg("imgRatioSeg", v => { draft.imgRatio = v; apply(draft); }, () => draft.imgRatio); bindSeg("imgFitSeg", v => { draft.imgFit = v; apply(draft); }, () => draft.imgFit); bindSeg("imgRadiusSeg", v => { draft.imgRadius = v; apply(draft); }, () => draft.imgRadius); bindSeg("imgFilterSeg", v => { draft.imgFilter = v; apply(draft); }, () => draft.imgFilter);
+    document.getElementById("imgHoverZoomToggle").addEventListener("change", e => { draft.imgHoverZoom = e.target.checked; apply(draft); });
+    document.getElementById("imgOverlayToggle").addEventListener("change", e => { draft.imgOverlay = e.target.checked; apply(draft); });
     function bindSeg(id, onSet, getCurrent) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => { b.addEventListener("click", () => { onSet(b.dataset.val); syncSeg(id, getCurrent()); }); }); }
     function syncSeg(id, val) { const wrap = document.getElementById(id); if (!wrap) return; wrap.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.val === String(val))); }
     const paletteGrid = document.getElementById("paletteGrid");
@@ -1272,6 +1537,8 @@ appearanceBtn.addEventListener("click", () => {
     window.syncControls = syncControls;
     function syncControls() {
       syncSeg("themeSeg", draft.theme); syncSeg("cardStyleSeg", draft.cardStyle); syncSeg("buttonStyleSeg", draft.buttonStyle); syncSeg("headerDensitySeg", String(draft.headerDensity));
+      syncSeg("imgRatioSeg", draft.imgRatio); syncSeg("imgFitSeg", draft.imgFit); syncSeg("imgRadiusSeg", draft.imgRadius); syncSeg("imgFilterSeg", draft.imgFilter);
+      document.getElementById("imgHoverZoomToggle").checked = !!draft.imgHoverZoom; document.getElementById("imgOverlayToggle").checked = !!draft.imgOverlay;
       paletteGrid.querySelectorAll(".palette-swatch").forEach(el => { el.classList.toggle("selected", el.dataset.id === draft.paletteId); });
       primaryInput.value = draft.primary; secondaryInput.value = draft.secondary; document.getElementById("primaryColorCode").textContent = draft.primary.toUpperCase(); document.getElementById("secondaryColorCode").textContent = draft.secondary.toUpperCase();
       fontSelect.value = draft.fontPair; fontSizeRange.value = draft.fontSize; fontSizeOut.textContent = draft.fontSize + "px";
