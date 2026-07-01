@@ -399,12 +399,12 @@
 
   <section class="hero-wrap reveal">
     <img src="Logo_408th.png" alt="408th Logo" class="hero-logo">
-    <h1 class="hero-number">408TH</h1>
-    <h2 class="hero-name">Corps Cosmique</h2>
-    <div class="hero-slogan">
+    <h1 class="hero-number" id="hero-number-text">408TH</h1>
+    <h2 class="hero-name" id="hero-name-text">Corps Cosmique</h2>
+    <div class="hero-slogan" id="hero-slogan-text">
       À terre &middot; n'est pas vaincu &middot; <em>Pour la République</em>
     </div>
-    <a href="discipline.html" class="enter-btn">Accéder au Règlement</a>
+    <a href="discipline.html" class="enter-btn" id="hero-btn">Accéder au Règlement</a>
   </section>
 
   <section id="navigation-rapide">
@@ -414,50 +414,20 @@
       <div class="section-line"></div>
     </div>
 
-    <div class="quicklinks-grid reveal">
-      <a href="discipline.html" class="quicklink-card surface-card" style="--card-accent:#7B00FF;">
-        <div class="quicklink-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-        </div>
-        <h3 class="quicklink-title">Règlement</h3>
-        <p class="quicklink-desc">La discipline et les règles internes du 408ème Corps Cosmique.</p>
-      </a>
-
-      <a href="promotions.html" class="quicklink-card surface-card" style="--card-accent:#00d4ff;">
-        <div class="quicklink-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/></svg>
-        </div>
-        <h3 class="quicklink-title">Promotions</h3>
-        <p class="quicklink-desc">Grades, avancements et parcours de carrière au sein du Corps.</p>
-      </a>
-
-      <a href="formations.html" class="quicklink-card surface-card" style="--card-accent:#00ff88;">
-        <div class="quicklink-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
-        <h3 class="quicklink-title">Formations</h3>
-        <p class="quicklink-desc">Les cursus disponibles pour progresser dans vos qualifications.</p>
-      </a>
-
-      <a href="specs.html" class="quicklink-card surface-card" style="--card-accent:#ffb020;">
-        <div class="quicklink-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </div>
-        <h3 class="quicklink-title">Spécialisations</h3>
-        <p class="quicklink-desc">Les branches d'expertise ouvertes aux membres du Corps.</p>
-      </a>
-
-      <a href="escouades.html" class="quicklink-card surface-card" style="--card-accent:#ff2d55;">
-        <div class="quicklink-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 class="quicklink-title">Escouades</h3>
-        <p class="quicklink-desc">Les escouades de combat gratuites et payantes du Corps.</p>
-      </a>
+    <div class="quicklinks-grid reveal" id="quicklinksGrid">
+      <div class="disc-loading">Chargement</div>
     </div>
   </section>
 
 </div>
+
+<button id="admin-toggle-btn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
+  </svg>
+  Admin
+</button>
 
 <button id="accounts-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -497,6 +467,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
           <span>Tableau de bord</span>
         </button>
+        <button class="dash-nav-item" data-tab="content" id="navTabContent" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+          <span>Contenu</span>
+        </button>
         <button class="dash-nav-item" data-tab="appearance">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1" fill="currentColor"/><circle cx="13.5" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="13" r="1" fill="currentColor"/><path d="M12 21a4 4 0 0 1-4-4c0-1 1-1.5 1-2.5A1.5 1.5 0 0 0 7.5 13H7a5 5 0 0 1 0-9"/></svg>
           <span>Apparence</span>
@@ -535,6 +509,70 @@
           </div>
           <div class="widgets-grid" id="widgetsGrid"></div>
           <div class="add-widget-row" id="addWidgetRow"></div>
+        </section>
+
+        <section class="dash-panel" data-panel="content">
+          <h4>Section héros</h4>
+          <form class="admin-form" id="hero-form" autocomplete="off">
+            <label>Numéro / titre principal</label>
+            <input type="text" id="h-number" placeholder="408TH" required>
+            <label>Nom du corps</label>
+            <input type="text" id="h-name" placeholder="Corps Cosmique" required>
+            <label>Slogan (HTML autorisé, ex : &lt;em&gt;...&lt;/em&gt;)</label>
+            <textarea id="h-slogan" placeholder="À terre · n'est pas vaincu · &lt;em&gt;Pour la République&lt;/em&gt;"></textarea>
+            <div class="field-row">
+              <div>
+                <label>Texte du bouton</label>
+                <input type="text" id="h-btn-text" placeholder="Accéder au Règlement">
+              </div>
+              <div>
+                <label>Lien du bouton</label>
+                <input type="text" id="h-btn-link" placeholder="discipline.html">
+              </div>
+            </div>
+            <button type="submit" class="admin-btn">Enregistrer le héros</button>
+          </form>
+          <div class="admin-notice" id="hero-notice"></div>
+
+          <h4>Liens de navigation rapide</h4>
+          <div id="quicklink-list-wrap">
+            <div id="quicklink-list"><p style="color:var(--text-muted);font-size:.78rem;">Chargement…</p></div>
+            <button class="admin-btn secondary" id="new-quicklink-btn" style="margin-top:.5rem;">+ Nouveau lien</button>
+          </div>
+          <div id="quicklink-form-wrap" style="display:none;">
+            <h4 id="ql-form-mode-label" style="margin-top:1rem;">Nouveau lien</h4>
+            <form class="admin-form" id="quicklink-form" autocomplete="off">
+              <input type="hidden" id="ql-doc-id" value="">
+              <label>Titre *</label>
+              <input type="text" id="ql-title" placeholder="Règlement" required>
+              <label>Description</label>
+              <textarea id="ql-desc" placeholder="Courte description du lien"></textarea>
+              <label>Lien (URL ou page du site) *</label>
+              <input type="text" id="ql-url" placeholder="discipline.html" required>
+              <div class="field-row">
+                <div>
+                  <label>Couleur</label>
+                  <input type="color" id="ql-color" value="#7B00FF">
+                </div>
+                <div>
+                  <label>Icône</label>
+                  <select id="ql-icon">
+                    <option value="doc">Document</option>
+                    <option value="medal">Médaille</option>
+                    <option value="gradcap">Formation</option>
+                    <option value="gear">Spécialisation</option>
+                    <option value="team">Escouade</option>
+                    <option value="link">Lien générique</option>
+                  </select>
+                </div>
+              </div>
+              <label>Ordre d'affichage</label>
+              <input type="number" id="ql-ordre" placeholder="1" min="0">
+              <button type="submit" class="admin-btn" id="ql-submit-btn">Ajouter le lien</button>
+              <button type="button" class="admin-btn danger" id="ql-cancel-btn">Annuler</button>
+            </form>
+            <div class="admin-notice" id="quicklink-notice"></div>
+          </div>
         </section>
 
         <section class="dash-panel" data-panel="appearance">
@@ -727,6 +765,8 @@
 
 <script type="module">
 import { initializeApp }        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, updateDoc, deleteDoc, query, orderBy }
+                                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut }
                                 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getDatabase, ref as dbRef, get, child, set, remove }
@@ -747,6 +787,7 @@ const firebaseConfig = {
 };
 
 const app      = initializeApp(firebaseConfig);
+const db       = getFirestore(app);
 const auth     = getAuth(app);
 const rtdb     = getDatabase(app);
 const provider = new GoogleAuthProvider();
@@ -766,6 +807,7 @@ const avatarImg       = document.getElementById("authAvatarImg");
 const avatarFall      = document.getElementById("authAvatarFallback");
 const usernameEl      = document.getElementById("authUsername");
 const appearanceBtn   = document.getElementById("appearance-btn");
+const adminBtn        = document.getElementById("admin-toggle-btn");
 const adminPanel      = document.getElementById("admin-panel");
 const accountsBtn     = document.getElementById("accounts-btn");
 const accountsModal   = document.getElementById("accounts-modal");
@@ -806,24 +848,34 @@ onAuthStateChanged(auth, async user => {
     logoutBtn.style.display = "inline-block";
     const snap = await get(child(dbRef(rtdb), `admins/${emailToKey(user.email)}`));
 
+    const tabContent = document.getElementById("navTabContent");
     if (snap.exists()) {
       currentUserRole = snap.val().role;
+      adminBtn.classList.add("visible");
+      if (tabContent) tabContent.style.display = "flex";
       if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
       else accountsBtn.classList.remove("visible");
     } else {
       currentUserRole = null;
+      adminBtn.classList.remove("visible");
+      if (tabContent) tabContent.style.display = "none";
       accountsBtn.classList.remove("visible");
       adminPanel.classList.remove("open");
     }
+    refreshQuicklinkAdminUI();
     window.dispatchEvent(new CustomEvent("esc:auth-updated", { detail: { role: currentUserRole, name: user.displayName || user.email } }));
   } else {
     hideAvatar();
     currentUserRole = null;
     loginBtn.style.display  = "inline-block";
     logoutBtn.style.display = "none";
+    adminBtn.classList.remove("visible");
+    const tabContent = document.getElementById("navTabContent");
+    if (tabContent) tabContent.style.display = "none";
     accountsBtn.classList.remove("visible");
     adminPanel.classList.remove("open");
     accountsModal.classList.remove("active");
+    refreshQuicklinkAdminUI();
     window.dispatchEvent(new CustomEvent("esc:auth-updated", { detail: { role: null, name: null } }));
   }
 });
@@ -882,8 +934,253 @@ addAccountForm.addEventListener("submit", async e => {
 });
 
 /* ══════════════════════════════════════════════
+   Contenu du héros — lecture / édition
+══════════════════════════════════════════════ */
+const HERO_DEFAULTS = {
+  number: "408TH",
+  name: "Corps Cosmique",
+  slogan: "À terre &middot; n'est pas vaincu &middot; <em>Pour la République</em>",
+  btnText: "Accéder au Règlement",
+  btnLink: "discipline.html"
+};
+
+const heroNumberEl = document.getElementById("hero-number-text");
+const heroNameEl   = document.getElementById("hero-name-text");
+const heroSloganEl = document.getElementById("hero-slogan-text");
+const heroBtnEl    = document.getElementById("hero-btn");
+const heroForm     = document.getElementById("hero-form");
+const heroNotice   = document.getElementById("hero-notice");
+
+function renderHero(data) {
+  const d = Object.assign({}, HERO_DEFAULTS, data || {});
+  heroNumberEl.textContent = d.number;
+  heroNameEl.textContent = d.name;
+  heroSloganEl.innerHTML = d.slogan;
+  heroBtnEl.textContent = d.btnText;
+  heroBtnEl.href = d.btnLink;
+  document.getElementById("h-number").value = d.number;
+  document.getElementById("h-name").value = d.name;
+  document.getElementById("h-slogan").value = d.slogan;
+  document.getElementById("h-btn-text").value = d.btnText;
+  document.getElementById("h-btn-link").value = d.btnLink;
+}
+renderHero(HERO_DEFAULTS);
+
+onSnapshot(doc(db, "siteContent", "home"), snap => {
+  renderHero(snap.exists() ? snap.data() : HERO_DEFAULTS);
+}, () => { renderHero(HERO_DEFAULTS); });
+
+heroForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) { heroNotice.textContent = "Non autorisé."; heroNotice.className = "admin-notice error"; return; }
+  const data = {
+    number: document.getElementById("h-number").value.trim() || HERO_DEFAULTS.number,
+    name: document.getElementById("h-name").value.trim() || HERO_DEFAULTS.name,
+    slogan: document.getElementById("h-slogan").value.trim() || HERO_DEFAULTS.slogan,
+    btnText: document.getElementById("h-btn-text").value.trim() || HERO_DEFAULTS.btnText,
+    btnLink: document.getElementById("h-btn-link").value.trim() || HERO_DEFAULTS.btnLink
+  };
+  try {
+    await setDoc(doc(db, "siteContent", "home"), data, { merge: true });
+    heroNotice.textContent = "Héros mis à jour !"; heroNotice.className = "admin-notice success";
+  } catch (err) {
+    heroNotice.textContent = "Erreur : " + err.message; heroNotice.className = "admin-notice error";
+  }
+});
+
+/* ══════════════════════════════════════════════
+   Liens de navigation rapide — lecture / édition
+══════════════════════════════════════════════ */
+const QL_ICONS = {
+  doc:   '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/>',
+  medal: '<path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/>',
+  gradcap: '<path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+  gear:  '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+  team:  '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  link:  '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
+};
+
+const DEFAULT_QUICKLINKS = [
+  { title:"Règlement",       desc:"La discipline et les règles internes du 408ème Corps Cosmique.", url:"discipline.html", color:"#7B00FF", icon:"doc",     ordre:1 },
+  { title:"Promotions",      desc:"Grades, avancements et parcours de carrière au sein du Corps.",  url:"promotions.html", color:"#00d4ff", icon:"medal",   ordre:2 },
+  { title:"Formations",      desc:"Les cursus disponibles pour progresser dans vos qualifications.", url:"formations.html", color:"#00ff88", icon:"gradcap", ordre:3 },
+  { title:"Spécialisations", desc:"Les branches d'expertise ouvertes aux membres du Corps.",         url:"specs.html",      color:"#ffb020", icon:"gear",    ordre:4 },
+  { title:"Escouades",       desc:"Les escouades de combat gratuites et payantes du Corps.",         url:"escouades.html",  color:"#ff2d55", icon:"team",    ordre:5 }
+];
+
+const quicklinksGrid  = document.getElementById("quicklinksGrid");
+const qlListWrap      = document.getElementById("quicklink-list-wrap");
+const qlFormWrap      = document.getElementById("quicklink-form-wrap");
+const qlFormModeLabel = document.getElementById("ql-form-mode-label");
+const qlListEl        = document.getElementById("quicklink-list");
+const newQlBtn        = document.getElementById("new-quicklink-btn");
+const qlForm          = document.getElementById("quicklink-form");
+const qlDocIdInp      = document.getElementById("ql-doc-id");
+const qlSubmitBtn     = document.getElementById("ql-submit-btn");
+const qlCancelBtn     = document.getElementById("ql-cancel-btn");
+const qlNotice        = document.getElementById("quicklink-notice");
+
+let qlDocsCache = {};
+let qlUsingDefaults = true;
+
+function buildQlCard(id, data, isDefault) {
+  const color = data.color || "#7B00FF";
+  const iconPath = QL_ICONS[data.icon] || QL_ICONS.link;
+  return `
+    <a href="${data.url || '#'}" class="quicklink-card surface-card" data-id="${id}" style="--card-accent:${color};">
+      <div class="quicklink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${iconPath}</svg></div>
+      <h3 class="quicklink-title">${data.title || ""}</h3>
+      <p class="quicklink-desc">${data.desc || ""}</p>
+      ${!isDefault ? `<div class="card-admin-bar visible" style="display:none;" id="ql-admin-${id}">
+        <button type="button" class="card-edit-btn" data-id="${id}" title="Modifier">✎</button>
+        <button type="button" class="card-del-btn" data-id="${id}" title="Supprimer">✕</button>
+      </div>` : ""}
+    </a>`;
+}
+
+function renderQuicklinksGrid(docs) {
+  if (!docs.length) {
+    quicklinksGrid.innerHTML = DEFAULT_QUICKLINKS.map((d,i) => buildQlCard("default-"+i, d, true)).join("");
+    return;
+  }
+  quicklinksGrid.innerHTML = docs.map(({id,data}) => buildQlCard(id, data, false)).join("");
+  bindQlAdminButtons();
+  refreshQuicklinkAdminUI();
+}
+
+function bindQlAdminButtons() {
+  quicklinksGrid.querySelectorAll(".card-edit-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      if (!currentUserRole) return;
+      openQlFormForEdit(btn.dataset.id);
+    });
+  });
+  quicklinksGrid.querySelectorAll(".card-del-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      if (!currentUserRole) return;
+      deleteQuicklink(btn.dataset.id);
+    });
+  });
+}
+
+function refreshQuicklinkAdminUI() {
+  quicklinksGrid.querySelectorAll('[id^="ql-admin-"]').forEach(bar => {
+    bar.style.display = currentUserRole ? "flex" : "none";
+  });
+}
+
+const qlQuery = query(collection(db, "quicklinks"), orderBy("ordre"));
+onSnapshot(qlQuery, snapshot => {
+  qlDocsCache = {};
+  const docs = [];
+  snapshot.forEach(docSnap => { qlDocsCache[docSnap.id] = docSnap.data(); docs.push({ id: docSnap.id, data: docSnap.data() }); });
+  qlUsingDefaults = docs.length === 0;
+  renderQuicklinksGrid(docs);
+  rebuildQlList(docs);
+}, () => { renderQuicklinksGrid([]); });
+
+function rebuildQlList(docs) {
+  if (!qlListEl) return;
+  if (!docs.length) { qlListEl.innerHTML = '<p style="color:var(--text-muted);font-size:.78rem;">Aucun lien personnalisé — les 5 liens par défaut sont affichés. Ajoutez-en un pour les remplacer.</p>'; return; }
+  qlListEl.innerHTML = "";
+  docs.forEach(({ id, data }) => {
+    const tab = document.createElement("div");
+    tab.className = "esc-tab"; tab.dataset.id = id;
+    const color = data.color || "#7B00FF";
+    tab.innerHTML = `
+      <div class="esc-tab-left">
+        <span class="esc-tab-dot" style="background:${color};"></span>
+        <div class="esc-tab-info">
+          <span class="esc-tab-title">${data.title || ""}</span>
+          <span class="esc-tab-meta">ordre ${data.ordre ?? "–"}</span>
+        </div>
+      </div>
+      <div class="esc-tab-actions">
+        <button class="edit-esc" title="Modifier">✎</button>
+        <button class="del-esc" title="Supprimer">✕</button>
+      </div>`;
+    tab.querySelector(".edit-esc").addEventListener("click", e => { e.stopPropagation(); openQlFormForEdit(id); });
+    tab.querySelector(".del-esc").addEventListener("click", e => { e.stopPropagation(); deleteQuicklink(id); });
+    qlListEl.appendChild(tab);
+  });
+}
+
+function showQlList() { qlListWrap.style.display = "block"; qlFormWrap.style.display = "none"; }
+function showQlForm() { qlListWrap.style.display = "none"; qlFormWrap.style.display = "block"; }
+
+function resetQlForm() {
+  qlForm.reset();
+  document.getElementById("ql-color").value = "#7B00FF";
+  qlDocIdInp.value = "";
+  qlSubmitBtn.textContent = "Ajouter le lien";
+  qlNotice.textContent = ""; qlNotice.className = "admin-notice";
+  qlFormModeLabel.textContent = "Nouveau lien";
+}
+
+function fillQlForm(data, docId) {
+  qlDocIdInp.value = docId;
+  document.getElementById("ql-title").value = data.title || "";
+  document.getElementById("ql-desc").value = data.desc || "";
+  document.getElementById("ql-url").value = data.url || "";
+  document.getElementById("ql-color").value = data.color || "#7B00FF";
+  document.getElementById("ql-icon").value = data.icon || "link";
+  document.getElementById("ql-ordre").value = data.ordre || 1;
+  qlSubmitBtn.textContent = "Enregistrer les modifications";
+  qlFormModeLabel.textContent = `Modifier : ${data.title || ""}`;
+}
+
+function openQlFormForEdit(docId) {
+  const data = qlDocsCache[docId];
+  if (!data) return;
+  fillQlForm(data, docId);
+  showQlForm();
+}
+
+async function deleteQuicklink(docId) {
+  const data = qlDocsCache[docId] || {};
+  if (!confirm(`Supprimer définitivement "${data.title || docId}" ?`)) return;
+  try { await deleteDoc(doc(db, "quicklinks", docId)); }
+  catch (err) { alert("Erreur : " + err.message); }
+}
+
+newQlBtn.addEventListener("click", () => { resetQlForm(); showQlForm(); });
+qlCancelBtn.addEventListener("click", () => { resetQlForm(); showQlList(); });
+
+qlForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentUserRole) { qlNotice.textContent = "Non autorisé."; qlNotice.className = "admin-notice error"; return; }
+  const data = {
+    title: document.getElementById("ql-title").value.trim(),
+    desc: document.getElementById("ql-desc").value.trim(),
+    url: document.getElementById("ql-url").value.trim(),
+    color: document.getElementById("ql-color").value,
+    icon: document.getElementById("ql-icon").value,
+    ordre: parseInt(document.getElementById("ql-ordre").value || Date.now(), 10)
+  };
+  const docId = qlDocIdInp.value;
+  try {
+    if (docId) { await updateDoc(doc(db, "quicklinks", docId), data); qlNotice.textContent = "Lien mis à jour !"; }
+    else { await addDoc(collection(db, "quicklinks"), data); qlNotice.textContent = "Lien ajouté !"; }
+    qlNotice.className = "admin-notice success";
+    resetQlForm(); showQlList();
+  } catch (err) {
+    qlNotice.textContent = "Erreur : " + err.message; qlNotice.className = "admin-notice error";
+  }
+});
+
+/* ══════════════════════════════════════════════
    Ouverture / navigation console admin
 ══════════════════════════════════════════════ */
+adminBtn.addEventListener("click", () => {
+  if (!currentUserRole) return;
+  adminPanel.classList.toggle("open");
+  if (adminPanel.classList.contains("open")) {
+    document.querySelector('.dash-nav-item[data-tab="content"]')?.click();
+  }
+});
+
 appearanceBtn.addEventListener("click", () => {
   adminPanel.classList.add("open");
   document.querySelector('.dash-nav-item[data-tab="appearance"]')?.click();
@@ -949,7 +1246,7 @@ appearanceBtn.addEventListener("click", () => {
   let inited = false;
   function init() {
     if (inited) return; inited = true;
-    const navItems = document.querySelectorAll(".dash-nav-item"); const panels = document.querySelectorAll(".dash-panel"); const titleEl = document.getElementById("dashPanelTitle"); const TAB_TITLES = { overview:"Tableau de bord", escouades:"Escouades", appearance:"Apparence", layout:"Disposition", preferences:"Préférences" };
+    const navItems = document.querySelectorAll(".dash-nav-item"); const panels = document.querySelectorAll(".dash-panel"); const titleEl = document.getElementById("dashPanelTitle"); const TAB_TITLES = { overview:"Tableau de bord", content:"Contenu", escouades:"Escouades", appearance:"Apparence", layout:"Disposition", preferences:"Préférences" };
     navItems.forEach(btn => { btn.addEventListener("click", () => { navItems.forEach(b => b.classList.remove("active")); btn.classList.add("active"); const tab = btn.dataset.tab; panels.forEach(p => p.classList.toggle("active", p.dataset.panel === tab)); if (titleEl) titleEl.textContent = TAB_TITLES[tab] || ""; }); });
     document.getElementById("dashCloseBtn")?.addEventListener("click", () => { document.getElementById("admin-panel").classList.remove("open"); });
     document.getElementById("dashCollapseBtn")?.addEventListener("click", () => { const sb = document.getElementById("dashSidebar"); sb.classList.toggle("collapsed"); draft.sidebarCollapsed = sb.classList.contains("collapsed"); });
