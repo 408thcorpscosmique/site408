@@ -164,7 +164,7 @@
     nav a.active{ color:#fff; }
 
     .nav-auth{ margin-left:auto; display:flex; align-items:center; gap:.6rem; }
-    #auth-bar{ display:none; } /* fusionné dans .nav-auth ci-dessus, ancien id neutralisé visuellement */
+    #auth-bar{ display:none; }
 
     .auth-user-wrap{ display:none; align-items:center; gap:.55rem; padding:.3rem .7rem .3rem .3rem; border-radius:99px; background:var(--bg-elevated); border:1px solid var(--border-subtle); }
     .auth-user-wrap.visible{ display:flex; }
@@ -207,7 +207,6 @@
 
     /* ════════════════════════════════════════════════════════════
        CARTES — surface réutilisable (sections, widgets, panneaux)
-       Variantes pilotées par [data-card-style] sur <html>
     ════════════════════════════════════════════════════════════ */
     .surface-card{
       background:linear-gradient(155deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
@@ -548,8 +547,9 @@
     }
     #admin-toggle-btn{ bottom:1.6rem; }
     #accounts-btn{ bottom:6rem; border-color:rgba(0,255,136,.45); }
-    #appearance-btn{ bottom:10.4rem; border-color:rgba(var(--c-secondary-rgb),.5); }
-    #admin-toggle-btn.visible, #accounts-btn.visible, #appearance-btn.visible{ display:flex; }
+    #appearance-btn{ bottom:10.4rem; border-color:rgba(var(--c-secondary-rgb),.5); display: flex !important; }
+    
+    #admin-toggle-btn.visible, #accounts-btn.visible{ display:flex; }
     #admin-toggle-btn:hover{ background:rgba(var(--c-primary-rgb),.22); color:#fff; transform:translateY(-2px); }
     #accounts-btn:hover{ background:rgba(0,255,136,.15); color:#fff; transform:translateY(-2px); }
     #appearance-btn:hover{ background:rgba(var(--c-secondary-rgb),.18); color:#fff; transform:translateY(-2px); }
@@ -761,7 +761,6 @@
   </div>
 </section>
 
-<!-- ── Edit mode toggle ── -->
 <button id="admin-toggle-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -770,7 +769,6 @@
   <span id="admin-toggle-label">Modifier</span>
 </button>
 
-<!-- ── Appearance / console toggle ── -->
 <button id="appearance-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <circle cx="12" cy="12" r="9"></circle>
@@ -782,7 +780,6 @@
   Apparence
 </button>
 
-<!-- ── Accounts button ── -->
 <button id="accounts-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -793,9 +790,6 @@
   Comptes
 </button>
 
-<!-- ══════════════════════════════════════════════
-     PANNEAU ADMIN — Tableau de bord
-══════════════════════════════════════════════ -->
 <div id="admin-panel">
   <div class="dash">
     <aside class="dash-sidebar" id="dashSidebar">
@@ -842,7 +836,6 @@
 
       <div class="dash-content">
 
-        <!-- ── Vue d'ensemble / Widgets ── -->
         <section class="dash-panel active" data-panel="overview">
           <div class="widgets-toolbar">
             <label class="field-hint" style="margin:0;">Tableau de bord actif :</label>
@@ -854,7 +847,6 @@
           <div class="add-widget-row" id="addWidgetRow"></div>
         </section>
 
-        <!-- ── Apparence ── -->
         <section class="dash-panel" data-panel="appearance">
           <h4>Thème</h4>
           <div class="seg-control" id="themeSeg">
@@ -920,7 +912,6 @@
           </div>
         </section>
 
-        <!-- ── Disposition ── -->
         <section class="dash-panel" data-panel="layout">
           <h4>Barre latérale (console admin)</h4>
           <div class="range-row">
@@ -962,7 +953,6 @@
           </div>
         </section>
 
-        <!-- ── Préférences ── -->
         <section class="dash-panel" data-panel="preferences">
           <h4>Sauvegarde</h4>
           <p class="field-hint">Vos préférences sont enregistrées automatiquement dans ce navigateur dès que vous cliquez sur « Enregistrer ». Le bouton « Annuler » revient à la dernière version enregistrée — un aperçu en direct s'applique pendant que vous réglez les options.</p>
@@ -988,7 +978,6 @@
   </div>
 </div>
 
-<!-- ── Accounts modal ── -->
 <div id="accounts-modal" class="modal-overlay">
   <div class="modal-content" style="max-width:760px;">
     <button class="close-modal" id="close-accounts-modal" aria-label="Fermer">&times;</button>
@@ -1045,17 +1034,6 @@ const provider = new GoogleAuthProvider();
 let currentUserRole = null;
 let isEditing = false;
 
-// Each spec card:
-// {
-//   id: string (firestore doc id, generated client-side if new),
-//   title: string,
-//   subtitle: string,
-//   color: string (hex, e.g. "#ff8c00"),
-//   number: string,
-//   ordre: number,
-//   note: string,
-//   blocks: [ { label: string, text: string, type: "text" | "tags" } ... ]
-// }
 let liveSpecs = [];     // baseline synced from Firestore
 let draftSpecs = null;  // editable copy while isEditing === true
 
@@ -1172,17 +1150,14 @@ onAuthStateChanged(auth, async user => {
     if (snap.exists()) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
-      appearanceBtn.classList.add("visible");
       if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
       else accountsBtn.classList.remove("visible");
     } else {
       currentUserRole = null;
       adminBtn.classList.remove("visible");
-      appearanceBtn.classList.remove("visible");
       accountsBtn.classList.remove("visible");
       exitEditMode(false);
       accountsModal.classList.remove("active");
-      adminPanel.classList.remove("open");
     }
     window.dispatchEvent(new CustomEvent("spec:auth-updated", { detail: { role: currentUserRole, name: user.displayName || user.email } }));
   } else {
@@ -1191,11 +1166,9 @@ onAuthStateChanged(auth, async user => {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
     adminBtn.classList.remove("visible");
-    appearanceBtn.classList.remove("visible");
     accountsBtn.classList.remove("visible");
     exitEditMode(false);
     accountsModal.classList.remove("active");
-    adminPanel.classList.remove("open");
     window.dispatchEvent(new CustomEvent("spec:auth-updated", { detail: { role: null, name: null } }));
   }
 });
@@ -1215,7 +1188,6 @@ logoutBtn.addEventListener("click", () => signOut(auth));
    Console d'apparence (thème / disposition / préférences)
 ══════════════════════════════════════════════ */
 appearanceBtn.addEventListener("click", () => {
-  if (!currentUserRole) return;
   adminPanel.classList.toggle("open");
 });
 document.getElementById("dashCloseBtn")?.addEventListener("click", () => {
@@ -1274,10 +1246,6 @@ function defaultSpec(ordre) {
   };
 }
 
-// Normalize a Firestore doc (matching the existing "formations"-style schema:
-// title, subtitle, number, ordre, note, cols, info, info1, info2, ..., type)
-// into our internal { blocks: [...] } structure, while staying flexible for
-// any future fields the editor adds.
 function normalizeSpecDoc(id, data) {
   const blocks = [];
   const infoKeys = Object.keys(data)
@@ -1369,15 +1337,12 @@ function escapeHtml(s) {
   return d.innerHTML;
 }
 
-// Render block text for read-only display: escape everything, then turn
-// newlines into line breaks and allow a small safe subset of formatting
-// tags (<strong>, <b>, <em>, <i>) that may already be stored in older docs.
 function formatBlockText(text) {
   let escaped = escapeHtml(text);
   escaped = escaped
     .replace(/&lt;(\/?)(strong|b|em|i)&gt;/gi, "<$1$2>")
     .replace(/\n/g, "<br>")
-    .replace(/-\s?(?=\S)/g, m => m); // keep leading dashes as-is, just visual
+    .replace(/-\s?(?=\S)/g, m => m); 
   return escaped;
 }
 
@@ -1437,7 +1402,6 @@ function renderSpecs() {
     }
     html += `</div>`; // head
 
-    // blocks — laid out in a responsive flex row, like the original two-column design
     html += `<div class="spec-blocks-row">`;
     spec.blocks.forEach((block, bi) => {
       html += `<div class="spec-block" data-block="${bi}">`;
@@ -1478,7 +1442,6 @@ function renderSpecs() {
       </div>`;
     }
 
-    // note
     if (isEditing) {
       html += `<div class="spec-note"><textarea class="spec-note-input" data-role="spec-note" data-spec="${si}" placeholder="Note (laisser vide pour ne rien afficher)">${escapeHtml(spec.note)}</textarea></div>`;
     } else if (spec.note) {
@@ -1643,14 +1606,12 @@ saveBtn.addEventListener("click", async () => {
   editStatus.className = "edit-toolbar-status";
   try {
     const keepIds = new Set(draftSpecs.map(s => s.id));
-    // delete removed docs
     const existingIds = liveSpecs.map(s => s.id);
     for (const id of existingIds) {
       if (!keepIds.has(id)) {
         await deleteDoc(doc(db, SPECS_COLLECTION, id));
       }
     }
-    // write/update all current specs
     for (const spec of draftSpecs) {
       const payload = specToPayload(spec);
       await setDoc(doc(db, SPECS_COLLECTION, spec.id), payload);
@@ -1667,7 +1628,6 @@ saveBtn.addEventListener("click", async () => {
   }
 });
 
-// ---------- init ----------
 loadSpecsDocs();
 </script>
 
@@ -1693,7 +1653,7 @@ loadSpecsDocs();
   ];
 
   const FONT_PAIRS = [
-    { id:"rajdhani-inter", name:"Rajdhani / Inter (défaut)",     display:"'Rajdhani', sans-serif",      body:"'Inter', sans-serif" },
+    { id:"rajdhani-inter", name:"Rajdhani / Inter (défaut)",      display:"'Rajdhani', sans-serif",      body:"'Inter', sans-serif" },
     { id:"orbitron-inter", name:"Orbitron / Inter",               display:"'Orbitron', sans-serif",      body:"'Inter', sans-serif" },
     { id:"space-mono",     name:"Space Grotesk / JetBrains Mono", display:"'Space Grotesk', sans-serif", body:"'JetBrains Mono', monospace" },
     { id:"system",         name:"Système (performance max)",      display:"-apple-system,'Segoe UI',sans-serif", body:"-apple-system,'Segoe UI',sans-serif" }
