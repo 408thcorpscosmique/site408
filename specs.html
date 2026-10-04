@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Sécurité : CSP + couche anti-XSS (doivent rester en premier) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://www.google.com https://*.firebasedatabase.app https://*.firebaseio.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.fontshare.com; font-src 'self' data: https://fonts.gstatic.com https://api.fontshare.com https://cdn.fontshare.com; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app https://www.gstatic.com https://www.google.com; frame-src https://*.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com https://recaptcha.google.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="security.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>408th Corps Cosmique - Spécialisations</title>
@@ -1123,6 +1127,7 @@ async function loadAccounts() {
       del.textContent = "Supprimer";
       del.addEventListener("click", async () => {
         if (currentUserRole !== "superadmin") return;
+        if (email.toLowerCase() === (auth.currentUser?.email || "").toLowerCase()) { alert("Vous ne pouvez pas supprimer votre propre compte."); return; }
         if (!confirm(`Supprimer ${email} ?`)) return;
         try {
           await remove(dbRef(rtdb, `admins/${key}`));
@@ -1146,8 +1151,8 @@ onAuthStateChanged(auth, async user => {
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
     const emailKey = user.email.replace(/\./g, ",");
-    const snap = await get(child(dbRef(rtdb), `admins/${emailKey}`));
-    if (snap.exists()) {
+    const snap = (user.emailVerified && user.email) ? await get(child(dbRef(rtdb), `admins/${user.email.trim().toLowerCase().replace(/\./g, ",")}`)).catch(() => null) : null;
+    if (snap && snap.exists() && ["admin", "superadmin"].includes(snap.val()?.role)) {
       currentUserRole = snap.val().role;
       adminBtn.classList.add("visible");
       if (currentUserRole === "superadmin") accountsBtn.classList.add("visible");
@@ -1211,9 +1216,10 @@ addAccountForm.addEventListener("submit", async e => {
   e.preventDefault();
   if (currentUserRole !== "superadmin") return;
   const email = newAccountEmail.value.trim().toLowerCase();
-  if (!email) return;
+  if (!window.Sec408.isEmail(email)) { alert("Email invalide."); return; }
+  if (email === (auth.currentUser?.email || "").toLowerCase()) { alert("Vous ne pouvez pas modifier votre propre compte."); return; }
   try {
-    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: newAccountRole.value });
+    await set(dbRef(rtdb, `admins/${emailToKey(email)}`), { email, role: (["admin", "superadmin"].includes(newAccountRole.value) ? newAccountRole.value : "admin") });
     setAccountsNotice("Compte ajouté.", "admin-notice success");
     newAccountEmail.value = "";
     await loadAccounts();
